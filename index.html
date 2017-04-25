@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.js">
+        </script>
+</head>
+<body>
+    <script>
+        var app = new PIXI.Application(window.innerWidth - 20, window.innerHeight - 20, {backgroundColor: 0x1099bb});
+        
+        document.body.appendChild(app.view);
+        window.onresize = function (event){  
+            console.log("resize me");
+            var w = window.innerWidth - 20;    
+            var h = window.innerHeight - 20; 
+            app.view.style.width = w + "px";    
+            app.view.style.height = h + "px";    
+            //this part adjusts the ratio:    
+            renderer.resize(w,h);}
+        
+        // create a new Sprite from an image path
+        var card0 = PIXI.Sprite.fromImage('uno cards/wild.png');
+        card0.anchor.set(0.5);
+        card0.x = app.renderer.width - 1200;
+        card0.y = app.renderer.height / 1.25;
+        card0.scale.x = 0.2;
+        card0.scale.y = 0.2;
+        app.stage.addChild(card0);
+        var card1 = PIXI.Sprite.fromImage('uno cards/red_1.png');
+        card1.anchor.set(0.5);
+        card1.x = app.renderer.width - 1100;
+        card1.y = app.renderer.height / 1.25;
+        card1.scale.x = 0.2;
+        card1.scale.y = 0.2;
+        app.stage.addChild(card1);
+        var card2 = PIXI.Sprite.fromImage('uno cards/green_3.png');
+        card2.anchor.set(0.5);
+        card2.x = app.renderer.width - 1000;
+        card2.y = app.renderer.height / 1.25;
+        card2.scale.x = 0.2;
+        card2.scale.y = 0.2;
+        app.stage.addChild(card2);
+        var card3 = PIXI.Sprite.fromImage('uno cards/blue_7.png');
+        card3.anchor.set(0.5);
+        card3.x = app.renderer.width - 900;
+        card3.y = app.renderer.height / 1.25;
+        card3.scale.x = 0.2;
+        card3.scale.y = 0.2;
+        app.stage.addChild(card3);
+        var card4 = PIXI.Sprite.fromImage('uno cards/red_skip.png');
+        card4.anchor.set(0.5);
+        card4.x = app.renderer.width - 800;
+        card4.y = app.renderer.height / 1.25;
+        card4.scale.x = 0.2;
+        card4.scale.y = 0.2;
+        app.stage.addChild(card4);
+        var card5 = PIXI.Sprite.fromImage('uno cards/yellow_8.png');
+        card5.anchor.set(0.5);
+        card5.x = app.renderer.width - 700;
+        card5.y = app.renderer.height / 1.25;
+        card5.scale.x = 0.2;
+        card5.scale.y = 0.2;
+        app.stage.addChild(card5);
+        var card6 = PIXI.Sprite.fromImate('uno cards/green_reverse.png');
+        card6.anchor.set(0.5);
+        card6.x = app.renderer.width - 600;
+        card6.y = app.renderer.height / 1.25;
+        card6.scale.x = 0.2;
+        card6.scale.y = 0.2;
+        app.stage.addChild(card6);
+        var card7 = PIXI.Sprite.fromImage('uno cards/yellow_4.png');
+        card7.anchor.set(0.5);
+        card7.x = app.renderer.width - 500;
+        card7.y = app.renderer.height / 1.25;
+        card7.scale.x = 0.2;
+        card7.scale.y = 0.2;
+        app.stage.addChild(card7);
+        var card8 = PIXI.Sprite.fromImage('uno cards/red_1.png');
+        card8.anchor.set(0.5);
+        card8.x = app.renderer.width - 400;
+        card8.y = app.renderer.height / 1.25;
+        card8.scale.x = 0.2;
+        card8.scale.y = 0.2;
+        app.stage.addChild(card8);
+        var card9 = PIXI.Sprite.fromImage('uno cards/blue_9.png');
+        card9.anchor.set(0.5);
+        card9.x = app.renderer.width - 300;
+        card9.y = app.renderer.height / 1.25;
+        card9.scale.x = 0.2;
+        card9.scale.y = 0.2;
+        app.stage.addChild(card9);
+        
+        // Listen for animate update
+        //app.ticker.add(function (delta) {
+            // just for fun, let's rotate mr rabbit a little
+            // delta is 1 if running at 100% performance
+            // creates frame-independent tranformation
+            //bunny.rotation += 0.05 * delta;
+       // }
+      // );
+
+      /*function resize() {
+
+      } */
+    </script>
+</body>
+</html>
