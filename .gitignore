@@ -1,2 +1,3 @@
 *.xml
 *.iml
+eb-flask/.elasticbeanstalk/config.yml
