@@ -12,16 +12,20 @@ sockets = Sockets(app)
 
 class UnoBackend(object):
     def __init__(self):
-        self.players = list()
+        self.players = {}
+        self.count = 0
 
     def register(self, player):
-        self.players.append(player)
+        self.players[player] = self.count
+        self.count += 1
 
-    def send(self, player, data):
+    def send(self, player, data = None):
         try:
+            if not data:
+                data = json({'hello': str(self.players[player])})
             player.send(data)
         except Exception:
-            self.players.remove(player)
+            self.players[player] = None
 
     def run(self):
         for player in self.players:
@@ -43,7 +47,7 @@ def inbox(ws):
 
     gevent.sleep(.1)
 
-    backend.send(ws, json({'hello': 2}))
+    backend.send(ws)
 
     while not ws.closed:
         gevent.sleep(.1)
