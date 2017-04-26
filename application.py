@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-Chat Server
-===========
-
-This simple application uses WebSockets to run a primitive chat server.
-"""
-
 import os
 import logging
 import redis
@@ -22,7 +15,6 @@ app.debug = 'DEBUG' in os.environ
 
 sockets = Sockets(app)
 redis = redis.from_url(REDIS_URL)
-
 
 
 class ChatBackend(object):
@@ -70,6 +62,9 @@ chats.start()
 def hello():
     return render_template('index.html')
 
+
+@sockets.route('/')
+
 @sockets.route('/submit')
 def inbox(ws):
     """Receives incoming chat messages, inserts them into Redis."""
@@ -81,6 +76,7 @@ def inbox(ws):
         if message:
             app.logger.info(u'Inserting message: {}'.format(message))
             redis.publish(REDIS_CHAN, message)
+
 
 @sockets.route('/receive')
 def outbox(ws):
