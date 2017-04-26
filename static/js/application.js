@@ -11,6 +11,7 @@ var outbox = new ReconnectingWebSocket(ws_scheme + location.host + "/submit");
 
 inbox.onmessage = function (message) {
     var data = JSON.parse(message.data);
+    console.log(data);
     $("#chat-text").append("" +
         "<div class='panel panel-default'>" +
         "   <div class='panel-heading'>" +
