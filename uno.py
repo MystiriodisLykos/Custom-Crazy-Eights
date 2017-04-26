@@ -41,6 +41,9 @@ def hello():
 def inbox(ws):
     backend.register(ws)
 
-    gevent.sleep(1)
+    gevent.sleep(.1)
 
     backend.send(ws, json({'hello': 2}))
+
+    while not ws.closed:
+        gevent.sleep(.1)
