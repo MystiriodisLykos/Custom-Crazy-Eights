@@ -63,7 +63,7 @@ def hello():
     return render_template('index.html')
 
 
-@sockets.route('/')
+# @sockets.route('/')
 
 @sockets.route('/submit')
 def inbox(ws):
