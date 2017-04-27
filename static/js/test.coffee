@@ -9,17 +9,36 @@ name = ''
 
 server.onmessage = (message) ->
     message = JSON.parse(message.data)
-    console.log(message)
+    if message.type == 'welcome'
+        $('#ready').css(
+            'display', 'inline'
+        )
+    if message.type == 'start'
+        $('#ready').css(
+            'display', 'none'
+        )
+        $('#draw').css(
+            'display', 'inline'
+        )
     return
+
+$('#ready').click((e) ->
+    e.preventDefault()
+    type = 'ready'
+    data = ''
+    message = JSON.stringify({name: name, type: type, data: data})
+    console.log(message)
+    server.send(message)
+    return
+)
 
 $('#draw').click((e) ->
     e.preventDefault()
-    if name != ''
-        type = 'draw'
-        data = ''
-        message = JSON.stringify({name: name, type: type, data: data})
-        console.log(message)
-        server.send(message)
+    type = 'draw'
+    data = ''
+    message = JSON.stringify({name: name, type: type, data: data})
+    console.log(message)
+    server.send(message)
     return
 )
 

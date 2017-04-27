@@ -34,7 +34,7 @@ class UnoGame(object):
         shuffle(self.deck)
 
     def add(self, ws, name):
-        self.players[name] = {'ws': ws}
+        self.players[name] = {'ws': ws, 'ready': False}
 
     def draw(self, name):
         try:
@@ -44,6 +44,15 @@ class UnoGame(object):
             self.send(name, data)
         except Exception:
             pass
+
+    def ready(self, name):
+        self.players[name]['ready'] = True
+        ready = all([player['ready'] for player in self.players])
+        if ready:
+            for player in self.players.keys():
+                data = 'cards'
+                data = json.dumps({'type': 'start', 'data': data})
+                self.send(player, data)
 
     def send(self, player, data = None):
         try:
@@ -85,3 +94,6 @@ def inbox(ws):
 
             elif message['type'] == 'draw':
                 backend.draw(message['name'])
+
+            elif message['type'] == 'ready':
+                backend.ready(message['name'])

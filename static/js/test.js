@@ -14,23 +14,41 @@
 
   server.onmessage = function(message) {
     message = JSON.parse(message.data);
-    console.log(message);
+    if (message.type === 'welcome') {
+      $('#ready').css('display', 'inline');
+    }
+    if (message.type === 'start') {
+      $('#ready').css('display', 'none');
+      $('#draw').css('display', 'inline');
+    }
   };
+
+  $('#ready').click(function(e) {
+    var data, message, type;
+    e.preventDefault();
+    type = 'ready';
+    data = '';
+    message = JSON.stringify({
+      name: name,
+      type: type,
+      data: data
+    });
+    console.log(message);
+    server.send(message);
+  });
 
   $('#draw').click(function(e) {
     var data, message, type;
     e.preventDefault();
-    if (name !== '') {
-      type = 'draw';
-      data = '';
-      message = JSON.stringify({
-        name: name,
-        type: type,
-        data: data
-      });
-      console.log(message);
-      server.send(message);
-    }
+    type = 'draw';
+    data = '';
+    message = JSON.stringify({
+      name: name,
+      type: type,
+      data: data
+    });
+    console.log(message);
+    server.send(message);
   });
 
   $('#enter').on('submit', function(e) {
