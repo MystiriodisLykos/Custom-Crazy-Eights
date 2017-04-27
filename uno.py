@@ -33,7 +33,7 @@ class UnoGame(object):
             data = json.dumps({'type': 'give', 'data': 'test'})
             self.send(name, data)
         except Exception:
-            print('test')
+            app.logger.info('test draw Exception')
 
     def send(self, player, data = None):
         try:
@@ -65,6 +65,7 @@ def inbox(ws):
         message = ws.receive()
 
         if message:
+            app.logger.info('message test')
             message = json.loads(message)
             if message['type'] == 'add':
                 backend.add(ws, message['name'])
@@ -72,4 +73,5 @@ def inbox(ws):
                 backend.send(message['name'])
 
             elif message['type'] == 'draw':
+                app.logger.info('draw test')
                 backend.draw(message['name'])
