@@ -10,12 +10,31 @@ app.debug = 'DEBUG' in os.environ
 sockets = Sockets(app)
 
 
+class Card:
+    def __init__(self, color, value):
+        self.color = color
+        self.value = value
+
+    def dictionary(self):
+        return {'color': self.color, 'value': self.value}
+
+
 class UnoGame(object):
     def __init__(self):
         self.players = {}
+        self.cards = [Card('red', '+2')]
 
     def add(self, ws, name):
         self.players[name] = {'ws': ws}
+
+    def draw(self, name):
+        pass
+        try:
+            card = self.cards[0].dictionary()
+            data = json.dumps({'type': 'give', 'data': card})
+            self.players[name]['ws'].send(data)
+        except Exception:
+            pass
 
     def send(self, player, data = None):
         try:
@@ -52,3 +71,6 @@ def inbox(ws):
                 backend.add(ws, message['name'])
                 gevent.sleep(.1)
                 backend.send(message['name'])
+
+            elif message['type'] == 'draw':
+                backend.draw(message['name'])
