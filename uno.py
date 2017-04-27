@@ -28,7 +28,6 @@ class UnoGame(object):
         self.players[name] = {'ws': ws}
 
     def draw(self, name):
-        pass
         try:
             card = self.cards[0].dictionary()
             data = json.dumps({'type': 'give', 'data': card})
