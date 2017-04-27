@@ -10,7 +10,7 @@ server.onmessage = (message) ->
   console.log(message)
 
 $('#enter').on('submit', (e) ->
-  e.preventDefault();
+  e.preventDefault()
   name = $('#name')[0].value
   type = 'add'
   data = ''
