@@ -30,7 +30,7 @@ class UnoGame(object):
     def draw(self, name):
         try:
             card = self.cards[0].dictionary()
-            data = json.dumps({'type': 'give', 'data': 'test'})
+            data = json.dumps({'type': 'give', 'data': card})
             self.send(name, data)
         except Exception:
             pass
@@ -71,6 +71,6 @@ def inbox(ws):
                 gevent.sleep(.1)
                 backend.send(message['name'])
 
-            if message['type'] == 'draw':
+            elif message['type'] == 'draw':
                 backend.draw(message['name'])
                 backend.send(message['name'])

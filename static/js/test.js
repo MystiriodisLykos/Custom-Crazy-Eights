@@ -19,6 +19,7 @@
 
   $('#draw').click(function(e) {
     var data, message, type;
+    e.preventDefault();
     if (name !== '') {
       type = 'draw';
       data = '';
@@ -28,6 +29,7 @@
         data: data
       });
       console.log(message);
+      server.send(message);
     }
   });
 

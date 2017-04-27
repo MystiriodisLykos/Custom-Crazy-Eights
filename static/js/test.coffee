@@ -13,13 +13,14 @@ server.onmessage = (message) ->
     return
 
 $('#draw').click((e) ->
+    e.preventDefault()
     if name != ''
         type = 'draw'
         data = ''
         message = JSON.stringify({name: name, type: type, data: data})
         console.log(message)
+        server.send(message)
     return
-
 )
 
 $('#enter').on('submit', (e) ->
