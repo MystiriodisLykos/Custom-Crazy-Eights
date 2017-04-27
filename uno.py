@@ -30,7 +30,7 @@ class UnoGame(object):
     def draw(self, name):
         try:
             card = self.cards[0].dictionary()
-            data = json.dumps({'type': 'give', 'data': card})
+            data = json.dumps({'type': 'give', 'data': 'test'})
             self.players[name]['ws'].send(data)
         except Exception:
             pass
