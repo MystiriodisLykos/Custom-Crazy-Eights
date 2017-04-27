@@ -73,4 +73,3 @@ def inbox(ws):
 
             elif message['type'] == 'draw':
                 backend.draw(message['name'])
-                backend.send(message['name'])
