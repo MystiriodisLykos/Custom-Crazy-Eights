@@ -21,7 +21,7 @@ class UnoGame(object):
         try:
             if not data:
                 data = json.dumps({'type': 'welcome', 'data': player})
-            self.players[player].send(data)
+            self.players[player]['ws'].send(data)
         except Exception:
             self.players[player] = None
 
