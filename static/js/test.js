@@ -12,7 +12,7 @@
 
   server.onmessage = function(message) {
     message = JSON.parse(message.data);
-    return console.log(message);
+    console.log(message);
   };
 
   $('#enter').on('submit', function(e) {
@@ -27,7 +27,7 @@
       data: data
     });
     console.log(message);
-    return server.send(message);
+    server.send(message);
   });
 
 }).call(this);

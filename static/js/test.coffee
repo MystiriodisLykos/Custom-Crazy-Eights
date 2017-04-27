@@ -8,6 +8,7 @@ server = new ReconnectingWebSocket(ws_scheme + location.host + "/server")
 server.onmessage = (message) ->
   message = JSON.parse(message.data)
   console.log(message)
+  return
 
 $('#enter').on('submit', (e) ->
   e.preventDefault()
@@ -17,4 +18,5 @@ $('#enter').on('submit', (e) ->
   message = JSON.stringify({name: name, type: type, data: data})
   console.log(message)
   server.send(message)
+  return
 )
