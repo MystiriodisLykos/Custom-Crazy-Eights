@@ -53,9 +53,11 @@ class UnoGame(object):
 backend = UnoGame()
 backend.start()
 
+
 @app.route('/')
 def hello():
     return render_template('test.html')
+
 
 @sockets.route('/server')
 def inbox(ws):
@@ -72,4 +74,5 @@ def inbox(ws):
                 backend.send(message['name'])
 
             elif message['type'] == 'draw':
+                backend.send(message['name'])
                 backend.draw(message['name'])
