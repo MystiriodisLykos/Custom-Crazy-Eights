@@ -3,6 +3,7 @@ import gevent
 import json
 from flask import Flask, render_template
 from flask_sockets import Sockets
+from random import shuffle
 
 app = Flask(__name__)
 app.debug = 'DEBUG' in os.environ
@@ -20,9 +21,15 @@ class Card:
 
 
 class UnoGame(object):
+    colors = ['red', 'blue', 'green', 'yello']
+    values = [str(x) for x in range(1, 10)] + ['skip'] + ['+2'] + ['reverse']
+
     def __init__(self):
         self.players = {}
-        self.cards = [Card('red', '+2')]
+        self.cards = shuffle([[Card(c, v) for v in UnoGame.values]
+                              for c in UnoGame.colors]*2 +
+                             [[Card(c, '0') for c in UnoGame.colors]] +
+                             [[Card('wild', v) for v in ['', '+4']]])
 
     def add(self, ws, name):
         self.players[name] = {'ws': ws}
@@ -30,6 +37,7 @@ class UnoGame(object):
     def draw(self, name):
         try:
             card = self.cards[0].dictionary()
+            del self.cards[0]
             data = json.dumps({'type': 'give', 'data': card})
             self.send(name, data)
         except Exception:
@@ -73,4 +81,3 @@ def inbox(ws):
 
             elif message['type'] == 'draw':
                 backend.draw(message['name'])
-                backend.send(message['name'])
