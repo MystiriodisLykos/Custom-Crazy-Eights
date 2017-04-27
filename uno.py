@@ -71,6 +71,6 @@ def inbox(ws):
                 gevent.sleep(.1)
                 backend.send(message['name'])
 
-            elif message['type'] == 'draw':
+            if message['type'] == 'draw':
                 backend.draw(message['name'])
                 backend.send(message['name'])
