@@ -1,4 +1,4 @@
-document.ready(() ->
+$(() ->
     if window.location.protocol == 'https:'
         ws_scheme = 'wss://'
     else
