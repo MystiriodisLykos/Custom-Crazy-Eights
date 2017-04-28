@@ -46,7 +46,9 @@ class UnoGame(object):
             pass
 
     def ready(self, name):
+        self.send(name)
         self.players[name]['ready'] = True
+        self.send(name)
         ready = all([player['ready'] for player in self.players])
         self.send(name)
         # if ready:
