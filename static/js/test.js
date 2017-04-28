@@ -14,7 +14,7 @@
 
   server.onmessage = function(message) {
     message = JSON.parse(message.data);
-    console.out(message);
+    console.log(message);
     if (message.type === 'welcome') {
       $('#ready').css('display', 'inline');
     }
