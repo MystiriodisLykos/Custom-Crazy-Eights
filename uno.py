@@ -49,10 +49,7 @@ class UnoGame(object):
         self.players[name]['ready'] = True
         ready = all([player['ready'] for player in self.players])
         if ready:
-            for player in self.players.keys():
-                data = 'cards'
-                data = json.dumps({'type': 'start', 'data': data})
-                self.send(player, data)
+            self.cast(json.dumps({'type': 'start', 'data': ''}))
 
     def send(self, player, data = None):
         try:
