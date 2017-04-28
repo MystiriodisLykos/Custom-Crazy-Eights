@@ -1,49 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.js">
-        </script>
-</head>
-<body>
-    <script>
-        var app = new PIXI.Application(window.innerWidth - 20, window.innerHeight - 20, {backgroundColor: 0x1099bb});
-        var ca = ["uno cards/wild.png", "uno cards/red_1.png", "uno cards/green_3.png", "uno cards/blue_7.png", "uno cards/red_skip.png", "uno cards/yellow_8.png", "uno cards/green_reverse.png","uno cards/yellow_4.png", "uno cards/red_1.png", "uno cards/blue_9.png"]
-        document.body.appendChild(app.view);
-        window.onresize = function (event){  
-            console.log("resize me");
-            var w = window.innerWidth - 20;    
-            var h = window.innerHeight - 20; 
-            app.view.style.width = w + "px";    
-            app.view.style.height = h + "px";    
-            //this part adjusts the ratio:    
-            renderer.resize(w,h);}
-        //for loop to render delt cards on the screen
-        for(var i = 0; i <= ca.length; i++){
-            var car = PIXI.Sprite.fromImage(ca[i]);
-            car.anchor.set(0.5);
-            car.x = app.renderer.width - ((i * 100) + 100);
-            car.y = app.renderer.height / 1.25;
-            car.scale.x = 0.2;
-            car.scale.y = 0.2;
-            app.stage.addChild(car);
-            
-        }
-
-        
-        // Listen for animate update
-        //app.ticker.add(function (delta) {
-            // just for fun, let's rotate mr rabbit a little
-            // delta is 1 if running at 100% performance
-            // creates frame-independent tranformation
-            //bunny.rotation += 0.05 * delta;
-       // }
-      // );
-
-      /*function resize() {
-
-      } */
     </script>
+</head>
+
+<body>
+    <script src="application.js" type="text/javascript"></script>
 </body>
+
 </html>
