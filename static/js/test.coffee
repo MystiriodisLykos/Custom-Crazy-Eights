@@ -9,6 +9,7 @@ name = ''
 
 server.onmessage = (message) ->
     message = JSON.parse(message.data)
+    console.out(message)
     if message.type == 'welcome'
         $('#ready').css(
             'display', 'inline'

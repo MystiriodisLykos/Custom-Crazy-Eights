@@ -61,7 +61,7 @@ class UnoGame(object):
 
     def cast(self, data):
         for player in self.players.keys():
-            gevent.spawn(self.send, player, data)
+            self.send(player, data)
 
     def start(self):
         gevent.spawn(self.cast)
@@ -93,4 +93,5 @@ def inbox(ws):
                 backend.draw(message['name'])
 
             elif message['type'] == 'ready':
+                backend.send(message['name'])
                 backend.ready(message['name'])
