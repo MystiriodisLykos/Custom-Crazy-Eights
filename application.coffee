@@ -22,6 +22,7 @@ leftArr = PIXI.Sprite.fromImage('buttons/leftArrow.png')
 ubutt = PIXI.Sprite.fromImage('buttons/ubutton.png')
 noplay = PIXI.Sprite.fromImage('buttons/no.png')
 upCard = PIXI.Sprite.fromImage('uno cards/green_7.png')
+faceDown = PIXI.Sprite.fromImage('uno cards/face_down.png')
 
 document.body.appendChild(app.view)
 
@@ -89,16 +90,23 @@ draw = ->
         fontSize: 11
         wordWrap: true,
         wordWrapWidth: 75
-
     )
-
-
 
     # text for no play button
     unableToPlay = new PIXI.Text("Click red button if you do not have a card to play", style)
     unableToPlay.x = 75
     unableToPlay.y = 525
     app.stage.addChild(unableToPlay)
+
+    style1 = new PIXI.TextStyle(
+        fontFamily: 'Arial',
+        fontSize: 36
+    )
+
+    welcomeToUno = new PIXI.Text("Welcome to UNO! For 2-10 players, ages 7+", style1)
+    welcomeToUno.x = (window.innerWidth / 2) - 350
+    welcomeToUno.y = (window.innerHeight) - 650
+    app.stage.addChild(welcomeToUno)
 
 
     #Draw current card
@@ -107,6 +115,13 @@ draw = ->
     upCard.x = (window.innerWidth / 2) + 75
     upCard.y = (window.innerHeight / 2) - 75
     app.stage.addChild(upCard)
+
+    #Draw face down card
+    faceDown.anchor.set(.5)
+    faceDown.scale.x = faceDown.scale.y = scale
+    faceDown.x = (window.innerWidth / 2) - 75
+    faceDown.y = (window.innerHeight / 2) - 75
+    app.stage.addChild(faceDown)
 
 
 
