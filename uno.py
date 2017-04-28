@@ -51,6 +51,12 @@ class UnoGame(object):
         # self.send(name, json.dumps({'ready': ready}))
         if all(ready):
             self.cast(json.dumps({'type': 'start', 'data': ''}))
+            self.start()
+
+    def start(self):
+        for player in self.players.keys():
+            for i in range(7):
+                self.draw(player)
 
     def send(self, player, data = None):
         try:
