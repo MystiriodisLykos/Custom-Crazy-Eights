@@ -48,8 +48,9 @@ class UnoGame(object):
     def ready(self, name):
         self.players[name]['ready'] = True
         ready = all([player['ready'] for player in self.players])
-        if ready:
-            self.cast(json.dumps({'type': 'start', 'data': ''}))
+        self.send(name)
+        # if ready:
+        #     self.cast(json.dumps({'type': 'start', 'data': ''}))
 
     def send(self, player, data = None):
         try:
@@ -93,5 +94,4 @@ def inbox(ws):
                 backend.draw(message['name'])
 
             elif message['type'] == 'ready':
-                backend.send(message['name'])
                 backend.ready(message['name'])
