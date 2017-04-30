@@ -68,7 +68,8 @@ class UnoGame(object):
             fst = self.deck[0]
         self.discard.append(fst)
         del self.deck[0]
-        self.cast(json.dumps({'type': 'test', 'card': self.discard[0]}))
+        self.cast(json.dumps({'type': 'test',
+                              'card': self.discard[0].dictionary}))
 
     def send(self, player, data = None):
         try:
