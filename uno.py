@@ -67,7 +67,7 @@ class UnoGame(object):
             shuffle(self.deck)
             fst = self.deck[0]
         self.discard.append(fst)
-        # del self.deck[0]
+        del self.deck[0]
         self.cast(json.dumps({'type': 'test',
                               'card': self.discard[-1].dictionary()}))
 
