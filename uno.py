@@ -41,20 +41,17 @@ class UnoGame(object):
         self.turn_order.append(name)
 
     def draw(self, name):
-        try:
-            card = self.deck[0].dictionary()
-            del self.deck[0]
-            data = json.dumps({'type': 'give', 'data': card})
-            self.players[name]['cards'] += 1
-            self.send(name, data)
-        except Exception:
-            pass
+        card = self.deck[0].dictionary()
+        del self.deck[0]
+        data = json.dumps({'type': 'give', 'data': card})
+        self.players[name]['cards'] += 1
+        self.send(name, data)
 
     def ready(self, name):
         self.players[name]['ready'] = True
         ready = [player['ready'] for player in self.players.values()]
         # self.send(name, json.dumps({'ready': ready}))
-        if all(ready):
+        if all(ready) and len(self.players) > 2:
             self.cast(json.dumps({'type': 'start', 'data': ''}))
             self.start_game()
 
@@ -68,8 +65,16 @@ class UnoGame(object):
             fst = self.deck[0]
         self.discard.append(fst)
         del self.deck[0]
-        self.cast(json.dumps({'type': 'test',
-                              'card': self.discard[-1].dictionary()}))
+        self.in_progress = True
+        self.turn()
+
+    def turn(self):
+        data = {'players': [{'player': name,
+                             'cards': value['cards'],
+                             'playing': name == self.turn_order[0]}
+                            for name, value in self.players.iteritems()],
+                'card': self.discard[0].dictionary()}
+        self.cast(json.dumps({'type': 'turn', 'data': data}))
 
     def send(self, player, data = None):
         try:
