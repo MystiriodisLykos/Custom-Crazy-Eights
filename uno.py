@@ -66,10 +66,10 @@ class UnoGame(object):
         while fst.color == 'wild':
             shuffle(self.deck)
             fst = self.deck[0]
-        # self.discard.append(fst)
+        self.discard.append(fst)
         # del self.deck[0]
         self.cast(json.dumps({'type': 'test',
-                              'card': fst.dictionary()}))
+                              'card': self.discard[-1].dictionary}))
 
     def send(self, player, data = None):
         try:
