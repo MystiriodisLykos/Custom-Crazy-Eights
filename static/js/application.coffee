@@ -9,7 +9,16 @@ name = ''
 
 server.onmessage = (message) ->
     message = JSON.parse(message.data)
-    console.log(message)
+#    console.log(message)
+    switch message.type
+        when 'welcome' then console.log 'welcome'
+        when 'start' then console.log 'start'
+        when 'error' then console.log 'error'
+        when 'give' then console.log 'give'
+        when 'uno' then console.log 'uno'
+        when 'turn' then console.log 'turn'
+        when 'gg' then console.log 'gg'
+        else console.log 'unknown response'
     if message.type == 'welcome'
         $('#ready').css(
             'display', 'inline'

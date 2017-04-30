@@ -14,7 +14,31 @@
 
   server.onmessage = function(message) {
     message = JSON.parse(message.data);
-    console.log(message);
+    switch (message.type) {
+      case 'welcome':
+        console.log('welcome');
+        break;
+      case 'start':
+        console.log('start');
+        break;
+      case 'error':
+        console.log('error');
+        break;
+      case 'give':
+        console.log('give');
+        break;
+      case 'uno':
+        console.log('uno');
+        break;
+      case 'turn':
+        console.log('turn');
+        break;
+      case 'gg':
+        console.log('gg');
+        break;
+      default:
+        console.log('unknown response');
+    }
     if (message.type === 'welcome') {
       $('#ready').css('display', 'inline');
     }
