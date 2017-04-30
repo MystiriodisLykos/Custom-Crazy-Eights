@@ -50,7 +50,7 @@ class UnoGame(object):
     def ready(self, name):
         self.players[name]['ready'] = True
         ready = [player['ready'] for player in self.players.values()]
-        # self.send(name, json.dumps({'ready': ready}))
+        self.send(name, json.dumps({'ready': ready}))
         if all(ready) and len(self.players) > 2:
             self.cast(json.dumps({'type': 'start', 'data': ''}))
             self.start_game()
