@@ -26,7 +26,10 @@ class UnoGame(object):
 
     def __init__(self):
         self.players = {}
+        self.turn_order = []
         self.deck = []
+        self.discard = []
+        self.in_progress = False
         for c in UnoGame.colors:
             self.deck += [Card(c, v) for v in UnoGame.values]
         self.deck += [Card(c, '0') for c in UnoGame.colors]
@@ -34,13 +37,15 @@ class UnoGame(object):
         shuffle(self.deck)
 
     def add(self, ws, name):
-        self.players[name] = {'ws': ws, 'ready': False}
+        self.players[name] = {'ws': ws, 'ready': False, 'cards': 0}
+        self.turn_order.append(name)
 
     def draw(self, name):
         try:
             card = self.deck[0].dictionary()
             del self.deck[0]
             data = json.dumps({'type': 'give', 'data': card})
+            self.players[name]['cards'] += 1
             self.send(name, data)
         except Exception:
             pass
@@ -57,6 +62,13 @@ class UnoGame(object):
         for player in self.players.keys():
             for i in range(7):
                 self.draw(player)
+        fst = self.deck[0]
+        while fst.color == 'wild':
+            shuffle(self.deck)
+            fst = self.deck[0]
+        self.discard.append(fst)
+        del self.deck[0]
+        self.cast(json.dumps({'type': 'test', 'card': self.discard[0]}))
 
     def send(self, player, data = None):
         try:
