@@ -39,6 +39,7 @@ class UnoGame(object):
     def add(self, ws, name):
         self.players[name] = {'ws': ws, 'ready': False, 'cards': 0}
         self.turn_order.append(name)
+        self.cast(json.dumps({'type': 'test', 'data':str(name) + ' has entered'}))
 
     def draw(self, name):
         card = self.deck[0].dictionary()
@@ -46,7 +47,6 @@ class UnoGame(object):
         data = json.dumps({'type': 'give', 'data': card})
         self.players[name]['cards'] += 1
         self.send(name, data)
-        self.cast(json.dumps({'type': 'test', 'data': str(name) + ' has entered'}))
 
     def ready(self, name):
         self.players[name]['ready'] = True
