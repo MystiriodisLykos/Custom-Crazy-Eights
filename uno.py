@@ -63,13 +63,13 @@ class UnoGame(object):
             for i in range(7):
                 self.draw(player)
         fst = self.deck[0]
-        while fst.color == 'wild':
-            shuffle(self.deck)
-            fst = self.deck[0]
-        self.discard.append(fst)
-        del self.deck[0]
+        # while fst.color == 'wild':
+        #     shuffle(self.deck)
+        #     fst = self.deck[0]
+        # self.discard.append(fst)
+        # del self.deck[0]
         self.cast(json.dumps({'type': 'test',
-                              'card': self.discard[0].dictionary}))
+                              'card': fst.dictionary()}))
 
     def send(self, player, data = None):
         try:
