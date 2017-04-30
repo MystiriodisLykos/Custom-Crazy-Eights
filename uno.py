@@ -26,26 +26,21 @@ class UnoGame(object):
 
     def __init__(self):
         self.players = {}
-        self.turn_order = []
         self.deck = []
-        self.discard = []
         for c in UnoGame.colors:
             self.deck += [Card(c, v) for v in UnoGame.values]
         self.deck += [Card(c, '0') for c in UnoGame.colors]
         self.deck += [Card('wild', v) for v in ['', '+4']]
-        self.in_progress = False
         shuffle(self.deck)
 
     def add(self, ws, name):
-        self.players[name] = {'ws': ws, 'ready': False, 'cards': 0}
-        self.turn_order.append(name)
+        self.players[name] = {'ws': ws, 'ready': False}
 
     def draw(self, name):
         try:
             card = self.deck[0].dictionary()
             del self.deck[0]
             data = json.dumps({'type': 'give', 'data': card})
-            self.players[name]['cards'] += 1
             self.send(name, data)
         except Exception:
             pass
@@ -53,43 +48,15 @@ class UnoGame(object):
     def ready(self, name):
         self.players[name]['ready'] = True
         ready = [player['ready'] for player in self.players.values()]
+        # self.send(name, json.dumps({'ready': ready}))
         if all(ready):
             self.cast(json.dumps({'type': 'start', 'data': ''}))
-            self.start_game()
+            self.start()
 
-    def start_game(self):
+    def start(self):
         for player in self.players.keys():
             for i in range(7):
                 self.draw(player)
-        fst = self.deck[0]
-        while fst.color == 'wild':
-            shuffle(self.deck)
-            fst = self.deck[0]
-        self.discard = fst
-        del self.deck[0]
-        last, self.turn_order = self.turn_order[0], self.turn_order[1:]
-        self.in_progress = True
-        self.turn()
-        self.turn_order.append(last)
-
-    def turn(self):
-        if self.discard[0].value == 'skip':
-            self.turn_order = self.turn_order[1:] + self.turn_order[0]
-        elif self.discard[0].value == 'reverse:':
-            self.turn_order = self.turn_order[::-1]
-        elif self.discard[0].value == '+2':
-            self.draw(self.turn_order[0])
-            self.draw(self.turn_order[0])
-            self.turn_order = self.turn_order[1:] + self.turn_order[0]
-        elif self.discard[0].value == '+4':
-            [self.draw(self.turn_order[0]) for i in range(4)]
-            self.turn_order = self.turn_order[1:] + self.turn_order[0]
-        data = {'players': [{'player': name,
-                             'cards': value['cards'],
-                             'playing': name == self.turn_order[0]}
-                            for name, value in self.players.iteritems()]
-                'card': self.discard[0].dictionary()}
-        self.cast(json.dumps({'type': 'turn', 'data': data}))
 
     def send(self, player, data = None):
         try:
