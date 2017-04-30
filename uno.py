@@ -33,16 +33,36 @@ class UnoGame(object):
         for c in UnoGame.colors:
             self.deck += [Card(c, v) for v in UnoGame.values]
         self.deck += [Card(c, '0') for c in UnoGame.colors]
-        self.deck += [Card('wild', v) for v in ['', '+4']]
+        self.deck += [Card('', v) for v in ['wild_', 'wild_+4']]
         shuffle(self.deck)
 
     def add(self, ws, name):
-        self.players[name] = {'ws': ws, 'ready': False, 'cards': 0}
-        self.turn_order.append(name)
-        self.send(name)
-        self.cast(json.dumps({'type': 'test', 'data': str(name) + ' has entered'}))
+        if not self.in_progress and len(self.players) <= 5:
+            self.players[name] = {'ws': ws,
+                                  'ready': False,
+                                  'cards': 0,
+                                  'uno': False}
+            self.turn_order.append(name)
+            self.cast(json.dumps({'type': 'welcome', 'data': name}))
+        elif len(self.players) <= 5:
+            self.send(name, json.dumps({'type': 'error', 'data': 'Full'}))
+        else:
+            self.send(name, json.dumps({'type': 'error', 'data': 'In progress'}))
 
     def draw(self, name):
+        if len(self.deck) == 0:
+            if len(self.discard) != 0:
+                for c in self.discard:
+                    if c.value.find('wild') == -1:
+                        self.deck.append(c)
+                    else:
+                        self.deck.append(Card('', c.value))
+                shuffle(self.deck)
+            else:
+                for c in UnoGame.colors:
+                    self.deck += [Card(c, v) for v in UnoGame.values]
+                self.deck += [Card(c, '0') for c in UnoGame.colors]
+                self.deck += [Card('', v) for v in ['wild_', 'wild_+4']]
         card = self.deck[0].dictionary()
         del self.deck[0]
         data = json.dumps({'type': 'give', 'data': card})
@@ -91,6 +111,27 @@ class UnoGame(object):
         self.cast(json.dumps({'type': 'turn', 'data': data}))
         self.turn_order = self.turn_order[1:] + self.turn_order[0]
 
+    def play(self, name, data):
+        self.players[name]['cards'] -= 1
+        if self.players[name]['cards'] == 0:
+            self.gg(name)
+        card = Card(data['color'], data['value'])
+        self.discard.append(card)
+        self.turn()
+
+    def uno(self, name, data):
+        if self.players[name]['cards'] == 1:
+            self.players[name]['uno'] = True
+        else:
+            for name, info in self.players.iteritems():
+                if info['cards'] == 1 and not info['uno']:
+                    [self.draw(name) for i in range(2)]
+                    self.send(name, json.dumps({'type': 'uno', 'data': 'forgot'}))
+
+    def gg(self, name):
+        self.cast(json.dumps({'type': 'gg', 'data': name}))
+        self.__init__()
+
     def send(self, player, data = None):
         try:
             if not data:
@@ -132,3 +173,9 @@ def inbox(ws):
 
             elif message['type'] == 'ready':
                 backend.ready(message['name'])
+
+            elif message['type'] == 'play':
+                backend.play(message['name'], message['data'])
+
+            elif message['type'] == 'uno':
+                backend.uno(message['name'], message['data'])
