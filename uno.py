@@ -39,7 +39,8 @@ class UnoGame(object):
     def add(self, ws, name):
         self.players[name] = {'ws': ws, 'ready': False, 'cards': 0}
         self.turn_order.append(name)
-        self.cast(json.dumps({'type': 'test', 'data':str(name) + ' has entered'}))
+        self.send(name)
+        self.cast(json.dumps({'type': 'test', 'data': str(name) + ' has entered'}))
 
     def draw(self, name):
         card = self.deck[0].dictionary()
@@ -125,8 +126,6 @@ def inbox(ws):
             message = json.loads(message)
             if message['type'] == 'add':
                 backend.add(ws, message['name'])
-                gevent.sleep(.1)
-                backend.send(message['name'])
 
             elif message['type'] == 'draw':
                 backend.draw(message['name'])
