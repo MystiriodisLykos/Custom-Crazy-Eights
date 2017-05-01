@@ -73,9 +73,10 @@ class UnoGame(object):
         self.players[name]['ready'] = True
         ready = [player['ready'] for player in self.players.values()]
         # self.send(name, json.dumps({'ready': ready}))
+        self.cast(json.dumps({'type': 'ready', 'data': name}))
         if all(ready) and len(self.players) > 2:
-            self.cast(json.dumps({'type': 'start', 'data': ''}))
             self.start_game()
+            self.cast(json.dumps({'type': 'start', 'data': ''}))
 
     def start_game(self):
         for player in self.players.keys():
@@ -119,14 +120,15 @@ class UnoGame(object):
         self.discard.append(card)
         self.turn()
 
-    def uno(self, name, data):
+    def uno(self, name):
         if self.players[name]['cards'] == 1:
             self.players[name]['uno'] = True
         else:
             for name, info in self.players.iteritems():
-                if info['cards'] == 1 and not info['uno']:
-                    [self.draw(name) for i in range(2)]
-                    self.send(name, json.dumps({'type': 'uno', 'data': 'forgot'}))
+                if name not in self.players[0] + self.players[-2]:
+                    if info['cards'] == 1 and not info['uno']:
+                        [self.draw(name) for i in range(2)]
+                        self.send(name, json.dumps({'type': 'uno', 'data': 'forgot'}))
 
     def gg(self, name):
         self.cast(json.dumps({'type': 'gg', 'data': name}))
@@ -178,4 +180,4 @@ def inbox(ws):
                 backend.play(message['name'], message['data'])
 
             elif message['type'] == 'uno':
-                backend.uno(message['name'], message['data'])
+                backend.uno(message['name'])
