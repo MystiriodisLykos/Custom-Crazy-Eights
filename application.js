@@ -64,12 +64,12 @@
   };
 
   welcome = function() {
-    var check, input, nameHere, nameStyle, welcStyle, welcomePageHead;
+    var border, boxStyle, check, input, nameHere, nameStyle, playas, welcStyle, welcomePageHead;
     join = PIXI.Sprite.fromImage('buttons/join.png');
     join.anchor.set(.5);
     join.scale.x = join.scale.y *= .35;
     join.x = (window.innerWidth / 2) - 55;
-    join.y = (window.innerHeight / 2) - 132.5;
+    join.y = (window.innerHeight / 2) - 32.5;
     join.interactive = true;
     join.buttonMode = true;
     app.stage.addChild(join);
@@ -77,10 +77,18 @@
     ready.anchor.set(.5);
     ready.scale.x = ready.scale.y *= .04;
     ready.x = (window.innerWidth / 2) - 180;
-    ready.y = (window.innerHeight / 2) - 70;
+    ready.y = (window.innerHeight / 2) + 55;
     ready.interactive = true;
     ready.buttonMode = true;
     app.stage.addChild(ready);
+    border = PIXI.Sprite.fromImage('buttons/border.png');
+    border.anchor.set(.5);
+    border.scale.x = border.scale.y *= .45;
+    border.x = (window.innerWidth / 2) + 400;
+    border.y = (window.innerHeight / 2) + 40;
+    border.interactive = true;
+    border.buttonMode = true;
+    app.stage.addChild(border);
     welcStyle = new PIXI.TextStyle({
       fontFamily: 'Arial',
       fontSize: 100,
@@ -95,26 +103,34 @@
       dropShadowDistance: 6
     });
     welcomePageHead = new PIXI.Text("Welcome to UNO", welcStyle);
-    welcomePageHead.x = (window.innerWidth / 2) - 550;
+    welcomePageHead.x = (window.innerWidth / 2) - 610;
     welcomePageHead.y = (window.innerHeight / 2) - 300;
     app.stage.addChild(welcomePageHead);
     nameStyle = new PIXI.TextStyle({
       fontFamily: 'Arial',
       fontSize: 24
     });
+    boxStyle = new PIXI.TextStyle({
+      fontFamily: 'Comic Sans MS',
+      fontSize: 30
+    });
     nameHere = new PIXI.Text("Enter your username:", nameStyle);
     nameHere.x = (window.innerWidth / 2) - 575;
-    nameHere.y = (window.innerHeight / 2) - 145;
+    nameHere.y = (window.innerHeight / 2) - 45;
     app.stage.addChild(nameHere);
     check = new PIXI.Text("Click check mark when ready", nameStyle);
     check.x = (window.innerWidth / 2) - 555;
-    check.y = (window.innerHeight / 2) - 75;
+    check.y = (window.innerHeight / 2) + 25;
     app.stage.addChild(check);
+    playas = new PIXI.Text("PLAYERS", boxStyle);
+    playas.x = (window.innerWidth / 2) + 340;
+    playas.y = (window.innerHeight / 2) - 190;
+    app.stage.addChild(playas);
     input = new PixiTextInput();
     input.width = 150;
     input.height = 40;
     input.position.x = (window.innerWidth / 2) - 315;
-    input.position.y = (window.innerHeight / 2) - 153;
+    input.position.y = (window.innerHeight / 2) - 53;
     input.text = "Name";
     app.stage.addChild(input);
   };

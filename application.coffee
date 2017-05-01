@@ -35,26 +35,13 @@ document.body.appendChild(app.view)
 
 window.onload = (e) ->
     welcome()
+#    draw()
     leftArr.on('pointerdown', onClickLeft)
     rightArr.on('pointerdown', onClickRight)
     ubutt.on('pointerdown', onClickUno)
     noplay.on('pointerdown', onClickNo)
     join.on('pointerdown', onClickJoin)
     ready.on('pointerdown', onClickReady)
-    ##    cardFunctions = [() -> console.log "test" for i in [1..length(cardSprites)]]
-    #    for card in cardSprites
-    #        card.on('pointerdown', () ->
-    #            card.scale.x *= 2
-    #            return
-    #        )
-    ##        eval(card.name.split('/')[1].split('.')[0] + '_F = function() {
-    ##            card.scale.x *= 2;
-    ##        };')
-    ##        console.log( eval(card.name.split('/')[1].split('.')[0] + '_F'))
-    ##        newCard = card.on('pointerdown', eval(card.name.split('/')[1].split('.')[0] + '_F'))
-    #        app.stage.addChild(card)
-    #    app.stage.addChild(cardSprites[0])
-    #    app.stage.addChild(cardSprites[1])
     return
 
 window.onresize = (e) ->
@@ -70,7 +57,7 @@ welcome = ->
     join.anchor.set(.5)
     join.scale.x = join.scale.y *= .35
     join.x = (window.innerWidth / 2) - 55
-    join.y = (window.innerHeight / 2) - 132.5
+    join.y = (window.innerHeight / 2) - 32.5
     join.interactive = true
     join.buttonMode = true
     app.stage.addChild(join)
@@ -79,11 +66,19 @@ welcome = ->
     ready.anchor.set(.5)
     ready.scale.x = ready.scale.y *= .04
     ready.x = (window.innerWidth / 2) - 180
-    ready.y = (window.innerHeight / 2) - 70
+    ready.y = (window.innerHeight / 2) + 55
     ready.interactive = true
     ready.buttonMode = true
     app.stage.addChild(ready)
 
+    border = PIXI.Sprite.fromImage('buttons/border.png')
+    border.anchor.set(.5)
+    border.scale.x = border.scale.y *= .45
+    border.x = (window.innerWidth / 2) + 400
+    border.y = (window.innerHeight / 2) + 40
+    border.interactive = true
+    border.buttonMode = true
+    app.stage.addChild(border)
 
     welcStyle = new PIXI.TextStyle(
         fontFamily: 'Arial',
@@ -101,7 +96,7 @@ welcome = ->
 
     # text for no play button
     welcomePageHead = new PIXI.Text("Welcome to UNO", welcStyle)
-    welcomePageHead.x = (window.innerWidth / 2) - 550
+    welcomePageHead.x = (window.innerWidth / 2) - 610
     welcomePageHead.y = (window.innerHeight / 2) - 300
     app.stage.addChild(welcomePageHead)
 
@@ -111,17 +106,27 @@ welcome = ->
         fontSize: 24
     )
 
+    boxStyle = new PIXI.TextStyle(
+        fontFamily: 'Comic Sans MS',
+        fontSize: 30
+    )
     # text for enter name here
     nameHere = new PIXI.Text("Enter your username:", nameStyle)
     nameHere.x = (window.innerWidth / 2) - 575
-    nameHere.y = (window.innerHeight / 2) - 145
+    nameHere.y = (window.innerHeight / 2) - 45
     app.stage.addChild(nameHere)
 
     # text for ready click
     check = new PIXI.Text("Click check mark when ready", nameStyle)
     check.x = (window.innerWidth / 2) - 555
-    check.y = (window.innerHeight / 2) - 75
+    check.y = (window.innerHeight / 2) + 25
     app.stage.addChild(check)
+
+    #Players Heading
+    playas = new PIXI.Text("PLAYERS", boxStyle)
+    playas.x = (window.innerWidth / 2) + 340
+    playas.y = (window.innerHeight / 2) - 190
+    app.stage.addChild(playas)
 
 #    Text box
     input = new PixiTextInput()
@@ -129,7 +134,7 @@ welcome = ->
     input.width = 150
     input.height = 40
     input.position.x = (window.innerWidth / 2) - 315
-    input.position.y = (window.innerHeight / 2) - 153
+    input.position.y = (window.innerHeight / 2) - 53
     input.text= "Name"
     app.stage.addChild(input)
     return
