@@ -1,4 +1,4 @@
-app = new PIXI.Application(window.innerWidth - 25, window.innerHeight - 100, {
+app = new PIXI.Application(window.innerWidth - 25, window.innerHeight - 25, {
     backgroundColor: 0x1099bb
 })
 
@@ -22,7 +22,11 @@ leftArr = PIXI.Sprite.fromImage('buttons/leftArrow.png')
 ubutt = PIXI.Sprite.fromImage('buttons/ubutton.png')
 noplay = PIXI.Sprite.fromImage('buttons/no.png')
 upCard = PIXI.Sprite.fromImage('uno cards/green_7.png')
+join = PIXI.Sprite.fromImage('buttons/join.png')
+ready = PIXI.Sprite.fromImage('buttons/ready.png')
+
 faceDown = PIXI.Sprite.fromImage('uno cards/face_down.png')
+
 cardSprites = []
 #card = PIXI.Sprite.fromImage('uno cards/face_down.png')
 
@@ -31,27 +35,26 @@ document.body.appendChild(app.view)
 
 window.onload = (e) ->
     welcome()
-#    draw()
-
-    #draw()
-#    leftArr.on('pointerdown', onClickLeft)
-#    rightArr.on('pointerdown', onClickRight)
-#    ubutt.on('pointerdown', onClickUno)
-#    noplay.on('pointerdown', onClickNo)
-##    cardFunctions = [() -> console.log "test" for i in [1..length(cardSprites)]]
-#    for card in cardSprites
-#        card.on('pointerdown', () ->
-#            card.scale.x *= 2
-#            return
-#        )
-##        eval(card.name.split('/')[1].split('.')[0] + '_F = function() {
-##            card.scale.x *= 2;
-##        };')
-##        console.log( eval(card.name.split('/')[1].split('.')[0] + '_F'))
-##        newCard = card.on('pointerdown', eval(card.name.split('/')[1].split('.')[0] + '_F'))
-#        app.stage.addChild(card)
-#    app.stage.addChild(cardSprites[0])
-#    app.stage.addChild(cardSprites[1])
+    leftArr.on('pointerdown', onClickLeft)
+    rightArr.on('pointerdown', onClickRight)
+    ubutt.on('pointerdown', onClickUno)
+    noplay.on('pointerdown', onClickNo)
+    join.on('pointerdown', onClickJoin)
+    ready.on('pointerdown', onClickReady)
+    ##    cardFunctions = [() -> console.log "test" for i in [1..length(cardSprites)]]
+    #    for card in cardSprites
+    #        card.on('pointerdown', () ->
+    #            card.scale.x *= 2
+    #            return
+    #        )
+    ##        eval(card.name.split('/')[1].split('.')[0] + '_F = function() {
+    ##            card.scale.x *= 2;
+    ##        };')
+    ##        console.log( eval(card.name.split('/')[1].split('.')[0] + '_F'))
+    ##        newCard = card.on('pointerdown', eval(card.name.split('/')[1].split('.')[0] + '_F'))
+    #        app.stage.addChild(card)
+    #    app.stage.addChild(cardSprites[0])
+    #    app.stage.addChild(cardSprites[1])
     return
 
 window.onresize = (e) ->
@@ -63,28 +66,31 @@ window.onresize = (e) ->
     return
 
 welcome = ->
-#    welcomeCard = PIXI.Sprite.fromImage('uno cards/face_down.png')
-#    welcomeCard.anchor.set(.5)
-#    welcomeCard.scale.x = welcomeCard.scale.y = scale
-#    welcomeCard.x = (window.innerWidth / 2) - 200
-#    welcomeCard.y = (window.innerHeight / 2) - 55
-#    app.stage.addChild(welcomeCard)
+    join = PIXI.Sprite.fromImage('buttons/join.png')
+    join.anchor.set(.5)
+    join.scale.x = join.scale.y *= .35
+    join.x = (window.innerWidth / 2) - 55
+    join.y = (window.innerHeight / 2) - 132.5
+    join.interactive = true
+    join.buttonMode = true
+    app.stage.addChild(join)
 
-    unoGraphic = PIXI.Sprite.fromImage('buttons/ubutton.png')
-    unoGraphic.anchor.set(.5)
-    unoGraphic.scale.x = unoGraphic.scale.y *= .5
-    unoGraphic.x = (window.innerWidth / 2) + 170
-    unoGraphic.y = (window.innerHeight / 2) - 255
+    ready = PIXI.Sprite.fromImage('buttons/ready.png')
+    ready.anchor.set(.5)
+    ready.scale.x = ready.scale.y *= .04
+    ready.x = (window.innerWidth / 2) - 180
+    ready.y = (window.innerHeight / 2) - 70
+    ready.interactive = true
+    ready.buttonMode = true
+    app.stage.addChild(ready)
 
-    app.stage.addChild(unoGraphic)
 
     welcStyle = new PIXI.TextStyle(
         fontFamily: 'Arial',
         fontSize: 100
-        fontStyle: 'italic',
         fontWeight: 'bold',
         fill: ['#ffe702', '#ff130a'],
-       stroke: '#121000',
+        stroke: '#121000',
         strokeThickness: 5,
         dropShadow: true,
         dropShadowColor: '#000000',
@@ -94,14 +100,52 @@ welcome = ->
     )
 
     # text for no play button
-    welcomePageHead = new PIXI.Text("Welcome to", welcStyle)
+    welcomePageHead = new PIXI.Text("Welcome to UNO", welcStyle)
     welcomePageHead.x = (window.innerWidth / 2) - 550
     welcomePageHead.y = (window.innerHeight / 2) - 300
     app.stage.addChild(welcomePageHead)
 
-    jQuery ->
-     input = $('#from_date').val()
+    #Enter name here
+    nameStyle = new PIXI.TextStyle(
+        fontFamily: 'Arial',
+        fontSize: 24
+    )
+
+    # text for enter name here
+    nameHere = new PIXI.Text("Enter your username:", nameStyle)
+    nameHere.x = (window.innerWidth / 2) - 575
+    nameHere.y = (window.innerHeight / 2) - 145
+    app.stage.addChild(nameHere)
+
+    # text for ready click
+    check = new PIXI.Text("Click check mark when ready", nameStyle)
+    check.x = (window.innerWidth / 2) - 555
+    check.y = (window.innerHeight / 2) - 75
+    app.stage.addChild(check)
+
+#    Text box
+    input = new PixiTextInput()
+#    input.scale.x = input.scale.y = scale
+    input.width = 150
+    input.height = 40
+    input.position.x = (window.innerWidth / 2) - 315
+    input.position.y = (window.innerHeight / 2) - 153
+    input.text= "Name"
+    app.stage.addChild(input)
     return
+#
+#
+#    spinuno = PIXI.Sprite.fromImage('buttons/spinuno.png')
+#    spinuno.anchor.set(.5)
+#    spinuno.scale.x = spinuno.scale.y *= .5
+#    spinuno.x = app.renderer.width / 2
+#    spinuno.y = app.renderer.height / 2
+#    app.stage.addChild(spinuno)
+#    app.ticker.add (delta) ->
+#    spinuno.rotation += 0.1 * delta
+#    return
+
+
 
 draw = ->
     clearStage()
@@ -198,8 +242,8 @@ draw = ->
             card.name = cardStr
             card.on('pointerdown', clickCard)
             app.stage.addChild(card)
-#    for child in app.stage.schildren
-#        child.on('pointerdown', () -> child.scale.x *= 2)
+    #    for child in app.stage.schildren
+    #        child.on('pointerdown', () -> child.scale.x *= 2)
     return
 
 onClickRight = ->
@@ -230,6 +274,16 @@ onClickNo = ->
 clickCard = ->
     @scale.x *= 1.2
     @scale.y *= 1.2
+
+onClickJoin = ->
+    join.scale.x *= 1.25
+    join.scale.y *= 1.25
+    return
+
+onClickReady = ->
+    ready.scale.x *= 1.25
+    ready.scale.y *= 1.25
+    return
 
 clearStage = ->
     for child in app.stage.children
