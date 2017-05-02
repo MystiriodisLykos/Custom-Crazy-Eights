@@ -299,7 +299,7 @@
         }
       }
     });
-    this.server.send(message);
+    window.server.send(message);
     getName(playerName);
   };
 

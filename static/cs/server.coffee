@@ -3,14 +3,14 @@ if window.location.protocol == 'https:'
 else
     ws_scheme = 'ws://'
 
-@server = new ReconnectingWebSocket(ws_scheme + location.host + "/server")
+window.server = new ReconnectingWebSocket(ws_scheme + location.host + "/server")
 
 name = ''
 cards = []
 
 players = {}
 
-server.onmessage = (message) ->
+window.server.onmessage = (message) ->
     message = JSON.parse(message.data)
     switch message.type
         when 'welcome'

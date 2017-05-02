@@ -8,7 +8,7 @@
     ws_scheme = 'ws://';
   }
 
-  this.server = new ReconnectingWebSocket(ws_scheme + location.host + "/server");
+  window.server = new ReconnectingWebSocket(ws_scheme + location.host + "/server");
 
   name = '';
 
@@ -16,7 +16,7 @@
 
   players = {};
 
-  server.onmessage = function(message) {
+  window.server.onmessage = function(message) {
     message = JSON.parse(message.data);
     switch (message.type) {
       case 'welcome':
