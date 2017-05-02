@@ -328,6 +328,7 @@ onClickJoin = ->
 # When clicked, needs to send name to the server should be stored in text.input
     playerName = input.text
     message = JSON.stringify({type: 'add': data: playerName})
+    console.log(message)
     window.server.send(message)
     getName(playerName)
 #  TODO make JOIN button change on click (push-in or change color) so that user knows they clicked it)

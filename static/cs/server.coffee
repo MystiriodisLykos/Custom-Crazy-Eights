@@ -12,6 +12,7 @@ players = {}
 
 window.server.onmessage = (message) ->
     message = JSON.parse(message.data)
+    console.log(message)
     switch message.type
         when 'welcome'
             players[message['data']] = {'cards': 0, 'ready': false}

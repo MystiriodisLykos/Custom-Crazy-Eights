@@ -18,6 +18,7 @@
 
   window.server.onmessage = function(message) {
     message = JSON.parse(message.data);
+    console.log(message);
     switch (message.type) {
       case 'welcome':
         players[message['data']] = {
