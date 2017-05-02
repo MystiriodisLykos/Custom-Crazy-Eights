@@ -95,7 +95,6 @@ readyToPlay = ->
     return
 
 welcome = ->
-    getName('Test')
     # Draws the join button
     join = PIXI.Sprite.fromImage('../static/assets/buttons/join.png')
     join.anchor.set(.5)
@@ -161,30 +160,6 @@ welcome = ->
     join.on('pointerdown', onClickJoin)
     ready.on('pointerdown', onClickReady)
 
-    return
-
-
-# Function that takes a name and displays in the border/ player list
-getName = (Pname) ->
-    listDict[Pname] = nameCount
-    nameCount++
-    for key, value of listDict
-        listName = new PIXI.Text(Pname, nameStyle)
-        listName.x = window.innerWidth / 2 + 300
-        listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200)
-        app.stage.addChild(listName)
-    getCheck(Pname)
-    return
-
-# And/or takes the name and a boolean that they are ready and puts a check mark in the list next to the name
-getCheck = (Pname) ->
-    number = listDict[Pname]
-    ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
-#    ready.anchor.set(.5)
-    ready.scale.x = ready.scale.y = scale * .25
-    ready.x = window.innerWidth / 2 + 300 + 100
-    ready.y = window.innerHeight / 2 + ((75 * number) - 200)
-    app.stage.addChild(ready)
     return
 
 draw = ->
@@ -329,8 +304,7 @@ onClickJoin = ->
     playerName = input.text
     message = JSON.stringify({name: playerName, type: 'add', data: ''})
     console.log(message)
-    window.server.send(message)
-    getName(playerName)
+    server.send(message)
 #  TODO make JOIN button change on click (push-in or change color) so that user knows they clicked it)
     return
 
@@ -341,4 +315,64 @@ onClickReady = ->
 clearStage = ->
     for child in app.stage.children
         app.stage.removeChild(child)
+    return
+
+# Function that takes a name and displays in the border/ player list
+getName = (Pname) ->
+    listDict[Pname] = nameCount
+    nameCount++
+    for key, value of listDict
+        listName = new PIXI.Text(Pname, nameStyle)
+        listName.x = window.innerWidth / 2 + 300
+        listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200)
+        app.stage.addChild(listName)
+    return
+
+# And/or takes the name and a boolean that they are ready and puts a check mark in the list next to the name
+getCheck = (Pname) ->
+    number = listDict[Pname]
+    ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
+#    ready.anchor.set(.5)
+    ready.scale.x = ready.scale.y = scale * .25
+    ready.x = window.innerWidth / 2 + 300 + 100
+    ready.y = window.innerHeight / 2 + ((75 * number) - 200)
+    app.stage.addChild(ready)
+    return
+
+if window.location.protocol == 'https:'
+    ws_scheme = 'wss://'
+else
+    ws_scheme = 'ws://'
+
+server = new ReconnectingWebSocket(ws_scheme + location.host + "/server")
+
+server.onmessage = (message) ->
+    message = JSON.parse(message.data)
+    console.log(message)
+    switch message.type
+        when 'welcome'
+            getName(message['name'])
+            # TODO add this player to list of players
+        when 'start'
+            # TODO start game
+            console.log 'start'
+        when 'error'
+            # TODO show error message to screen
+            console.log 'error'
+        when 'give'
+            # TODO add card to array
+            console.log 'give'
+        when 'uno'
+            # TODO show message saying you forgot to call UNO
+            console.log 'uno'
+        when 'turn'
+            # TODO figure out what cards can be played if it's my turn
+            # TODO update the player board with the current person's turn and remain cards
+            console.log 'turn'
+        when 'gg'
+            # TODO end game sequence
+            console.log 'gg'
+        else
+            # TODO display that an unknown type was recived
+            console.log 'unknown response'
     return
