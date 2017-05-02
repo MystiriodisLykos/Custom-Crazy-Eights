@@ -352,6 +352,7 @@ server.onmessage = (message) ->
     switch message.type
         when 'welcome'
             getName(message.data)
+            readyToPlay()
             # TODO add this player to list of players
         when 'start'
             # TODO start game
