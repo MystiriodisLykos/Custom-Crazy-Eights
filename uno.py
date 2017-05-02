@@ -155,7 +155,7 @@ backend.start()
 
 @app.route('/')
 def hello():
-    return render_template('test.html')
+    return render_template('index.html')
 
 
 @sockets.route('/server')
