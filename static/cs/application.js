@@ -324,6 +324,7 @@
     switch (message.type) {
       case 'welcome':
         getName(message.data);
+        readyToPlay();
         break;
       case 'start':
         console.log('start');
