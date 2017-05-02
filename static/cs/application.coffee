@@ -327,7 +327,7 @@ clickCard = ->
 onClickJoin = ->
 # When clicked, needs to send name to the server should be stored in text.input
     playerName = input.text
-    message = JSON.stringify({type: 'add': data: playerName})
+    message = JSON.stringify({type: 'add', data: playerName})
     console.log(message)
     window.server.send(message)
     getName(playerName)
