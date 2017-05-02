@@ -293,8 +293,9 @@
     var message;
     playerName = input.text;
     message = JSON.stringify({
+      name: playerName,
       type: 'add',
-      data: playerName
+      data: ''
     });
     console.log(message);
     window.server.send(message);
