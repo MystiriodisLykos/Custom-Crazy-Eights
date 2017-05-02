@@ -31,11 +31,17 @@ faceDown = PIXI.Sprite.fromImage('uno cards/face_down.png')
 cardSprites = []
 #card = PIXI.Sprite.fromImage('uno cards/face_down.png')
 
+nameCount = 0
+
 nameStyle = new PIXI.TextStyle(
     fontFamily: 'Arial',
     fontSize: 24,
     wordwrap: true
 )
+
+# Global dictionary to store player's names and Y value
+listDict = {}
+# listDict['Brendan'] = 2
 
 document.body.appendChild(app.view)
 
@@ -58,11 +64,11 @@ window.onresize = (e) ->
     renderer.resize(w, y)
     return
 
-#  TODO Another function that takes a name to add check mark next to player's name. Use dictionary from getName
+# TODO Another function that takes a name to add check mark next to player's name. Use dictionary from getName
 # TODO A function to pop up graphics to have player choose color when a WILD card is played
+# TODO Need game play functionality to gray out cards that can't not legally be played. (or can not click on them)
 
 readyToPlay = ->
-#  TODO Remove the join button
 # Draws the check mark to indicate ready
     ready = PIXI.Sprite.fromImage('buttons/ready.png')
     ready.anchor.set(.5)
@@ -78,9 +84,13 @@ readyToPlay = ->
     check.x = (window.innerWidth / 2) - 555
     check.y = (window.innerHeight / 2) + 25
     app.stage.addChild(check)
+
+    # Removes the join button
+    app.stage.removeChild(join)
     return
 
 welcome = ->
+    getName('Test')
     # Draws the join button
     join = PIXI.Sprite.fromImage('buttons/join.png')
     join.anchor.set(.5)
@@ -96,8 +106,6 @@ welcome = ->
     border.scale.x = border.scale.y *= .45
     border.x = (window.innerWidth / 2) + 400
     border.y = (window.innerHeight / 2) + 40
-    border.interactive = true
-    border.buttonMode = true
     app.stage.addChild(border)
 
     welcStyle = new PIXI.TextStyle(
@@ -158,14 +166,27 @@ welcome = ->
 
 # Function that takes a name and displays in the border/ player list
 getName = (Pname) ->
-    listName = new PIXI.Text(Pname, nameStyle)
-    listName.x = (window.innerWidth / 2) + 300
-    listName.y = (window.innerHeight / 2) - 100
-# TODO Create a dictionary to store the name and the y-value to know where to place check-mark : Initialize in Global scope
-    app.stage.addChild(listName)
+    listDict[Pname] = nameCount
+    nameCount++
+    for key, value of listDict
+        listName = new PIXI.Text(Pname, nameStyle)
+        listName.x = window.innerWidth / 2 + 300
+        listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200)
+        app.stage.addChild(listName)
+    getCheck(Pname)
     return
 
 # And/or takes the name and a boolean that they are ready and puts a check mark in the list next to the name
+getCheck = (Pname) ->
+    number = listDict[Pname]
+    ready = PIXI.Sprite.fromImage('buttons/ready.png')
+#    ready.anchor.set(.5)
+    ready.scale.x = ready.scale.y = scale * .25
+    ready.x = window.innerWidth / 2 + 300 + 100
+    ready.y = window.innerHeight / 2 + ((75 * number) - 200)
+    app.stage.addChild(ready)
+    return
+
 draw = ->
     clearStage()
     #  offset = 0
@@ -295,8 +316,6 @@ onClickUno = ->
     return
 
 onClickNo = ->
-    noplay.scale.x *= 1.25
-    noplay.scale.y *= 1.25
     return
 
 clickCard = ->
@@ -308,6 +327,7 @@ onClickJoin = ->
     console.log("This is the player's name: " + input.text)
     playerName = input.text
     getName(playerName)
+#  TODO make JOIN button change on click (push-in or change color) so that user knows they clicked it)
     return
 
 onClickReady = ->
