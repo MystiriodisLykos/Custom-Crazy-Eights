@@ -75,7 +75,7 @@ window.onresize = (e) ->
 
 readyToPlay = ->
 # Draws the check mark to indicate ready
-    ready = PIXI.Sprite.fromImage('buttons/ready.png')
+    ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
     ready.anchor.set(.5)
     ready.scale.x = ready.scale.y *= .04
     ready.x = (window.innerWidth / 2) - 180
@@ -97,7 +97,7 @@ readyToPlay = ->
 welcome = ->
     getName('Test')
     # Draws the join button
-    join = PIXI.Sprite.fromImage('buttons/join.png')
+    join = PIXI.Sprite.fromImage('../static/assets/buttons/join.png')
     join.anchor.set(.5)
     join.scale.x = join.scale.y *= .35
     join.x = (window.innerWidth / 2) - 55
@@ -106,7 +106,7 @@ welcome = ->
     join.buttonMode = true
     app.stage.addChild(join)
 
-    border = PIXI.Sprite.fromImage('buttons/border.png')
+    border = PIXI.Sprite.fromImage('../static/assets/buttons/border.png')
     border.anchor.set(.5)
     border.scale.x = border.scale.y *= .45
     border.x = (window.innerWidth / 2) + 400
@@ -179,7 +179,7 @@ getName = (Pname) ->
 # And/or takes the name and a boolean that they are ready and puts a check mark in the list next to the name
 getCheck = (Pname) ->
     number = listDict[Pname]
-    ready = PIXI.Sprite.fromImage('buttons/ready.png')
+    ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
 #    ready.anchor.set(.5)
     ready.scale.x = ready.scale.y = scale * .25
     ready.x = window.innerWidth / 2 + 300 + 100
@@ -326,8 +326,9 @@ clickCard = ->
 
 onClickJoin = ->
 # When clicked, needs to send name to the server should be stored in text.input
-    console.log("This is the player's name: " + input.text)
     playerName = input.text
+    message = JSON.stringify({type: 'add': data: playerName})
+    @server.send(message)
     getName(playerName)
 #  TODO make JOIN button change on click (push-in or change color) so that user knows they clicked it)
     return

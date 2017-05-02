@@ -3,7 +3,7 @@ if window.location.protocol == 'https:'
 else
     ws_scheme = 'ws://'
 
-server = new ReconnectingWebSocket(ws_scheme + location.host + "/server")
+@server = new ReconnectingWebSocket(ws_scheme + location.host + "/server")
 
 name = ''
 cards = []
