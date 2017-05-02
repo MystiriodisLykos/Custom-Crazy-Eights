@@ -323,7 +323,7 @@
     console.log(message);
     switch (message.type) {
       case 'welcome':
-        getName(message['name']);
+        getName(message.data);
         break;
       case 'start':
         console.log('start');

@@ -351,7 +351,7 @@ server.onmessage = (message) ->
     console.log(message)
     switch message.type
         when 'welcome'
-            getName(message['data'])
+            getName(message.data)
             # TODO add this player to list of players
         when 'start'
             # TODO start game
