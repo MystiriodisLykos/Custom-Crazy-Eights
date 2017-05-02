@@ -27,6 +27,8 @@ cardWidth = 586
 cardHeight = 878
 max = 9
 end = 9
+playerName = ""
+
 rightArr = PIXI.Sprite.fromImage('../static/assets/buttons/rightArrow.png')
 leftArr = PIXI.Sprite.fromImage('../static/assets/buttons/leftArrow.png')
 ubutt = PIXI.Sprite.fromImage('../static/assets/buttons/ubutton.png')
@@ -34,14 +36,25 @@ noplay = PIXI.Sprite.fromImage('../static/assets/buttons/no.png')
 upCard = PIXI.Sprite.fromImage('../static/assets/uno cards/green_7.png')
 join = PIXI.Sprite.fromImage('../static/assets/buttons/join.png')
 ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
-
+input = new PixiTextInput()
 faceDown = PIXI.Sprite.fromImage('../static/assets/uno cards/face_down.png')
 
 cardSprites = []
 #card = PIXI.Sprite.fromImage('uno cards/face_down.png')
 
-document.body.appendChild(app.view)
+nameCount = 0
 
+nameStyle = new PIXI.TextStyle(
+    fontFamily: 'Arial',
+    fontSize: 24,
+    wordwrap: true
+)
+
+# Global dictionary to store player's names and Y value
+listDict = {}
+# listDict['Brendan'] = 2
+
+document.body.appendChild(app.view)
 
 window.onload = (e) ->
     welcome()
@@ -56,17 +69,13 @@ window.onresize = (e) ->
     renderer.resize(w, y)
     return
 
-welcome = ->
-    join = PIXI.Sprite.fromImage('../static/assets/buttons/join.png')
-    join.anchor.set(.5)
-    join.scale.x = join.scale.y *= .35
-    join.x = (window.innerWidth / 2) - 55
-    join.y = (window.innerHeight / 2) - 32.5
-    join.interactive = true
-    join.buttonMode = true
-    app.stage.addChild(join)
+# TODO Another function that takes a name to add check mark next to player's name. Use dictionary from getName
+# TODO A function to pop up graphics to have player choose color when a WILD card is played
+# TODO Need game play functionality to gray out cards that can't not legally be played. (or can not click on them)
 
-    ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
+readyToPlay = ->
+# Draws the check mark to indicate ready
+    ready = PIXI.Sprite.fromImage('buttons/ready.png')
     ready.anchor.set(.5)
     ready.scale.x = ready.scale.y *= .04
     ready.x = (window.innerWidth / 2) - 180
@@ -75,13 +84,33 @@ welcome = ->
     ready.buttonMode = true
     app.stage.addChild(ready)
 
-    border = PIXI.Sprite.fromImage('../static/assets/buttons/border.png')
+    # text for ready click
+    check = new PIXI.Text("Click check mark when ready", nameStyle)
+    check.x = (window.innerWidth / 2) - 555
+    check.y = (window.innerHeight / 2) + 25
+    app.stage.addChild(check)
+
+    # Removes the join button
+    app.stage.removeChild(join)
+    return
+
+welcome = ->
+    getName('Test')
+    # Draws the join button
+    join = PIXI.Sprite.fromImage('buttons/join.png')
+    join.anchor.set(.5)
+    join.scale.x = join.scale.y *= .35
+    join.x = (window.innerWidth / 2) - 55
+    join.y = (window.innerHeight / 2) - 32.5
+    join.interactive = true
+    join.buttonMode = true
+    app.stage.addChild(join)
+
+    border = PIXI.Sprite.fromImage('buttons/border.png')
     border.anchor.set(.5)
     border.scale.x = border.scale.y *= .45
     border.x = (window.innerWidth / 2) + 400
     border.y = (window.innerHeight / 2) + 40
-    border.interactive = true
-    border.buttonMode = true
     app.stage.addChild(border)
 
     welcStyle = new PIXI.TextStyle(
@@ -99,16 +128,10 @@ welcome = ->
     )
 
     # text for no play button
-    welcomePageHead = new PIXI.Text("Welcome to UNO", welcStyle)
+    welcomePageHead = new PIXI.Text("Welcome to UNO!", welcStyle)
     welcomePageHead.x = (window.innerWidth / 2) - 610
     welcomePageHead.y = (window.innerHeight / 2) - 300
     app.stage.addChild(welcomePageHead)
-
-    #Enter name here
-    nameStyle = new PIXI.TextStyle(
-        fontFamily: 'Arial',
-        fontSize: 24
-    )
 
     boxStyle = new PIXI.TextStyle(
         fontFamily: 'Comic Sans MS',
@@ -120,20 +143,13 @@ welcome = ->
     nameHere.y = (window.innerHeight / 2) - 45
     app.stage.addChild(nameHere)
 
-    # text for ready click
-    check = new PIXI.Text("Click check mark when ready", nameStyle)
-    check.x = (window.innerWidth / 2) - 555
-    check.y = (window.innerHeight / 2) + 25
-    app.stage.addChild(check)
-
     #Players Heading
     playas = new PIXI.Text("PLAYERS", boxStyle)
     playas.x = (window.innerWidth / 2) + 340
     playas.y = (window.innerHeight / 2) - 190
     app.stage.addChild(playas)
 
-#    Text box
-    input = new PixiTextInput()
+#    Text box to enter player's name
 #    input.scale.x = input.scale.y = scale
     input.width = 150
     input.height = 40
@@ -147,6 +163,29 @@ welcome = ->
 
     return
 
+
+# Function that takes a name and displays in the border/ player list
+getName = (Pname) ->
+    listDict[Pname] = nameCount
+    nameCount++
+    for key, value of listDict
+        listName = new PIXI.Text(Pname, nameStyle)
+        listName.x = window.innerWidth / 2 + 300
+        listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200)
+        app.stage.addChild(listName)
+    getCheck(Pname)
+    return
+
+# And/or takes the name and a boolean that they are ready and puts a check mark in the list next to the name
+getCheck = (Pname) ->
+    number = listDict[Pname]
+    ready = PIXI.Sprite.fromImage('buttons/ready.png')
+#    ready.anchor.set(.5)
+    ready.scale.x = ready.scale.y = scale * .25
+    ready.x = window.innerWidth / 2 + 300 + 100
+    ready.y = window.innerHeight / 2 + ((75 * number) - 200)
+    app.stage.addChild(ready)
+    return
 
 draw = ->
     clearStage()
@@ -205,11 +244,20 @@ draw = ->
 
     style1 = new PIXI.TextStyle(
         fontFamily: 'Arial',
-        fontSize: 36
+        fontSize: 100
+        fontWeight: 'bold',
+        fill: ['#ffe702', '#ff130a'],
+        stroke: '#121000',
+        strokeThickness: 5,
+        dropShadow: true,
+        dropShadowColor: '#000000',
+        dropShadowBlur: 4,
+        dropShadowAngle: Math.PI / 6,
+        dropShadowDistance: 6,
     )
 
-    welcomeToUno = new PIXI.Text("Welcome to UNO! For 3-5 players, ages 7+", style1)
-    welcomeToUno.x = (window.innerWidth / 2) - 350
+    welcomeToUno = new PIXI.Text("Let's Play UNO!!!", style1)
+    welcomeToUno.x = (window.innerWidth / 2) - 500
     welcomeToUno.y = (window.innerHeight) - 650
     app.stage.addChild(welcomeToUno)
 
@@ -270,8 +318,6 @@ onClickUno = ->
     return
 
 onClickNo = ->
-    noplay.scale.x *= 1.25
-    noplay.scale.y *= 1.25
     return
 
 clickCard = ->
@@ -279,13 +325,15 @@ clickCard = ->
     @scale.y *= 1.2
 
 onClickJoin = ->
-    join.scale.x *= 1.25
-    join.scale.y *= 1.25
+# When clicked, needs to send name to the server should be stored in text.input
+    console.log("This is the player's name: " + input.text)
+    playerName = input.text
+    getName(playerName)
+#  TODO make JOIN button change on click (push-in or change color) so that user knows they clicked it)
     return
 
 onClickReady = ->
-    ready.scale.x *= 1.25
-    ready.scale.y *= 1.25
+# Needs to send flag to server to indicate that player is ready to play
     return
 
 clearStage = ->
