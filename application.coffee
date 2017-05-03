@@ -9,6 +9,7 @@ ca = ["uno cards/green_6.png", "uno cards/blue_6.png", "uno cards/wild.png", "un
     "uno cards/red_skip.png", "uno cards/yellow_8.png", "uno cards/green_reverse.png", "uno cards/yellow_4.png",
     "uno cards/red_1.png", "uno cards/blue_9.png"]
 
+
 #ca = ['uno cards/wild.png', 'uno cards/red_1.png', 'uno cards/green_3.png']
 
 start = 1
@@ -27,6 +28,11 @@ join = PIXI.Sprite.fromImage('buttons/join.png')
 ready = PIXI.Sprite.fromImage('buttons/ready.png')
 input = new PixiTextInput()
 faceDown = PIXI.Sprite.fromImage('uno cards/face_down.png')
+red = PIXI.Sprite.fromImage('colors/radam.png')
+blue = PIXI.Sprite.fromImage('colors/blue.png')
+green = PIXI.Sprite.fromImage('colors/grain.png')
+yellow = PIXI.Sprite.fromImage('colors/yellow.png')
+pickColor = new PIXI.Text("Choose a color:", nameStyle)
 
 cardSprites = []
 #card = PIXI.Sprite.fromImage('uno cards/face_down.png')
@@ -48,12 +54,18 @@ document.body.appendChild(app.view)
 window.onload = (e) ->
 #    welcome()
     draw()
+#    wild()
     leftArr.on('pointerdown', onClickLeft)
     rightArr.on('pointerdown', onClickRight)
     ubutt.on('pointerdown', onClickUno)
     noplay.on('pointerdown', onClickNo)
     join.on('pointerdown', onClickJoin)
     ready.on('pointerdown', onClickReady)
+    card.on('pointerdown', clickCard)
+    red.on('pointerdown', clickRed)
+    blue.on('pointerdown', clickBlue)
+    green.on('pointerdown', clickGreen)
+    yellow.on('pointerdown', clickYellow)
     return
 
 window.onresize = (e) ->
@@ -63,8 +75,6 @@ window.onresize = (e) ->
     app.view.style.height = h + 'px'
     renderer.resize(w, y)
     return
-
-# TODO A function to pop up graphics to have player choose color when a WILD card is played
 # TODO Need game play functionality to gray out cards that can't not legally be played. (or can not click on them)
 
 readyToPlay = ->
@@ -287,11 +297,55 @@ draw = ->
             card.scale.x = card.scale.y = scale
             card.interactive = true
             card.buttonMode = true
-            card.name = cardStr
+            card.name = cardStr.split('/')[1]
             card.on('pointerdown', clickCard)
             app.stage.addChild(card)
     #    for child in app.stage.schildren
     #        child.on('pointerdown', () -> child.scale.x *= 2)
+    return
+wild = ->
+    red.scale.x = red.scale.y = scale
+    red.anchor.set(.5)
+    red.x = (window.innerWidth / 2) - 450
+    red.y = (window.innerHeight / 2) - 100
+    red.interactive = true
+    red.buttonMode = true
+    red.on('pointerdown', clickRed)
+    app.stage.addChild(red)
+
+    blue.scale.x = blue.scale.y = scale
+    blue.anchor.set(.5)
+    blue.x = (window.innerWidth / 2) - 350
+    blue.y = (window.innerHeight / 2) - 100
+    blue.interactive = true
+    blue.buttonMode = true
+    blue.on('pointerdown', clickBlue)
+    app.stage.addChild(blue)
+
+    yellow.scale.x = yellow.scale.y = scale
+    yellow.anchor.set(.5)
+    yellow.x = (window.innerWidth / 2) - 450
+    yellow.y = (window.innerHeight / 2)
+    yellow.interactive = true
+    yellow.buttonMode = true
+    yellow.on('pointerdown', clickYellow)
+    app.stage.addChild(yellow)
+
+    green.scale.x = green.scale.y = scale
+    green.anchor.set(.5)
+    green.x = (window.innerWidth / 2) - 350
+    green.y = (window.innerHeight / 2)
+    green.interactive = true
+    green.buttonMode = true
+    green.on('pointerdown', clickGreen)
+    app.stage.addChild(green)
+
+    pickColor = new PIXI.Text("Choose a color:", nameStyle)
+    pickColor.x = (window.innerWidth / 2) - 490
+    pickColor.y = (window.innerHeight / 2) - 180
+    app.stage.addChild(pickColor)
+
+
     return
 
 onClickRight = ->
@@ -318,6 +372,8 @@ onClickNo = ->
     return
 
 clickCard = ->
+    if @name.indexOf('wild') != -1
+        wild()
     @scale.x *= 1.2
     @scale.y *= 1.2
 
@@ -333,7 +389,46 @@ onClickReady = ->
 # Needs to send flag to server to indicate that player is ready to play
     return
 
+clickRed = (color) ->
+    color = 'red'
+    app.stage.removeChild(red)
+    app.stage.removeChild(blue)
+    app.stage.removeChild(green)
+    app.stage.removeChild(yellow)
+    app.stage.removeChild(pickColor)
+    return color
+
+clickBlue = (color) ->
+    color = 'blue'
+    app.stage.removeChild(red)
+    app.stage.removeChild(blue)
+    app.stage.removeChild(green)
+    app.stage.removeChild(yellow)
+    app.stage.removeChild(pickColor)
+    return color
+
+clickGreen = (color) ->
+    color = 'green'
+    app.stage.removeChild(red)
+    app.stage.removeChild(blue)
+    app.stage.removeChild(green)
+    app.stage.removeChild(yellow)
+    app.stage.removeChild(pickColor)
+    return color
+
+clickYellow = (color) ->
+    color = 'yellow'
+    app.stage.removeChild(red)
+    app.stage.removeChild(blue)
+    app.stage.removeChild(green)
+    app.stage.removeChild(yellow)
+    app.stage.removeChild(pickColor)
+    return color
+
+
 clearStage = ->
     for child in app.stage.children
         app.stage.removeChild(child)
     return
+
+
