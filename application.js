@@ -59,7 +59,7 @@
   document.body.appendChild(app.view);
 
   window.onload = function(e) {
-    welcome();
+    draw();
     leftArr.on('pointerdown', onClickLeft);
     rightArr.on('pointerdown', onClickRight);
     ubutt.on('pointerdown', onClickUno);
@@ -180,29 +180,29 @@
     clearStage();
     leftArr.anchor.set(.5);
     leftArr.scale.x = leftArr.scale.y = scale;
-    leftArr.x = 400;
-    leftArr.y = 500;
+    leftArr.x = (window.innerWidth / 2) - 290;
+    leftArr.y = (window.innerHeight / 2) + 150;
     leftArr.interactive = true;
     leftArr.buttonMode = true;
     app.stage.addChild(leftArr);
     rightArr.anchor.set(.5);
     rightArr.scale.x = rightArr.scale.y = scale;
-    rightArr.x = 1060;
-    rightArr.y = 500;
+    rightArr.x = (window.innerWidth / 2) + 385;
+    rightArr.y = (window.innerHeight / 2) + 150;
     rightArr.interactive = true;
     rightArr.buttonMode = true;
     app.stage.addChild(rightArr);
     ubutt.anchor.set(.5);
     ubutt.scale.x = ubutt.scale.y = scale;
-    ubutt.x = 250;
-    ubutt.y = 500;
+    ubutt.x = (window.innerWidth / 2) - 420;
+    ubutt.y = (window.innerHeight / 2) + 150;
     ubutt.interactive = true;
     ubutt.buttonMode = true;
     app.stage.addChild(ubutt);
     noplay.anchor.set(.5);
     noplay.scale.x = noplay.scale.y = scale;
-    noplay.x = 100;
-    noplay.y = 500;
+    noplay.x = (window.innerWidth / 2) - 575;
+    noplay.y = (window.innerHeight / 2) + 150;
     noplay.interactive = true;
     noplay.buttonMode = true;
     app.stage.addChild(noplay);
@@ -213,8 +213,8 @@
       wordWrapWidth: 75
     });
     unableToPlay = new PIXI.Text("Click red button if you do not have a card to play", style);
-    unableToPlay.x = 75;
-    unableToPlay.y = 525;
+    unableToPlay.x = (window.innerWidth / 2) - 610;
+    unableToPlay.y = (window.innerHeight / 2) + 175;
     app.stage.addChild(unableToPlay);
     style1 = new PIXI.TextStyle({
       fontFamily: 'Arial',

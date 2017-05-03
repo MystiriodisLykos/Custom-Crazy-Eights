@@ -46,8 +46,8 @@ listDict = {}
 document.body.appendChild(app.view)
 
 window.onload = (e) ->
-    welcome()
-#    draw()
+#    welcome()
+    draw()
     leftArr.on('pointerdown', onClickLeft)
     rightArr.on('pointerdown', onClickRight)
     ubutt.on('pointerdown', onClickUno)
@@ -64,7 +64,6 @@ window.onresize = (e) ->
     renderer.resize(w, y)
     return
 
-# TODO Another function that takes a name to add check mark next to player's name. Use dictionary from getName
 # TODO A function to pop up graphics to have player choose color when a WILD card is played
 # TODO Need game play functionality to gray out cards that can't not legally be played. (or can not click on them)
 
@@ -195,8 +194,8 @@ draw = ->
     # draw the left triangle for carousel
     leftArr.anchor.set(.5)
     leftArr.scale.x = leftArr.scale.y = scale
-    leftArr.x = 400
-    leftArr.y = 500
+    leftArr.x = (window.innerWidth / 2) - 290
+    leftArr.y = (window.innerHeight / 2) + 150
     leftArr.interactive = true
     leftArr.buttonMode = true
     app.stage.addChild(leftArr)
@@ -204,8 +203,8 @@ draw = ->
     # draw the right triangle for carousel
     rightArr.anchor.set(.5)
     rightArr.scale.x = rightArr.scale.y = scale
-    rightArr.x = 1060
-    rightArr.y = 500
+    rightArr.x = (window.innerWidth / 2) + 385
+    rightArr.y = (window.innerHeight / 2) + 150
     rightArr.interactive = true
     rightArr.buttonMode = true
     app.stage.addChild(rightArr)
@@ -213,8 +212,8 @@ draw = ->
     # draw the uno button
     ubutt.anchor.set(.5)
     ubutt.scale.x = ubutt.scale.y = scale
-    ubutt.x = 250
-    ubutt.y = 500
+    ubutt.x = (window.innerWidth / 2) - 420
+    ubutt.y = (window.innerHeight / 2) + 150
     ubutt.interactive = true
     ubutt.buttonMode = true
     app.stage.addChild(ubutt)
@@ -222,8 +221,8 @@ draw = ->
     # draw the no play button
     noplay.anchor.set(.5)
     noplay.scale.x = noplay.scale.y = scale
-    noplay.x = 100
-    noplay.y = 500
+    noplay.x = (window.innerWidth / 2) - 575
+    noplay.y = (window.innerHeight / 2) + 150
     noplay.interactive = true
     noplay.buttonMode = true
     app.stage.addChild(noplay)
@@ -238,8 +237,8 @@ draw = ->
 
     # text for no play button
     unableToPlay = new PIXI.Text("Click red button if you do not have a card to play", style)
-    unableToPlay.x = 75
-    unableToPlay.y = 525
+    unableToPlay.x = (window.innerWidth / 2) - 610
+    unableToPlay.y = (window.innerHeight / 2) + 175
     app.stage.addChild(unableToPlay)
 
     style1 = new PIXI.TextStyle(
