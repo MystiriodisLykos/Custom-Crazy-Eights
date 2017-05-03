@@ -35,11 +35,11 @@ rightArr = PIXI.Sprite.fromImage('../static/assets/buttons/rightArrow.png')
 leftArr = PIXI.Sprite.fromImage('../static/assets/buttons/leftArrow.png')
 ubutt = PIXI.Sprite.fromImage('../static/assets/buttons/ubutton.png')
 noplay = PIXI.Sprite.fromImage('../static/assets/buttons/no.png')
-upCard = PIXI.Sprite.fromImage('../static/assets/uno cards/green_7.png')
+upCard = PIXI.Sprite.fromImage('../static/assets/cards/green_7.png')
 join = PIXI.Sprite.fromImage('../static/assets/buttons/join.png')
 ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
 input = new PixiTextInput()
-faceDown = PIXI.Sprite.fromImage('../static/assets/uno cards/face_down.png')
+faceDown = PIXI.Sprite.fromImage('../static/assets/cards/face_down.png')
 red = PIXI.Sprite.fromImage('../static/assets/colors/radam.png')
 blue = PIXI.Sprite.fromImage('../static/assets/colors/blue.png')
 green = PIXI.Sprite.fromImage('../static/assets/colors/grain.png')
@@ -270,7 +270,7 @@ draw = ->
         if index <= end and index >= start
             index -= start
             offset = 5 - index
-            start = '../static/assets/uno cards'
+            start = '../static/assets/cards/'
             cardStr = start + cardStr.color + "_" + cardStr.value + ".png"
             card = PIXI.Sprite.fromImage(cardStr)
             card.anchor.set(.5)

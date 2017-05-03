@@ -34,7 +34,7 @@
 
   noplay = PIXI.Sprite.fromImage('../static/assets/buttons/no.png');
 
-  upCard = PIXI.Sprite.fromImage('../static/assets/uno cards/green_7.png');
+  upCard = PIXI.Sprite.fromImage('../static/assets/cards/green_7.png');
 
   join = PIXI.Sprite.fromImage('../static/assets/buttons/join.png');
 
@@ -42,7 +42,7 @@
 
   input = new PixiTextInput();
 
-  faceDown = PIXI.Sprite.fromImage('../static/assets/uno cards/face_down.png');
+  faceDown = PIXI.Sprite.fromImage('../static/assets/cards/face_down.png');
 
   red = PIXI.Sprite.fromImage('../static/assets/colors/radam.png');
 
@@ -226,7 +226,7 @@
       if (index <= end && index >= start) {
         index -= start;
         offset = 5 - index;
-        start = '../static/assets/uno cards';
+        start = '../static/assets/cards/';
         cardStr = start + cardStr.color + "_" + cardStr.value + ".png";
         card = PIXI.Sprite.fromImage(cardStr);
         card.anchor.set(.5);
