@@ -87,6 +87,7 @@ class UnoGame(object):
     def start_game(self):
         for player in self.players.keys():
             for i in range(7):
+                gevent.sleep(.1)
                 self.draw(player)
         fst = self.deck[0]
         while fst.color == 'wild':
@@ -97,7 +98,7 @@ class UnoGame(object):
         last, self.turn_order = self.turn_order[0], self.turn_order[1:]
         self.in_progress = True
         self.turn()
-        self.cast(json.dumps({ 'type':'start', 'data':'' }))
+        self.cast(json.dumps({'type': 'start', 'data': ''}))
         self.turn_order.append(last)
 
     def turn(self):
