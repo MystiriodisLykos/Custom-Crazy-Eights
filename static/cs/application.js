@@ -346,7 +346,7 @@
       case 'give':
         start = '../static/assets/uno cards/';
         card = start + message.data.color + '_' + message.data.value + '.png';
-        ca.append(card);
+        ca.push(card);
         break;
       case 'uno':
         console.log('uno');

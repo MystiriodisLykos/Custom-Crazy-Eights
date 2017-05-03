@@ -369,7 +369,7 @@ server.onmessage = (message) ->
             # TODO add card to array
             start = '../static/assets/uno cards/'
             card = start + message.data.color + '_' + message.data.value + '.png'
-            ca.append(card)
+            ca.push(card)
         when 'uno'
             # TODO show message saying you forgot to call UNO
             console.log 'uno'
