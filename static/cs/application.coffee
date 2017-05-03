@@ -350,9 +350,12 @@ server.onmessage = (message) ->
     console.log(message)
     switch message.type
         when 'welcome'
-            getName(message.data)
-            readyToPlay()
+            if not (message.data of listDict)
+                getName(message.data)
+                readyToPlay()
             # TODO add this player to list of players
+        when 'ready'
+            getCheck(message.data)
         when 'start'
             # TODO start game
             console.log 'start'

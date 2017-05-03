@@ -320,8 +320,13 @@
     console.log(message);
     switch (message.type) {
       case 'welcome':
-        getName(message.data);
-        readyToPlay();
+        if (!(message.data in listDict)) {
+          getName(message.data);
+          readyToPlay();
+        }
+        break;
+      case 'ready':
+        getCheck(message.data);
         break;
       case 'start':
         console.log('start');
