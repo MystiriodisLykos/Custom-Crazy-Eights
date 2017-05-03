@@ -335,15 +335,15 @@ wild = ->
 onClickRight = ->
     clearStage()
     if start != 0
-        start -= 1
-        end -= 1
+        start--
+        end--
     draw()
     return
 
 onClickLeft = ->
     if end != ca.length - 1
-        start += 1
-        end += 1
+        start++
+        end++
     draw()
     return
 

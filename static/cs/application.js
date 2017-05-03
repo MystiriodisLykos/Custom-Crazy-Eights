@@ -289,16 +289,16 @@
   onClickRight = function() {
     clearStage();
     if (start !== 0) {
-      start -= 1;
-      end -= 1;
+      start--;
+      end--;
     }
     draw();
   };
 
   onClickLeft = function() {
     if (end !== ca.length - 1) {
-      start += 1;
-      end += 1;
+      start++;
+      end++;
     }
     draw();
   };
