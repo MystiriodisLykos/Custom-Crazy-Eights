@@ -310,6 +310,7 @@ onClickJoin = ->
 
 onClickReady = ->
     message = JSON.stringify({name: playerName, type: 'ready', data: ''})
+    console.log(message)
     server.send(message)
     return
 

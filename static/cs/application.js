@@ -282,6 +282,7 @@
       type: 'ready',
       data: ''
     });
+    console.log(message);
     server.send(message);
   };
 
