@@ -97,28 +97,27 @@ class UnoGame(object):
         last, self.turn_order = self.turn_order[0], self.turn_order[1:]
         self.in_progress = True
         self.turn()
-        # self.cast(json.dumps({ 'type':'start', 'data':'' }))
+        self.cast(json.dumps({ 'type':'start', 'data':'' }))
         self.turn_order.append(last)
 
     def turn(self):
         if self.discard[-1].value == 'skip':
-            self.turn_order = self.turn_order[1:] + self.turn_order[0]
+            self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
         elif self.discard[-1].value == 'reverse':
             self.turn_order = self.turn_order[::-1]
         elif self.discard[-1].value == '+2':
             [self.draw(self.turn_order[0]) for i in range(2)]
-            self.turn_order = self.turn_order[1:] + self.turn_order[0]
+            self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
         elif self.discard[-1].value == '+4':
             [self.draw(self.turn_order[0]) for i in range(4)]
-            self.turn_order = self.turn_order[1:] + self.turn_order[0]
+            self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
         data = {'players': [{'player': name,
                              'cards': value['cards'],
                              'playing': name == self.turn_order[0]}
                             for name, value in self.players.iteritems()],
                 'card': self.discard[0].dictionary()}
         self.cast(json.dumps({'type': 'turn', 'data': data}))
-        self.cast(json.dumps({'type': 'test', 'data': 'work'}))
-        self.turn_order = self.turn_order[1:] + self.turn_order[0]
+        self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
 
     def play(self, name, data):
         self.players[name]['cards'] -= 1
