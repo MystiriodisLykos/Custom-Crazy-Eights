@@ -154,7 +154,7 @@
   };
 
   draw = function() {
-    var card, cardStr, i, index, len, offset, style, style1, unableToPlay, welcomeToUno;
+    var card, cardStr, i, index, len, offset, starter, style, style1, unableToPlay, welcomeToUno;
     clearStage();
     leftArr.anchor.set(.5);
     leftArr.scale.x = leftArr.scale.y = scale;
@@ -226,8 +226,8 @@
       if (index <= end && index >= start) {
         index -= start;
         offset = 5 - index;
-        start = '../static/assets/cards/';
-        cardStr = start + cardStr.color + "_" + cardStr.value + ".png";
+        starter = '../static/assets/cards/';
+        cardStr = starter + cardStr.color + "_" + cardStr.value + ".png";
         card = PIXI.Sprite.fromImage(cardStr);
         card.anchor.set(.5);
         card.y = 500;
