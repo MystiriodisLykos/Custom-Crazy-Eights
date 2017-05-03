@@ -55,7 +55,7 @@ readyToPlay = ->
     app.stage.addChild(ready)
     ready.on('pointerdown', () ->
         message = JSON.stringify({name: playerName, type: 'ready', data: ''})
-        # console.log(message)
+        console.log(message)
         server.send(message)
         return
     )

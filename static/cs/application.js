@@ -72,6 +72,7 @@
         type: 'ready',
         data: ''
       });
+      console.log(message);
       server.send(message);
     });
     check = new PIXI.Text("Click check mark when ready", nameStyle);
