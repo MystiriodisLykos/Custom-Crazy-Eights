@@ -154,7 +154,7 @@
   };
 
   draw = function() {
-    var card, cardStr, index, j, len, offset, style, style1, unableToPlay, welcomeToUno;
+    var card, cardStr, i, index, len, offset, style, style1, unableToPlay, welcomeToUno;
     clearStage();
     leftArr.anchor.set(.5);
     leftArr.scale.x = leftArr.scale.y = scale;
@@ -221,7 +221,7 @@
     faceDown.x = (window.innerWidth / 2) - 75;
     faceDown.y = (window.innerHeight / 2) - 75;
     app.stage.addChild(faceDown);
-    for (index = j = 0, len = ca.length; j < len; index = ++j) {
+    for (index = i = 0, len = ca.length; i < len; index = ++i) {
       cardStr = ca[index];
       if (index <= end && index >= start) {
         index -= start;
@@ -380,10 +380,10 @@
   };
 
   clearStage = function() {
-    var child, j, len, ref;
+    var child, i, len, ref;
     ref = app.stage.children;
-    for (j = 0, len = ref.length; j < len; j++) {
-      child = ref[j];
+    for (i = 0, len = ref.length; i < len; i++) {
+      child = ref[i];
       app.stage.removeChild(child);
     }
   };
@@ -417,25 +417,12 @@
   server = new ReconnectingWebSocket(ws_scheme + location.host + "/server");
 
   server.onmessage = function(message) {
-    var i;
     message = JSON.parse(message.data);
     console.log(message);
     switch (message.type) {
       case 'welcome':
         if (!(message.data in listDict)) {
           getName(message.data);
-          [
-            (function() {
-              var j, len, ref, results;
-              ref = range(3);
-              results = [];
-              for (j = 0, len = ref.length; j < len; j++) {
-                i = ref[j];
-                results.push(clearStage());
-              }
-              return results;
-            })()
-          ];
           readyToPlay();
         }
         break;
@@ -443,6 +430,9 @@
         getCheck(message.data);
         break;
       case 'start':
+        clearStage();
+        clearStage();
+        clearStage();
         draw();
         break;
       case 'error':

@@ -451,13 +451,15 @@ server.onmessage = (message) ->
         when 'welcome'
             if not (message.data of listDict)
                 getName(message.data)
-                [clearStage() for i in range(3)]
                 readyToPlay()
             # TODO add this player to list of players
         when 'ready'
             getCheck(message.data)
         when 'start'
             # TODO start game
+            clearStage()
+            clearStage()
+            clearStage()
             draw()
         when 'error'
             # TODO show error message to screen
