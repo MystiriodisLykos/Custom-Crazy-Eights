@@ -240,15 +240,17 @@
         offset = 5 - index;
         starter = '../static/assets/cards/';
         cardStr = starter + cardO.color + "_" + cardO.value + ".png";
-        card = PIXI.Sprite.fromImage(cardO);
+        card = PIXI.Sprite.fromImage(cardStr);
         card.anchor.set(.5);
         card.y = 500;
+        card.colo;
         card.x = app.renderer.width / 2;
         card.x += (cardWidth * scale / 2) * offset;
         card.scale.x = card.scale.y = scale;
         card.interactive = true;
         card.buttonMode = true;
-        card.name = cardStr;
+        card.color = cardO.color;
+        card.value = cardO.value;
         card.on('pointerdown', function() {
           if (this.name.indexOf('wild') !== -1) {
             wild();
