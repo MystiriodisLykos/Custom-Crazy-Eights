@@ -12,7 +12,7 @@
 
   ca = ["uno cards/green_6.png", "uno cards/blue_6.png", "uno cards/wild.png", "uno cards/green_9.png", "uno cards/yellow_9.png", "uno cards/red_1.png", "uno cards/green_3.png", "uno cards/blue_7.png", "uno cards/red_skip.png", "uno cards/yellow_8.png", "uno cards/green_reverse.png", "uno cards/yellow_4.png", "uno cards/red_1.png", "uno cards/blue_9.png"];
 
-  start = 1;
+  start = 0;
 
   scale = 0.2;
 
@@ -70,10 +70,16 @@
 
   document.body.appendChild(app.view);
 
-  Card = function(color, num) {
-    this.color = color;
-    this.num = num;
-  };
+  Card = (function() {
+    function Card(hue, value1) {
+      this.hue = hue;
+      this.value = value1;
+      return;
+    }
+
+    return Card;
+
+  })();
 
   card1 = new Card('green', '7');
 
@@ -206,7 +212,7 @@
   };
 
   draw = function() {
-    var card, cardStr, i, index, len, offset, style, style1, unableToPlay, welcomeToUno;
+    var card, cardStr, i, imageBuild, index, len, offset, style, style1, unableToPlay, welcomeToUno;
     clearStage();
     leftArr.anchor.set(.5);
     leftArr.scale.x = leftArr.scale.y = scale;
@@ -278,8 +284,8 @@
       if (index <= end && index >= start) {
         index -= start;
         offset = 5 - index;
-        cardStr = "uno cards/" + color + "_" + num + ".png";
-        card = PIXI.Sprite.fromImage(cardStr);
+        imageBuild = "uno cards/" + cardStr.hue + "_" + cardStr.value + ".png";
+        card = PIXI.Sprite.fromImage(imageBuild);
         card.anchor.set(.5);
         card.y = 500;
         card.x = app.renderer.width / 2;
@@ -287,7 +293,7 @@
         card.scale.x = card.scale.y = scale;
         card.interactive = true;
         card.buttonMode = true;
-        card.name = cardStr.split('/')[1];
+        card.name = imageBuild.split('/')[1];
         card.on('pointerdown', clickCard);
         app.stage.addChild(card);
       }

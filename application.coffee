@@ -12,7 +12,7 @@ ca = ["uno cards/green_6.png", "uno cards/blue_6.png", "uno cards/wild.png", "un
 
 #ca = ['uno cards/wild.png', 'uno cards/red_1.png', 'uno cards/green_3.png']
 
-start = 1
+start = 0
 scale = 0.2
 cardWidth = 586
 cardHeight = 878
@@ -52,12 +52,9 @@ ca2 = []
 
 document.body.appendChild(app.view)
 
-
-Card = (color, num) ->
-  @color = color
-  @num = num
-#  @getInfo = getCardInfo
-  return
+class Card
+    constructor: (@hue, @value) ->
+        return
 
 card1 = new Card('green', '7')
 card2 = new Card('blue', '6')
@@ -303,8 +300,8 @@ draw = ->
         if index <= end and index >= start
             index -= start
             offset = 5 - index
-            cardStr = "uno cards/" + color + "_" + num + ".png"
-            card = PIXI.Sprite.fromImage(cardStr)
+            imageBuild = "uno cards/" + cardStr.hue + "_" + cardStr.value + ".png"
+            card = PIXI.Sprite.fromImage(imageBuild)
             card.anchor.set(.5)
             card.y = 500
             card.x = app.renderer.width / 2
@@ -312,7 +309,7 @@ draw = ->
             card.scale.x = card.scale.y = scale
             card.interactive = true
             card.buttonMode = true
-            card.name = cardStr.split('/')[1]
+            card.name = imageBuild.split('/')[1]
             card.on('pointerdown', clickCard)
             app.stage.addChild(card)
     #    for child in app.stage.schildren
