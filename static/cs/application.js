@@ -324,7 +324,6 @@
       type: 'add',
       data: ''
     });
-    console.log(message);
     server.send(message);
   };
 

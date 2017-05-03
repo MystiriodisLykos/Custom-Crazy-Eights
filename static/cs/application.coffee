@@ -270,7 +270,7 @@ draw = ->
         if index <= end and index >= start
             index -= start
             offset = 5 - index
-            start = '../static/assets/'
+            start = '../static/assets/uno cards'
             cardStr = start + cardStr.color + "_" + cardStr.value + ".png"
             card = PIXI.Sprite.fromImage(cardStr)
             card.anchor.set(.5)
@@ -451,6 +451,7 @@ server.onmessage = (message) ->
         when 'welcome'
             if not (message.data of listDict)
                 getName(message.data)
+                [clearStage() for i in range(3)]
                 readyToPlay()
             # TODO add this player to list of players
         when 'ready'
