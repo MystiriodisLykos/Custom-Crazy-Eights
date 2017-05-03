@@ -47,9 +47,23 @@ nameStyle = new PIXI.TextStyle(
 
 # Global dictionary to store player's names and Y value
 listDict = {}
+ca2 = []
 # listDict['Brendan'] = 2
 
 document.body.appendChild(app.view)
+
+
+Card = (color, num) ->
+  @color = color
+  @num = num
+#  @getInfo = getCardInfo
+  return
+
+card1 = new Card('green', '7')
+card2 = new Card('blue', '6')
+card3 = new Card('yellow', '7')
+
+ca2 = [card1,card2,card3]
 
 window.onload = (e) ->
 #    welcome()
@@ -285,10 +299,11 @@ draw = ->
     app.stage.addChild(faceDown)
 
     # display cards in hand (up to max)
-    for cardStr, index in ca
+    for cardStr, index in ca2
         if index <= end and index >= start
             index -= start
             offset = 5 - index
+            cardStr = "uno cards/" + color + "_" + num + ".png"
             card = PIXI.Sprite.fromImage(cardStr)
             card.anchor.set(.5)
             card.y = 500
