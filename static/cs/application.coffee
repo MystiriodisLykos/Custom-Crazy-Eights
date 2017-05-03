@@ -30,7 +30,7 @@ nameStyle = new PIXI.TextStyle(
 
 document.body.appendChild(app.view)
 
-window.ready = (e) ->
+window.onload = (e) ->
     welcome()
     return
 

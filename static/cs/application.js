@@ -42,7 +42,7 @@
 
   document.body.appendChild(app.view);
 
-  window.ready = function(e) {
+  window.onload = function(e) {
     welcome();
   };
 
