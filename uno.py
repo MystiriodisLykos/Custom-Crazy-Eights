@@ -97,7 +97,6 @@ class UnoGame(object):
         last, self.turn_order = self.turn_order[0], self.turn_order[1:]
         self.in_progress = True
         self.turn()
-        self.cast(json.dump({'type': 'test', 'data': 'work'}))
         # self.cast(json.dumps({ 'type':'start', 'data':'' }))
         self.turn_order.append(last)
 
@@ -118,6 +117,7 @@ class UnoGame(object):
                             for name, value in self.players.iteritems()],
                 'card': self.discard[0].dictionary()}
         self.cast(json.dumps({'type': 'turn', 'data': data}))
+        self.cast(json.dump({'type': 'test', 'data': 'work'}))
         self.turn_order = self.turn_order[1:] + self.turn_order[0]
 
     def play(self, name, data):
