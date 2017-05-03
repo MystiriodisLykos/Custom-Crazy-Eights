@@ -436,7 +436,7 @@
         console.log('error');
         break;
       case 'give':
-        ca.append(message.data);
+        ca.push(message.data);
         break;
       case 'uno':
         console.log('uno');

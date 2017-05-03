@@ -463,7 +463,7 @@ server.onmessage = (message) ->
             console.log 'error'
         when 'give'
             # TODO add card to array
-            ca.append(message.data)
+            ca.push(message.data)
         when 'uno'
             # TODO show message saying you forgot to call UNO
             console.log 'uno'
