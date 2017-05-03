@@ -288,16 +288,13 @@
   };
 
   getName = function(Pname) {
-    var key, listName, value;
+    var listName;
     listDict[Pname] = nameCount;
     nameCount++;
-    for (key in listDict) {
-      value = listDict[key];
-      listName = new PIXI.Text(Pname, nameStyle);
-      listName.x = window.innerWidth / 2 + 300;
-      listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200);
-      app.stage.addChild(listName);
-    }
+    listName = new PIXI.Text(Pname, nameStyle);
+    listName.x = window.innerWidth / 2 + 300;
+    listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200);
+    app.stage.addChild(listName);
   };
 
   getCheck = function(Pname) {

@@ -321,11 +321,10 @@ clearStage = ->
 getName = (Pname) ->
     listDict[Pname] = nameCount
     nameCount++
-    for key, value of listDict
-        listName = new PIXI.Text(Pname, nameStyle)
-        listName.x = window.innerWidth / 2 + 300
-        listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200)
-        app.stage.addChild(listName)
+    listName = new PIXI.Text(Pname, nameStyle)
+    listName.x = window.innerWidth / 2 + 300
+    listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200)
+    app.stage.addChild(listName)
     return
 
 # And/or takes the name and a boolean that they are ready and puts a check mark in the list next to the name
