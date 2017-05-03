@@ -303,13 +303,14 @@ onClickJoin = ->
 # When clicked, needs to send name to the server should be stored in text.input
     playerName = input.text
     message = JSON.stringify({name: playerName, type: 'add', data: ''})
-    console.log(message)
+#    console.log(message)
     server.send(message)
 #  TODO make JOIN button change on click (push-in or change color) so that user knows they clicked it)
     return
 
 onClickReady = ->
-# Needs to send flag to server to indicate that player is ready to play
+    message = JSON.stringify({name: playerName, type: 'ready', data: ''})
+    server.send(message)
     return
 
 clearStage = ->

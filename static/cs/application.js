@@ -272,11 +272,18 @@
       type: 'add',
       data: ''
     });
-    console.log(message);
     server.send(message);
   };
 
-  onClickReady = function() {};
+  onClickReady = function() {
+    var message;
+    message = JSON.stringify({
+      name: playerName,
+      type: 'ready',
+      data: ''
+    });
+    server.send(message);
+  };
 
   clearStage = function() {
     var child, i, len, ref;
