@@ -38,9 +38,12 @@ class UnoGame(object):
 
     def add(self, ws, name):
         if not self.in_progress and len(self.players) <= 5:
-            for player in self.players.iterkeys():
+            for player, values in self.players.iteritems():
                 message = json.dumps({'type': 'welcome', 'data': player})
                 ws.send(message)
+                if values['ready']:
+                    message = json.dumps({'type': 'ready', 'data': player})
+                    ws.send(message)
             self.players[name] = {'ws': ws,
                                   'ready': False,
                                   'cards': 0,
