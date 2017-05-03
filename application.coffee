@@ -4,6 +4,7 @@ app = new PIXI.Application(window.innerWidth - 25, window.innerHeight - 25, {
 
 graphics = new PIXI.Graphics()
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
+
 ca = []
 #ca = ["../static/assets/uno cards/green_6.png",
 #      "../static/assets/uno cards/blue_6.png",
@@ -39,6 +40,11 @@ join = PIXI.Sprite.fromImage('../static/assets/buttons/join.png')
 ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
 input = new PixiTextInput()
 faceDown = PIXI.Sprite.fromImage('../static/assets/uno cards/face_down.png')
+red = PIXI.Sprite.fromImage('../static/assets/colors/radam.png')
+blue = PIXI.Sprite.fromImage('../static/assets/colors/blue.png')
+green = PIXI.Sprite.fromImage('../static/assets/colors/grain.png')
+yellow = PIXI.Sprite.fromImage('../static/assets/colors/yellow.png')
+pickColor = new PIXI.Text("Choose a color:", nameStyle)
 
 cardSprites = []
 #card = PIXI.Sprite.fromImage('uno cards/face_down.png')
@@ -53,6 +59,7 @@ nameStyle = new PIXI.TextStyle(
 
 # Global dictionary to store player's names and Y value
 listDict = {}
+ca2 = []
 # listDict['Brendan'] = 2
 
 document.body.appendChild(app.view)
@@ -62,6 +69,18 @@ window.onload = (e) ->
 #    draw()
     return
 
+Card = (color, num) ->
+  @color = color
+  @num = num
+#  @getInfo = getCardInfo
+  return
+
+card1 = new Card('green', '7')
+card2 = new Card('blue', '6')
+card3 = new Card('yellow', '7')
+
+ca2 = [card1,card2,card3]
+
 window.onresize = (e) ->
     w = window.innerWidth - 25
     h = window.innerHeight - 25
@@ -70,8 +89,6 @@ window.onresize = (e) ->
     renderer.resize(w, y)
     return
 
-# TODO Another function that takes a name to add check mark next to player's name. Use dictionary from getName
-# TODO A function to pop up graphics to have player choose color when a WILD card is played
 # TODO Need game play functionality to gray out cards that can't not legally be played. (or can not click on them)
 
 readyToPlay = ->
@@ -85,7 +102,6 @@ readyToPlay = ->
     ready.buttonMode = true
     app.stage.addChild(ready)
     ready.on('pointerdown', onClickReady)
-
     # text for ready click
     check = new PIXI.Text("Click check mark when ready", nameStyle)
     check.x = (window.innerWidth / 2) - 555
@@ -151,7 +167,6 @@ welcome = ->
     app.stage.addChild(playas)
 
 #    Text box to enter player's name
-#    input.scale.x = input.scale.y = scale
     input.width = 150
     input.height = 40
     input.position.x = (window.innerWidth / 2) - 315
@@ -160,7 +175,6 @@ welcome = ->
     app.stage.addChild(input)
 
     join.on('pointerdown', onClickJoin)
-
     return
 
 draw = ->
@@ -171,8 +185,8 @@ draw = ->
     # draw the left triangle for carousel
     leftArr.anchor.set(.5)
     leftArr.scale.x = leftArr.scale.y = scale
-    leftArr.x = 400
-    leftArr.y = 500
+    leftArr.x = (window.innerWidth / 2) - 290
+    leftArr.y = (window.innerHeight / 2) + 150
     leftArr.interactive = true
     leftArr.buttonMode = true
     app.stage.addChild(leftArr)
@@ -180,8 +194,8 @@ draw = ->
     # draw the right triangle for carousel
     rightArr.anchor.set(.5)
     rightArr.scale.x = rightArr.scale.y = scale
-    rightArr.x = 1060
-    rightArr.y = 500
+    rightArr.x = (window.innerWidth / 2) + 385
+    rightArr.y = (window.innerHeight / 2) + 150
     rightArr.interactive = true
     rightArr.buttonMode = true
     app.stage.addChild(rightArr)
@@ -189,8 +203,8 @@ draw = ->
     # draw the uno button
     ubutt.anchor.set(.5)
     ubutt.scale.x = ubutt.scale.y = scale
-    ubutt.x = 250
-    ubutt.y = 500
+    ubutt.x = (window.innerWidth / 2) - 420
+    ubutt.y = (window.innerHeight / 2) + 150
     ubutt.interactive = true
     ubutt.buttonMode = true
     app.stage.addChild(ubutt)
@@ -198,8 +212,8 @@ draw = ->
     # draw the no play button
     noplay.anchor.set(.5)
     noplay.scale.x = noplay.scale.y = scale
-    noplay.x = 100
-    noplay.y = 500
+    noplay.x = (window.innerWidth / 2) - 575
+    noplay.y = (window.innerHeight / 2) + 150
     noplay.interactive = true
     noplay.buttonMode = true
     app.stage.addChild(noplay)
@@ -214,8 +228,8 @@ draw = ->
 
     # text for no play button
     unableToPlay = new PIXI.Text("Click red button if you do not have a card to play", style)
-    unableToPlay.x = 75
-    unableToPlay.y = 525
+    unableToPlay.x = (window.innerWidth / 2) - 610
+    unableToPlay.y = (window.innerHeight / 2) + 175
     app.stage.addChild(unableToPlay)
 
     style1 = new PIXI.TextStyle(
@@ -252,10 +266,11 @@ draw = ->
     app.stage.addChild(faceDown)
 
     # display cards in hand (up to max)
-    for cardStr, index in ca
+    for cardStr, index in ca2
         if index <= end and index >= start
             index -= start
             offset = 5 - index
+            cardStr = "uno cards/" + color + "_" + num + ".png"
             card = PIXI.Sprite.fromImage(cardStr)
             card.anchor.set(.5)
             card.y = 500
@@ -271,6 +286,49 @@ draw = ->
     rightArr.on('pointerdown', onClickRight)
     ubutt.on('pointerdown', onClickUno)
     noplay.on('pointerdown', onClickNo)
+    return
+
+wild = ->
+    red.scale.x = red.scale.y = scale
+    red.anchor.set(.5)
+    red.x = (window.innerWidth / 2) - 450
+    red.y = (window.innerHeight / 2) - 100
+    red.interactive = true
+    red.buttonMode = true
+    red.on('pointerdown', clickRed)
+    app.stage.addChild(red)
+
+    blue.scale.x = blue.scale.y = scale
+    blue.anchor.set(.5)
+    blue.x = (window.innerWidth / 2) - 350
+    blue.y = (window.innerHeight / 2) - 100
+    blue.interactive = true
+    blue.buttonMode = true
+    blue.on('pointerdown', clickBlue)
+    app.stage.addChild(blue)
+
+    yellow.scale.x = yellow.scale.y = scale
+    yellow.anchor.set(.5)
+    yellow.x = (window.innerWidth / 2) - 450
+    yellow.y = (window.innerHeight / 2)
+    yellow.interactive = true
+    yellow.buttonMode = true
+    yellow.on('pointerdown', clickYellow)
+    app.stage.addChild(yellow)
+
+    green.scale.x = green.scale.y = scale
+    green.anchor.set(.5)
+    green.x = (window.innerWidth / 2) - 350
+    green.y = (window.innerHeight / 2)
+    green.interactive = true
+    green.buttonMode = true
+    green.on('pointerdown', clickGreen)
+    app.stage.addChild(green)
+
+    pickColor = new PIXI.Text("Choose a color:", nameStyle)
+    pickColor.x = (window.innerWidth / 2) - 490
+    pickColor.y = (window.innerHeight / 2) - 180
+    app.stage.addChild(pickColor)
     return
 
 onClickRight = ->
@@ -297,8 +355,8 @@ onClickNo = ->
     return
 
 clickCard = ->
-    @scale.x *= 1.2
-    @scale.y *= 1.2
+    if @name.indexOf('wild') != -1
+        wild()
 
 onClickJoin = ->
 # When clicked, needs to send name to the server should be stored in text.input
@@ -314,6 +372,43 @@ onClickReady = ->
     console.log(message)
     server.send(message)
     return
+    return
+
+clickRed = (color) ->
+    color = 'red'
+    app.stage.removeChild(red)
+    app.stage.removeChild(blue)
+    app.stage.removeChild(green)
+    app.stage.removeChild(yellow)
+    app.stage.removeChild(pickColor)
+    return color
+
+clickBlue = (color) ->
+    color = 'blue'
+    app.stage.removeChild(red)
+    app.stage.removeChild(blue)
+    app.stage.removeChild(green)
+    app.stage.removeChild(yellow)
+    app.stage.removeChild(pickColor)
+    return color
+
+clickGreen = (color) ->
+    color = 'green'
+    app.stage.removeChild(red)
+    app.stage.removeChild(blue)
+    app.stage.removeChild(green)
+    app.stage.removeChild(yellow)
+    app.stage.removeChild(pickColor)
+    return color
+
+clickYellow = (color) ->
+    color = 'yellow'
+    app.stage.removeChild(red)
+    app.stage.removeChild(blue)
+    app.stage.removeChild(green)
+    app.stage.removeChild(yellow)
+    app.stage.removeChild(pickColor)
+    return color
 
 clearStage = ->
     for child in app.stage.children
