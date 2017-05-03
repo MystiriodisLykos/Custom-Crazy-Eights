@@ -10,7 +10,7 @@
 
   PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
-  ca = ["../static/assets/uno cards/green_6.png", "../static/assets/uno cards/blue_6.png", "../static/assets/uno cards/wild.png", "../static/assets/uno cards/green_9.png", "../static/assets/uno cards/yellow_9.png", "../static/assets/uno cards/red_1.png", "../static/assets/uno cards/green_3.png", "../static/assets/uno cards/blue_7.png", "../static/assets/uno cards/red_skip.png", "../static/assets/uno cards/yellow_8.png", "../static/assets/uno cards/green_reverse.png", "../static/assets/uno cards/yellow_4.png", "../static/assets/uno cards/red_1.png", "../static/assets/uno cards/blue_9.png"];
+  ca = [];
 
   start = 1;
 
@@ -324,6 +324,7 @@
   server = new ReconnectingWebSocket(ws_scheme + location.host + "/server");
 
   server.onmessage = function(message) {
+    var card;
     message = JSON.parse(message.data);
     console.log(message);
     switch (message.type) {
@@ -343,7 +344,9 @@
         console.log('error');
         break;
       case 'give':
-        console.log('give');
+        start = '../static/assets/uno cards/';
+        card = start + message.data.color + '_' + message.data.value + '.png';
+        ca.append(card);
         break;
       case 'uno':
         console.log('uno');

@@ -4,20 +4,21 @@ app = new PIXI.Application(window.innerWidth - 25, window.innerHeight - 25, {
 
 graphics = new PIXI.Graphics()
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
-ca = ["../static/assets/uno cards/green_6.png",
-      "../static/assets/uno cards/blue_6.png",
-      "../static/assets/uno cards/wild.png",
-      "../static/assets/uno cards/green_9.png",
-      "../static/assets/uno cards/yellow_9.png",
-      "../static/assets/uno cards/red_1.png",
-      "../static/assets/uno cards/green_3.png",
-      "../static/assets/uno cards/blue_7.png",
-      "../static/assets/uno cards/red_skip.png",
-      "../static/assets/uno cards/yellow_8.png",
-      "../static/assets/uno cards/green_reverse.png", 
-      "../static/assets/uno cards/yellow_4.png",
-      "../static/assets/uno cards/red_1.png",
-      "../static/assets/uno cards/blue_9.png"]
+ca = []
+#ca = ["../static/assets/uno cards/green_6.png",
+#      "../static/assets/uno cards/blue_6.png",
+#      "../static/assets/uno cards/wild.png",
+#      "../static/assets/uno cards/green_9.png",
+#      "../static/assets/uno cards/yellow_9.png",
+#      "../static/assets/uno cards/red_1.png",
+#      "../static/assets/uno cards/green_3.png",
+#      "../static/assets/uno cards/blue_7.png",
+#      "../static/assets/uno cards/red_skip.png",
+#      "../static/assets/uno cards/yellow_8.png",
+#      "../static/assets/uno cards/green_reverse.png",
+#      "../static/assets/uno cards/yellow_4.png",
+#      "../static/assets/uno cards/red_1.png",
+#      "../static/assets/uno cards/blue_9.png"]
 
 #ca = ['uno cards/wild.png', 'uno cards/red_1.png', 'uno cards/green_3.png']
 
@@ -366,7 +367,9 @@ server.onmessage = (message) ->
             console.log 'error'
         when 'give'
             # TODO add card to array
-            console.log 'give'
+            start = '../static/assets/uno cards/'
+            card = start + message.data.color + '_' + message.data.value + '.png'
+            ca.append(card)
         when 'uno'
             # TODO show message saying you forgot to call UNO
             console.log 'uno'
