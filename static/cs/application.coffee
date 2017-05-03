@@ -360,7 +360,7 @@ server.onmessage = (message) ->
             getCheck(message.data)
         when 'start'
             # TODO start game
-            console.log 'start'
+            draw()
         when 'error'
             # TODO show error message to screen
             console.log 'error'

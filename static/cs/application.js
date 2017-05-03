@@ -337,7 +337,7 @@
         getCheck(message.data);
         break;
       case 'start':
-        console.log('start');
+        draw();
         break;
       case 'error':
         console.log('error');
