@@ -82,7 +82,7 @@ class UnoGame(object):
         if all(ready) and len(self.players) > 2:
             # self.cast(json.dumps({'type': 'start', 'data': ''}))
             self.start_game()
-            self.cast(json.dumps({ 'type':'start', 'data':'' }))
+            # self.cast(json.dumps({'type': 'start', 'data': ''}))
 
     def start_game(self):
         for player in self.players.keys():
@@ -97,6 +97,8 @@ class UnoGame(object):
         last, self.turn_order = self.turn_order[0], self.turn_order[1:]
         self.in_progress = True
         self.turn()
+        self.cast(json.dump({'type': 'test', 'data': 'work'}))
+        # self.cast(json.dumps({ 'type':'start', 'data':'' }))
         self.turn_order.append(last)
 
     def turn(self):
