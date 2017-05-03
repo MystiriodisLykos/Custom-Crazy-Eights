@@ -23,7 +23,6 @@ rightArr = PIXI.Sprite.fromImage('buttons/rightArrow.png')
 leftArr = PIXI.Sprite.fromImage('buttons/leftArrow.png')
 ubutt = PIXI.Sprite.fromImage('buttons/ubutton.png')
 noplay = PIXI.Sprite.fromImage('buttons/no.png')
-upCard = PIXI.Sprite.fromImage('uno cards/green_7.png')
 join = PIXI.Sprite.fromImage('buttons/join.png')
 ready = PIXI.Sprite.fromImage('buttons/ready.png')
 input = new PixiTextInput()
@@ -45,6 +44,20 @@ nameStyle = new PIXI.TextStyle(
     wordwrap: true
 )
 
+welcStyle = new PIXI.TextStyle(
+    fontFamily: 'Arial',
+    fontSize: 100
+    fontWeight: 'bold',
+    fill: ['#ffe702', '#ff130a'],
+    stroke: '#121000',
+    strokeThickness: 5,
+    dropShadow: true,
+    dropShadowColor: '#000000',
+    dropShadowBlur: 4,
+    dropShadowAngle: Math.PI / 6,
+    dropShadowDistance: 6,
+)
+
 # Global dictionary to store player's names and Y value
 listDict = {}
 ca2 = []
@@ -57,14 +70,20 @@ class Card
         return
 
 card1 = new Card('green', '7')
-card2 = new Card('blue', '6')
+card2 = new Card('blue', '5')
 card3 = new Card('yellow', '7')
+card4 = new Card('wild','10')
+card5 = new Card('wild', '11')
+card3 = new Card('yellow', '7')
+card3 = new Card('yellow', '7')
+card3 = new Card('yellow', '7')
+currentCard = new Card('green', '5')
 
-ca2 = [card1,card2,card3]
+ca2 = [card1,card2,card3,card4,card5]
 
 window.onload = (e) ->
-#    welcome()
-    draw()
+    welcome()
+#    draw()
 #    wild()
     leftArr.on('pointerdown', onClickLeft)
     rightArr.on('pointerdown', onClickRight)
@@ -72,7 +91,7 @@ window.onload = (e) ->
     noplay.on('pointerdown', onClickNo)
     join.on('pointerdown', onClickJoin)
     ready.on('pointerdown', onClickReady)
-    card.on('pointerdown', clickCard)
+#    card.on('pointerdown', clickCard)
     red.on('pointerdown', clickRed)
     blue.on('pointerdown', clickBlue)
     green.on('pointerdown', clickGreen)
@@ -86,7 +105,6 @@ window.onresize = (e) ->
     app.view.style.height = h + 'px'
     renderer.resize(w, y)
     return
-# TODO Need game play functionality to gray out cards that can't not legally be played. (or can not click on them)
 
 readyToPlay = ->
 # Draws the check mark to indicate ready
@@ -111,6 +129,7 @@ readyToPlay = ->
 
 welcome = ->
     getName('Test')
+    getName('Bubba')
     # Draws the join button
     join = PIXI.Sprite.fromImage('buttons/join.png')
     join.anchor.set(.5)
@@ -128,32 +147,11 @@ welcome = ->
     border.y = (window.innerHeight / 2) + 40
     app.stage.addChild(border)
 
-    welcStyle = new PIXI.TextStyle(
-        fontFamily: 'Arial',
-        fontSize: 100
-        fontWeight: 'bold',
-        fill: ['#ffe702', '#ff130a'],
-        stroke: '#121000',
-        strokeThickness: 5,
-        dropShadow: true,
-        dropShadowColor: '#000000',
-        dropShadowBlur: 4,
-        dropShadowAngle: Math.PI / 6,
-        dropShadowDistance: 6,
-    )
-
     # text for no play button
     welcomePageHead = new PIXI.Text("Welcome to UNO!", welcStyle)
     welcomePageHead.x = (window.innerWidth / 2) - 610
     welcomePageHead.y = (window.innerHeight / 2) - 300
     app.stage.addChild(welcomePageHead)
-
-    #Enter name here
-#    nameStyle = new PIXI.TextStyle(
-#        fontFamily: 'Arial',
-#        fontSize: 24,
-#        wordwrap: true
-#    )
 
     boxStyle = new PIXI.TextStyle(
         fontFamily: 'Comic Sans MS',
@@ -282,6 +280,7 @@ draw = ->
     app.stage.addChild(welcomeToUno)
 
     #Draw current card
+    upCard = PIXI.Sprite.fromImage("uno cards/" + currentCard.hue + "_" + currentCard.value + ".png")
     upCard.anchor.set(.5)
     upCard.scale.x = upCard.scale.y = scale
     upCard.x = (window.innerWidth / 2) + 75
@@ -384,21 +383,25 @@ onClickNo = ->
     return
 
 clickCard = ->
+    console.log("Card hue: " + (@name.split('_')[1]).split('.')[0] + "  Current Card hue: " + currentCard.value)
     if @name.indexOf('wild') != -1
         wild()
-    @scale.x *= 1.2
-    @scale.y *= 1.2
+    if @name.split('_')[0] == currentCard.hue or (@name.split('_')[1]).split('.')[0] == currentCard.value
+        @scale.x *= 1.2
+        @scale.y *= 1.2
 
 onClickJoin = ->
 # When clicked, needs to send name to the server should be stored in text.input
     console.log("This is the player's name: " + input.text)
     playerName = input.text
     getName(playerName)
-#  TODO make JOIN button change on click (push-in or change color) so that user knows they clicked it)
+    clearStage()
+    clearStage()
+    clearStage()
+    draw()
     return
 
 onClickReady = ->
-# Needs to send flag to server to indicate that player is ready to play
     return
 
 clickRed = (color) ->
