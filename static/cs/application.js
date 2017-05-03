@@ -81,6 +81,7 @@
     ready.interactive = true;
     ready.buttonMode = true;
     app.stage.addChild(ready);
+    ready.on('pointerdown', onClickReady);
     check = new PIXI.Text("Click check mark when ready", nameStyle);
     check.x = (window.innerWidth / 2) - 555;
     check.y = (window.innerHeight / 2) + 25;
@@ -140,7 +141,6 @@
     input.text = "Name";
     app.stage.addChild(input);
     join.on('pointerdown', onClickJoin);
-    ready.on('pointerdown', onClickReady);
   };
 
   draw = function() {

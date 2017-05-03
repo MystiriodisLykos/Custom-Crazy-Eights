@@ -83,6 +83,7 @@ readyToPlay = ->
     ready.interactive = true
     ready.buttonMode = true
     app.stage.addChild(ready)
+    ready.on('pointerdown', onClickReady)
 
     # text for ready click
     check = new PIXI.Text("Click check mark when ready", nameStyle)
@@ -158,7 +159,6 @@ welcome = ->
     app.stage.addChild(input)
 
     join.on('pointerdown', onClickJoin)
-    ready.on('pointerdown', onClickReady)
 
     return
 
