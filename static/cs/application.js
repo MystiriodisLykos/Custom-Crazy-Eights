@@ -454,6 +454,7 @@
       child = ref[i];
       app.stage.removeChild(child);
     }
+    game();
   };
 
   getName = function(Pname) {
@@ -552,12 +553,26 @@
   };
 
   getNumber = function(Pname, norwhatever) {
-    var count, listNum;
-    count = listDict[Pname];
-    listNum = new PIXI.Text(norwhatever, nameStyle);
-    listNum.x = (window.innerWidth / 2) - 380;
-    listNum.y = (window.innerHeight / 2) - 120 + (40 * count);
-    app.stage.addChild(listNum);
+    var count, i, len, listNum, num, o, ref;
+    num = null;
+    ref = app.stage.children;
+    for (i = 0, len = ref.length; i < len; i++) {
+      o = ref[i];
+      if (o && o.number && o.player) {
+        num = o;
+      }
+    }
+    if (num != null) {
+      num.setText(norwhatever);
+    } else {
+      count = listDict[Pname];
+      listNum = new PIXI.Text(norwhatever, nameStyle);
+      listNum.x = (window.innerWidth / 2) - 380;
+      listNum.y = (window.innerHeight / 2) - 120 + (40 * count);
+      o.player;
+      listNum.number = norwhatever;
+      app.stage.addChild(listNum);
+    }
   };
 
   setTurn = function(Pname) {
@@ -572,7 +587,8 @@
     count = listDict[Pname];
     arrow = new PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png');
     arrow.scale.x = arrow.scale.y = scale;
-    arrow.x = (window.innerWidth / 2) - 560;
+    arrow.turn = true;
+    arrow.x = window.innerWidth / 2;
     arrow.y = (window.innerHeight / 2) - 120 + (40 * count);
     app.stage.addChild(arrow);
   };

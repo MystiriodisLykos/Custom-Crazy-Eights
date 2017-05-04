@@ -435,6 +435,7 @@ wild = (card) ->
 clearStage = ->
     for child in app.stage.children
         app.stage.removeChild(child)
+    game()
     return
 
 # Function that takes a name and displays in the border/ player list
@@ -514,11 +515,20 @@ getName2 = (Pname) ->
     return
 
 getNumber = (Pname, norwhatever) ->
-    count = listDict[Pname]
-    listNum = new PIXI.Text(norwhatever, nameStyle)
-    listNum.x = (window.innerWidth / 2) - 380
-    listNum.y = (window.innerHeight/2) - 120 + (40 * count)
-    app.stage.addChild(listNum)
+    num = null
+    for o in app.stage.children
+        if o and o.number and o.player
+            num = o
+    if num?
+        num.setText(norwhatever)
+    else
+        count = listDict[Pname]
+        listNum = new PIXI.Text(norwhatever, nameStyle)
+        listNum.x = (window.innerWidth / 2) - 380
+        listNum.y = (window.innerHeight/2) - 120 + (40 * count)
+        o.player
+        listNum.number = norwhatever
+        app.stage.addChild(listNum)
     return
 
 setTurn = (Pname) ->
@@ -528,7 +538,8 @@ setTurn = (Pname) ->
     count = listDict[Pname]
     arrow = new PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png')
     arrow.scale.x = arrow.scale.y = scale
-    arrow.x = (window.innerWidth / 2) - 560
+    arrow.turn = true
+    arrow.x = (window.innerWidth / 2)
     arrow.y = (window.innerHeight/2) - 120 + (40 * count)
     app.stage.addChild(arrow)
     return
