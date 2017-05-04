@@ -333,13 +333,15 @@ drawHand = ->
                         rem = index
                         break
                 ca.splice(rem, 1)
+                drawHand()
         return
 
     # display cards in hand (up to max)
     for i in [1..4]
         for s in app.stage.children
-            if s and s.color and s.value
-                app.stage.removeChild(s)
+            if s and s.value
+                if s.value == 'card':
+                    app.stage.removeChild(s)
     for cardO, index in ca
         if index <= end and index >= start
             index -= start
@@ -354,8 +356,7 @@ drawHand = ->
             card.scale.x = card.scale.y = scale
             card.interactive = true
             card.buttonMode = true
-            card.color = cardO.color
-            card.value = cardO.value
+            card.value = 'card'
             card.on('pointerdown', clickCard)
             app.stage.addChild(card)
     return

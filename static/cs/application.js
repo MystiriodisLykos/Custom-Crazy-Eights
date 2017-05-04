@@ -356,7 +356,7 @@
       ref = app.stage.children;
       for (k = 0, len = ref.length; k < len; k++) {
         s = ref[k];
-        if (s && s.color && s.value) {
+        if (s && s.value) {
           app.stage.removeChild(s);
         }
       }
@@ -376,8 +376,7 @@
         card.scale.x = card.scale.y = scale;
         card.interactive = true;
         card.buttonMode = true;
-        card.color = cardO.color;
-        card.value = cardO.value;
+        card.value = 'card';
         card.on('pointerdown', clickCard);
         app.stage.addChild(card);
       }
