@@ -339,9 +339,8 @@ drawHand = ->
     # display cards in hand (up to max)
     for i in [1..4]
         for s in app.stage.children
-            if s and s.value
-                if s.value == 'card'
-                    app.stage.removeChild(s)
+            if s and s.card
+                app.stage.removeChild(s)
     for cardO, index in ca
         if index <= end and index >= start
             index -= start
@@ -356,7 +355,9 @@ drawHand = ->
             card.scale.x = card.scale.y = scale
             card.interactive = true
             card.buttonMode = true
-            card.value = 'card'
+            card.color = cardO.color
+            card.value = cardO.value
+            card.card = true
             card.on('pointerdown', clickCard)
             app.stage.addChild(card)
     return
