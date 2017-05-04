@@ -121,11 +121,12 @@ class UnoGame(object):
         self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
 
     def play(self, name, data):
-        self.players[name]['cards'] -= 1
-        if self.players[name]['cards'] == 0:
-            self.gg(name)
-        card = Card(data['color'], data['value'])
-        self.discard.append(card)
+        if data != '':
+            self.players[name]['cards'] -= 1
+            if self.players[name]['cards'] == 0:
+                self.gg(name)
+            card = Card(data['color'], data['value'])
+            self.discard.append(card)
         self.turn()
 
     def uno(self, name):

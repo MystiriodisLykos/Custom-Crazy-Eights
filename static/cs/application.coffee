@@ -20,7 +20,8 @@ nameCount = 0
 scale = 0.2
 cardWidth = 586
 cardHeight = 878
-red = blue = green = yellow = pickColor = input = join = playerName = ''
+playing = false
+red = blue = green = yellow = pickColor = input = join = playerName = currentCard = ''
 
 nameStyle = new PIXI.TextStyle(
     fontFamily: 'Arial',
@@ -215,9 +216,9 @@ game = ->
     leftArr.interactive = true
     leftArr.buttonMode = true
     leftArr.on('pointerdown', () ->
-        if end != ca.length - 1
-            start++
-            end++
+        if start != 0
+            start--
+            end--
         drawHand()
         return
     )
@@ -232,9 +233,9 @@ game = ->
     rightArr.interactive = true
     rightArr.buttonMode = true
     rightArr.on('pointerdown', () ->
-        if start != 0
-            start--
-            end--
+        if end != ca.length - 1
+            start++
+            end++
         drawHand()
         return
     )
@@ -264,8 +265,8 @@ game = ->
     noplay.interactive = true
     noplay.buttonMode = true
     noplay.on('pointerdown', () ->
-        # TODO: send message to server saying you can't play
-        console.log 'None'
+        message = JSON.stringify({type: 'play', name: playerName, data: ''})
+        server.send(message)
         return
     )
     app.stage.addChild(noplay)
@@ -283,15 +284,6 @@ game = ->
     welcomeToUno.y = (window.innerHeight) - 650
     app.stage.addChild(welcomeToUno)
 
-    # TODO: Put in seperate function
-    #Draw current card
-    upCard = PIXI.Sprite.fromImage("uno cards/" + currentCard.hue + "_" + currentCard.value + ".png")
-    upCard.anchor.set(.5)
-    upCard.scale.x = upCard.scale.y = scale
-    upCard.x = (window.innerWidth / 2) + 75
-    upCard.y = (window.innerHeight / 2) - 75
-    app.stage.addChild(upCard)
-
     #Draw face down card
     faceDown = PIXI.Sprite.fromImage('../static/assets/cards/face_down.png')
     faceDown.anchor.set(.5)
@@ -302,16 +294,37 @@ game = ->
     drawHand()
     return
 
+updateCard = ->
+    #Draw current card
+    starter = '../static/assets/cards/'
+    upCard = starter + currentCard.color + "_" + currentCard.value + ".png"
+    upCard.anchor.set(.5)
+    upCard.scale.x = upCard.scale.y = scale
+    upCard.x = (window.innerWidth / 2) + 75
+    upCard.y = (window.innerHeight / 2) - 75
+    app.stage.addChild(upCard)
+
 drawHand = ->
     clickCard = ->
-        if @name.indexOf('wild') != -1
-            if (@name.split('_')[1]).split('.')[0] == '11' and wildFour() == true
-                alert("You can not play a Wild +4 at this time.")
-            else
-                wild()
-        if @name.split('_')[0] == currentCard.hue or (@name.split('_')[1]).split('.')[0] == currentCard.value
-            @scale.x *= 1.2
-            @scale.y *= 1.2
+        if playing
+            play = false
+            if @color.indexOf('wild') != -1
+                if @value == '11' and wildFour() == true
+                    alert("You can not play a Wild +4 at this time.")
+                else
+                    play = true
+                    play(this)
+            play = play or @color == currentCard.color or @value == currentCard.value
+            if wild
+                data = {color: @color, value: @value}
+                message = JSON.stringify(name: playerName, type: 'play', data: data)
+                server.send(message)
+                for s in app.stage.children
+                    if s.color and s.value
+                        if s.color == @color and s.value = @value
+                            app.stage.removeChile(s)
+                            break
+        return
 
     # display cards in hand (up to max)
     for s in app.stage.children
@@ -337,7 +350,7 @@ drawHand = ->
             app.stage.addChild(card)
     return
 
-wild = ->
+wild = (card) ->
     click = ->
         app.stage.removeChild(red)
         app.stage.removeChild(blue)
@@ -351,9 +364,13 @@ wild = ->
     red.anchor.set(.5)
     red.x = (window.innerWidth / 2) - 450
     red.y = (window.innerHeight / 2) - 100
+    red.card = card
     red.interactive = true
     red.buttonMode = true
-    red.on('pointerdown', click)
+    red.on('pointerdown', () ->
+        @card.color = 'red'
+        click()
+    )
     app.stage.addChild(red)
 
     blue = PIXI.Sprite.fromImage('../static/assets/colors/blue.png')
@@ -361,9 +378,13 @@ wild = ->
     blue.anchor.set(.5)
     blue.x = (window.innerWidth / 2) - 350
     blue.y = (window.innerHeight / 2) - 100
+    blue.card = card
     blue.interactive = true
     blue.buttonMode = true
-    blue.on('pointerdown', click)
+    blue.on('pointerdown', () ->
+        @card.color = 'blue'
+        click()
+    )
     app.stage.addChild(blue)
 
     yellow = PIXI.Sprite.fromImage('../static/assets/colors/yellow.png')
@@ -371,9 +392,13 @@ wild = ->
     yellow.anchor.set(.5)
     yellow.x = (window.innerWidth / 2) - 450
     yellow.y = (window.innerHeight / 2)
+    yellow.card = card
     yellow.interactive = true
     yellow.buttonMode = true
-    yellow.on('pointerdown', click)
+    yellow.on('pointerdown', () ->
+        @card.color = 'yellow'
+        click()
+    )
     app.stage.addChild(yellow)
 
     green = PIXI.Sprite.fromImage('../static/assets/colors/grain.png')
@@ -381,9 +406,13 @@ wild = ->
     green.anchor.set(.5)
     green.x = (window.innerWidth / 2) - 350
     green.y = (window.innerHeight / 2)
+    green.card = card
     green.interactive = true
     green.buttonMode = true
-    green.on('pointerdown', click)
+    green.on('pointerdown', () ->
+        @card.color = 'green'
+        click()
+    )
     app.stage.addChild(green)
 
     pickColor = new PIXI.Text("Choose a color:", nameStyle)
@@ -412,7 +441,6 @@ getName = (Pname) ->
 getCheck = (Pname) ->
     number = listDict[Pname]
     ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
-#    ready.anchor.set(.5)
     ready.scale.x = ready.scale.y = scale * .25
     ready.x = window.innerWidth / 2 + 300 + 100
     ready.y = window.innerHeight / 2 + ((75 * number) - 200)
@@ -427,35 +455,31 @@ server.onmessage = (message) ->
             if not (message.data of listDict)
                 getName(message.data)
                 readyToPlay()
-            # TODO add this player to list of players
         when 'ready'
             getCheck(message.data)
         when 'start'
-            # TODO start game
             clearStage()
             clearStage()
             clearStage()
             clearStage()
             game()
         when 'error'
-            # TODO show error message to screen
-            console.log 'error'
+            alert(message.data)
         when 'give'
-            # TODO add card to array
             ca.push(message.data)
         when 'uno'
-            # TODO show message saying you forgot to call UNO
-            console.log 'uno'
+            alert("#{message.data} forgot to say uno")
         when 'turn'
             current = ''
             for p in message.data.players
                 if p.playing
                     current = p
                 getName2(p.name)
-                getName2(p.name, p.cards)
+                getNumber(p.name, p.cards)
             getCheck(current.name)
-            # TODO figure out what cards can be played if it's my turn
-            # TODO update the player board with the current person's turn and remain cards
+            playing = current.name == playerName
+            currentCard = message.data.card
+            updateCard()
             console.log 'turn'
         when 'gg'
             # TODO end game sequence
@@ -466,14 +490,10 @@ server.onmessage = (message) ->
     return
 
 wildFour = ->
-    for cardStr, index in ca2
-        if index <= end and index >= start
-            index -= start
-            offset = 5 - index
-            imageBuild = "uno cards/" + cardStr.hue + "_" + cardStr.value + ".png"
-            if imageBuild.split('_')[0] == currentCard.hue or (imageBuild.split('_')[1]).split('.')[0] == currentCard.value
-                return true
-#            console.log("check this: " + imageBuild.split('_'))
+    for card, index in ca
+        if card.color == currentCard.color or card.value == currentCard.value
+            return true
+    return false
 
 getName2 = (Pname) ->
     count = listDict[Pname]
@@ -484,10 +504,14 @@ getName2 = (Pname) ->
     return
 
 getNumber = (Pname, norwhatever) ->
+    for p in app.stage.children
+        if p.number
+            app.stage.remove(p)
     count = listDict[Pname]
     listNum = new PIXI.Text(norwhatever, nameStyle)
     listNum.x = (window.innerWidth / 2) - 380
     listNum.y = (window.innerHeight/2) - 120 + (40 * count)
+    listNum.number = norwhatever
     app.stage.addChild(listNum)
     return
 
