@@ -486,7 +486,7 @@ server.onmessage = (message) ->
                     current = p
                 getName2(p.player)
                 getNumber(p.player, p.cards)
-            getTurn(current.player)
+            setTurn(current.player)
             playing = current.player == playerName
             currentCard = message.data.card
             updateCard()
