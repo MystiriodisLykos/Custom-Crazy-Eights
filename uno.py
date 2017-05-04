@@ -22,7 +22,7 @@ class Card:
 
 class UnoGame(object):
     colors = ['red', 'blue', 'green', 'blue']
-    values = [str(x) for x in range(1, 10)] + ['skip'] + ['reverse']
+    values = [str(x) for x in range(1, 10)]
 
     def __init__(self):
         self.players = {}
@@ -33,7 +33,7 @@ class UnoGame(object):
         for c in UnoGame.colors:
             self.deck += [Card(c, v) for v in UnoGame.values]
         self.deck += [Card(c, '0') for c in UnoGame.colors]
-        self.deck += [Card('wild', '10')]*4 + [Card('wild', '11')]*4
+        # self.deck += [Card('wild', '10')]*4 + [Card('wild', '11')]*4
         shuffle(self.deck)
 
     def add(self, ws, name):
