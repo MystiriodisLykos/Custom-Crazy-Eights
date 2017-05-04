@@ -125,17 +125,17 @@ readyToPlay = ->
     ready = PIXI.Sprite.fromImage('buttons/ready.png')
     ready.anchor.set(.5)
     ready.scale.x = ready.scale.y *= .04
-    ready.x = (window.innerWidth / 2) - 180
-    ready.y = (window.innerHeight / 2) + 55
+    ready.x = (window.innerWidth / 2.35)
+    ready.y = (window.innerHeight / 2)
     ready.interactive = true
     ready.buttonMode = true
     app.stage.addChild(ready)
 
     # text for ready click
     check = new PIXI.Text("Click check mark when ready", nameStyle)
-    check.scale.x = check.scale.y = scale
-    check.x = (window.innerWidth / 2) - 555
-    check.y = (window.innerHeight / 2) + 25
+    check.scale.x = check.scale.y *= 1.1
+    check.x = (window.innerWidth / 8)
+    check.y = (window.innerHeight / 2)
     app.stage.addChild(check)
 
     # Removes the join button
@@ -149,8 +149,8 @@ welcome = ->
     join = PIXI.Sprite.fromImage('buttons/join.png')
     join.anchor.set(.5)
     join.scale.x = join.scale.y *= .35
-    join.x = (window.innerWidth / 2) - 55
-    join.y = (window.innerHeight / 2) - 32.5
+    join.x = (window.innerWidth / 2)
+    join.y = (window.innerHeight / 2.4)
     join.interactive = true
     join.buttonMode = true
     app.stage.addChild(join)
@@ -158,30 +158,30 @@ welcome = ->
     border = PIXI.Sprite.fromImage('buttons/border.png')
     border.anchor.set(.5)
     border.scale.x = border.scale.y *= .45
-    border.x = (window.innerWidth / 2) + 415
-    border.y = (window.innerHeight / 2) + 40
+    border.x = (window.innerWidth / 2) + (window.innerWidth / 3)
+    border.y = (window.innerHeight / 1.75)
     app.stage.addChild(border)
 
     # text for no play button
     welcomePageHead = new PIXI.Text("Welcome to UNO!", welcStyle)
     welcomePageHead.scale.x = welcomePageHead.scale.y *= 1.01
-    welcomePageHead.x = (window.innerWidth / 2) - 610
-    welcomePageHead.y = (window.innerHeight / 2) - 300
+    welcomePageHead.x = (window.innerWidth / 15)
+    welcomePageHead.y = (window.innerHeight / 8)
     app.stage.addChild(welcomePageHead)
 
 
     # text for enter name here
     nameHere = new PIXI.Text("Enter your username:", nameStyle)
     nameHere.scale.x = nameHere.scale.y *= 1.1
-    nameHere.x = (window.innerWidth / 2) - 575
-    nameHere.y = (window.innerHeight / 2) - 45
+    nameHere.x = (window.innerWidth / 8)
+    nameHere.y = (window.innerHeight / 2.5)
     app.stage.addChild(nameHere)
 
     #Players Heading
     playas = new PIXI.Text("PLAYERS", boxStyle)
     playas.scale.x = playas.scale.y *= 1.1
-    playas.x = (window.innerWidth / 2) + 340
-    playas.y = (window.innerHeight / 2) - 190
+    playas.x = (window.innerWidth / 2) + (window.innerWidth / 3.75)
+    playas.y = (window.innerHeight / 4.6)
     app.stage.addChild(playas)
 
 #    Text box to enter player's name
@@ -189,8 +189,8 @@ welcome = ->
 #    input.scale.x = input.scale.y = scale
     input.width = 150
     input.height = 40
-    input.position.x = (window.innerWidth / 2) - 315
-    input.position.y = (window.innerHeight / 2) - 53
+    input.position.x = (window.innerWidth / 3.15)
+    input.position.y = (window.innerHeight / 2.6)
     input.text = "Name"
     input.change = ->
         console.log 'text is: ' + input.text
@@ -203,8 +203,8 @@ getName = (Pname) ->
     listDict[Pname] = nameCount
     nameCount++
     listName = new PIXI.Text(Pname, nameStyle)
-    listName.x = window.innerWidth / 2 + 300
-    listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200)
+    listName.x = (window.innerWidth / 2) + (window.innerWidth / 4.5)
+    listName.y = window.innerHeight / 2 + ((75 * nameCount) - (window.innerHeight / 3.25))
     app.stage.addChild(listName)
     getCheck(Pname)
     return
@@ -215,8 +215,8 @@ getCheck = (Pname) ->
     ready = PIXI.Sprite.fromImage('buttons/grainCheck.png')
 #    ready.anchor.set(.5)
     ready.scale.x = ready.scale.y = scale
-    ready.x = window.innerWidth / 2 + 300 + 100
-    ready.y = window.innerHeight / 2 + ((75 * number) - 125)
+    ready.x = (window.innerWidth / 2) + (window.innerWidth / 3.1)
+    ready.y = window.innerHeight / 2 + ((75 * number) - (window.innerHeight / 5))
     app.stage.addChild(ready)
     return
 
@@ -244,9 +244,6 @@ draw = ->
     getName2('Bubba')
     getNumber('Test', 3)
     getNumber('Bubba', 8)
-#    getName2('Asshole')
-#    getName2('Smaug')
-#    getName2('Bootstrap')
 
     #  offset = 0
     #  if ca.length % 2 == 0
@@ -269,8 +266,8 @@ draw = ->
 
     leftArr.anchor.set(.5)
     leftArr.scale.x = leftArr.scale.y = scale
-    leftArr.x = (window.innerWidth / 2) - 290
-    leftArr.y = (window.innerHeight / 2) + 150
+    leftArr.x = (window.innerWidth / 2) - (window.innerWidth / 5)
+    leftArr.y = (window.innerHeight / 2) + (window.innerHeight / 5)
     leftArr.interactive = true
     leftArr.buttonMode = true
     app.stage.addChild(leftArr)
@@ -278,8 +275,8 @@ draw = ->
     # draw the right triangle for carousel
     rightArr.anchor.set(.5)
     rightArr.scale.x = rightArr.scale.y = scale
-    rightArr.x = (window.innerWidth / 2) + 385
-    rightArr.y = (window.innerHeight / 2) + 150
+    rightArr.x = (window.innerWidth / 2) + (window.innerWidth / 3.75)
+    rightArr.y = (window.innerHeight / 2) + (window.innerHeight / 5)
     rightArr.interactive = true
     rightArr.buttonMode = true
     app.stage.addChild(rightArr)
@@ -287,8 +284,8 @@ draw = ->
     # draw the uno button
     ubutt.anchor.set(.5)
     ubutt.scale.x = ubutt.scale.y = scale
-    ubutt.x = (window.innerWidth / 2) - 420
-    ubutt.y = (window.innerHeight / 2) + 150
+    ubutt.x = (window.innerWidth / 2) - (window.innerWidth / 3.5)
+    ubutt.y = (window.innerHeight / 2) + (window.innerHeight / 4)
     ubutt.interactive = true
     ubutt.buttonMode = true
     app.stage.addChild(ubutt)
@@ -296,8 +293,8 @@ draw = ->
     # draw the no play button
     noplay.anchor.set(.5)
     noplay.scale.x = noplay.scale.y = scale
-    noplay.x = (window.innerWidth / 2) - 575
-    noplay.y = (window.innerHeight / 2) + 150
+    noplay.x = (window.innerWidth / 2) - (window.innerWidth / 2.5)
+    noplay.y = (window.innerHeight / 2) + (window.innerHeight / 4.35)
     noplay.interactive = true
     noplay.buttonMode = true
     app.stage.addChild(noplay)
@@ -312,8 +309,8 @@ draw = ->
 
     # text for no play button
     unableToPlay = new PIXI.Text("Click red button if you do not have a card to play", style)
-    unableToPlay.x = (window.innerWidth / 2) - 610
-    unableToPlay.y = (window.innerHeight / 2) + 175
+    unableToPlay.x = (window.innerWidth / 2) - (window.innerWidth / 2.5)
+    unableToPlay.y = (window.innerHeight / 2) + (window.innerHeight / 3.8)
     noplay.scale.x = noplay.scale.y *= 1.01
     app.stage.addChild(unableToPlay)
 
@@ -333,23 +330,23 @@ draw = ->
 
     welcomeToUno = new PIXI.Text("Let's Play UNO!!!", style1)
     welcomeToUno.scale.x = welcomeToUno.scale.y *= 1.01
-    welcomeToUno.x = (window.innerWidth / 2) - 500
-    welcomeToUno.y = (window.innerHeight) - 650
+    welcomeToUno.x = (window.innerWidth / 5)
+    welcomeToUno.y = (window.innerHeight / 2) - (window.innerHeight / 2)
     app.stage.addChild(welcomeToUno)
 
     #Draw current card
     upCard = PIXI.Sprite.fromImage("uno cards/" + currentCard.hue + "_" + currentCard.value + ".png")
     upCard.anchor.set(.5)
     upCard.scale.x = upCard.scale.y = scale
-    upCard.x = (window.innerWidth / 2) + 75
-    upCard.y = (window.innerHeight / 2) - 75
+    upCard.x = (window.innerWidth / 1.75)
+    upCard.y = (window.innerHeight / 2.5)
     app.stage.addChild(upCard)
 
     #Draw face down card
     faceDown.anchor.set(.5)
     faceDown.scale.x = faceDown.scale.y = scale
-    faceDown.x = (window.innerWidth / 2) - 75
-    faceDown.y = (window.innerHeight / 2) - 75
+    faceDown.x = (window.innerWidth / 2.25)
+    faceDown.y = (window.innerHeight / 2.5)
     app.stage.addChild(faceDown)
 
     # display cards in hand (up to max)
@@ -360,7 +357,7 @@ draw = ->
             imageBuild = "uno cards/" + cardStr.hue + "_" + cardStr.value + ".png"
             card = PIXI.Sprite.fromImage(imageBuild)
             card.anchor.set(.5)
-            card.y = 500
+            card.y = (window.innerHeight / 2) + (window.innerHeight / 5)
             card.x = app.renderer.width / 2
             card.x += (cardWidth * scale / 2) * offset
             card.scale.x = card.scale.y = scale
@@ -372,6 +369,9 @@ draw = ->
     #    for child in app.stage.schildren
     #        child.on('pointerdown', () -> child.scale.x *= 2)
     return
+
+winLose = ->
+
 
 wildFour = ->
     for cardStr, index in ca2
@@ -431,6 +431,7 @@ wild = ->
 
 onClickLeft = ->
     clearStage()
+    clearStage()
     if start != 0
         start -= 1
         end -= 1
@@ -467,12 +468,15 @@ clickCard = ->
     if @name.split('_')[0] == currentCard.hue or (@name.split('_')[1]).split('.')[0] == currentCard.value
         @scale.x *= 1.2
         @scale.y *= 1.2
+        app.stage.removeChild(card)
+    return
 
 onClickJoin = ->
 # When clicked, needs to send name to the server should be stored in text.input
     console.log("This is the player's name: " + input.text)
     playerName = input.text
     getName(playerName)
+    readyToPlay()
     clearStage()
     clearStage()
     clearStage()
