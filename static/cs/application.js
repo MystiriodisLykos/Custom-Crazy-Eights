@@ -313,7 +313,7 @@
           }
         }
         play = play || this.color === currentCard.color || this.value === currentCard.value;
-        if (wild) {
+        if (play) {
           data = {
             color: this.color,
             value: this.value

@@ -316,7 +316,7 @@ drawHand = ->
                     play = true
                     play(this)
             play = play or @color == currentCard.color or @value == currentCard.value
-            if wild
+            if play
                 data = {color: @color, value: @value}
                 message = JSON.stringify(name: playerName, type: 'play', data: data)
                 console.log message
