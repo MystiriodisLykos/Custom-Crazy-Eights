@@ -102,6 +102,7 @@ welcome = ->
         message = JSON.stringify({name: playerName, type: 'add', data: ''})
         # console.log(message)
         server.send(message)
+        return
     )
     app.stage.addChild(join)
 
@@ -172,6 +173,7 @@ game = ->
     leftArr.interactive = true
     leftArr.buttonMode = true
     leftArr.on('pointerdown', () ->
+        console.log 'right'
         if end != ca.length - 1
             start++
             end++
@@ -188,6 +190,7 @@ game = ->
     rightArr.interactive = true
     rightArr.buttonMode = true
     rightArr.on('pointerdown', () ->
+        console.log 'left'
         if start != 0
             start--
             end--
@@ -205,6 +208,7 @@ game = ->
     ubutt.buttonMode = true
     ubutt.on('pointerdown', () ->
         # TODO: send UNO message to the server
+        console.log 'uno'
         return
     )
     app.stage.addChild(ubutt)
@@ -219,6 +223,7 @@ game = ->
     noplay.buttonMode = true
     noplay.on('pointerdown', () ->
         # TODO: send message to server saying you can't play
+        console.log 'None'
         return
     )
     app.stage.addChild(noplay)
@@ -267,6 +272,7 @@ drawHand = ->
             card.on('pointerdown', () ->
                 if @name.indexOf('wild') != -1
                     wild()
+                @scale.x *= 1.2
                 return
             )
             app.stage.addChild(card)

@@ -116,7 +116,7 @@
         type: 'add',
         data: ''
       });
-      return server.send(message);
+      server.send(message);
     });
     app.stage.addChild(join);
     border = PIXI.Sprite.fromImage('../static/assets/buttons/border.png');
@@ -176,6 +176,7 @@
     leftArr.interactive = true;
     leftArr.buttonMode = true;
     leftArr.on('pointerdown', function() {
+      console.log('right');
       if (end !== ca.length - 1) {
         start++;
         end++;
@@ -190,6 +191,7 @@
     rightArr.interactive = true;
     rightArr.buttonMode = true;
     rightArr.on('pointerdown', function() {
+      console.log('left');
       if (start !== 0) {
         start--;
         end--;
@@ -203,7 +205,9 @@
     ubutt.y = (window.innerHeight / 2) + 150;
     ubutt.interactive = true;
     ubutt.buttonMode = true;
-    ubutt.on('pointerdown', function() {});
+    ubutt.on('pointerdown', function() {
+      console.log('uno');
+    });
     app.stage.addChild(ubutt);
     noplay = PIXI.Sprite.fromImage('../static/assets/buttons/no.png');
     noplay.anchor.set(.5);
@@ -212,7 +216,9 @@
     noplay.y = (window.innerHeight / 2) + 150;
     noplay.interactive = true;
     noplay.buttonMode = true;
-    noplay.on('pointerdown', function() {});
+    noplay.on('pointerdown', function() {
+      console.log('None');
+    });
     app.stage.addChild(noplay);
     unableToPlay = new PIXI.Text("Click red button if you do not have a card to play", style);
     unableToPlay.x = (window.innerWidth / 2) - 610;
@@ -255,6 +261,7 @@
           if (this.name.indexOf('wild') !== -1) {
             wild();
           }
+          this.scale.x *= 1.2;
         });
         app.stage.addChild(card);
       }
