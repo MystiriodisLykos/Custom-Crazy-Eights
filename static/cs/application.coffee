@@ -254,8 +254,8 @@ drawHand = ->
     # display cards in hand (up to max)
     for i in [1..3]
         for s in app.stage.children
-            console.log('test')
-            if typeof s.color != undefined and s.color?
+            console.log (typeof s.color)
+            if s.color?
                 app.color.remove(s)
     for cardO, index in ca
         if index <= end and index >= start
