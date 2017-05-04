@@ -255,7 +255,7 @@ drawHand = ->
     for i in [1..3]
         for s in app.stage.children
             console.log('test')
-            if s.name?
+            if s.color?
                 app.color.remove(s)
     for cardO, index in ca
         if index <= end and index >= start

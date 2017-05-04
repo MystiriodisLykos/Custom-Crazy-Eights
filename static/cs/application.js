@@ -244,7 +244,7 @@
       for (k = 0, len = ref.length; k < len; k++) {
         s = ref[k];
         console.log('test');
-        if (s.name != null) {
+        if (s.color != null) {
           app.color.remove(s);
         }
       }
