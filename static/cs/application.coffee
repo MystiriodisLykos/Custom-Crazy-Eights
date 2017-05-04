@@ -216,6 +216,7 @@ game = ->
     leftArr.interactive = true
     leftArr.buttonMode = true
     leftArr.on('pointerdown', () ->
+        clearStage()
         if start != 0
             start--
             end--
@@ -233,6 +234,7 @@ game = ->
     rightArr.interactive = true
     rightArr.buttonMode = true
     rightArr.on('pointerdown', () ->
+        clearStage()
         if end != ca.length - 1
             start++
             end++
