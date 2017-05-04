@@ -254,6 +254,7 @@ drawHand = ->
     # display cards in hand (up to max)
     for i in [1..3]
         for s in app.stage.children
+            console.log('test')
             if s.name?
                 app.color.remove(s)
     for cardO, index in ca

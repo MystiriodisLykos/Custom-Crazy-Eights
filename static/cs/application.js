@@ -243,6 +243,7 @@
       ref = app.stage.children;
       for (k = 0, len = ref.length; k < len; k++) {
         s = ref[k];
+        console.log('test');
         if (s.name != null) {
           app.color.remove(s);
         }
