@@ -97,8 +97,8 @@ class UnoGame(object):
         del self.deck[0]
         last, self.turn_order = self.turn_order[0], self.turn_order[1:]
         self.in_progress = True
+        self.cast(json.dumps({ 'type':'start', 'data':'' }))
         self.turn()
-        self.cast(json.dumps({'type': 'start', 'data': ''}))
         self.turn_order.append(last)
 
     def turn(self):
