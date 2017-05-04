@@ -129,9 +129,9 @@ class UnoGame(object):
                 self.gg(name)
             card = Card(data['color'], data['value'])
             self.discard.append(card)
-            self.turn(False)
-        else:
             self.turn(True)
+        else:
+            self.turn(False)
 
     def uno(self, name):
         if self.players[name]['cards'] == 1:
