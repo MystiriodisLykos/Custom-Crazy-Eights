@@ -216,10 +216,11 @@ game = ->
     leftArr.interactive = true
     leftArr.buttonMode = true
     leftArr.on('pointerdown', () ->
+        clearStage()
         if start != 0
             start--
             end--
-        drawHand()
+        game()
         return
     )
     app.stage.addChild(leftArr)
@@ -233,10 +234,11 @@ game = ->
     rightArr.interactive = true
     rightArr.buttonMode = true
     rightArr.on('pointerdown', () ->
+        clearStage()
         if end != ca.length - 1
             start++
             end++
-        drawHand()
+        game()
         return
     )
     app.stage.addChild(rightArr)
@@ -335,10 +337,9 @@ drawHand = ->
         return
 
     # display cards in hand (up to max)
-    for i in [1..4]
-        for s in app.stage.children
-            if s and s.color
-                app.stage.removeChild(s)
+    for s in app.stage.children
+        if s and s.color
+            app.stage.removeChild(s)
     for cardO, index in ca
         if index <= end and index >= start
             index -= start
@@ -516,7 +517,8 @@ getNumber = (Pname, norwhatever) ->
     num = null
     for o in app.stage.children
         if o and o.number and o.player
-            num = o
+            if o.player == Pname
+                num = o
     if num?
         num.setText(norwhatever)
     else
