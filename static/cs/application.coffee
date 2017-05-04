@@ -340,7 +340,7 @@ drawHand = ->
     for i in [1..4]
         for s in app.stage.children
             if s and s.value
-                if s.value == 'card':
+                if s.value == 'card'
                     app.stage.removeChild(s)
     for cardO, index in ca
         if index <= end and index >= start

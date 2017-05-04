@@ -349,6 +349,7 @@
             }
           }
           ca.splice(rem, 1);
+          drawHand();
         }
       }
     };
@@ -357,7 +358,9 @@
       for (k = 0, len = ref.length; k < len; k++) {
         s = ref[k];
         if (s && s.value) {
-          app.stage.removeChild(s);
+          if (s.value === 'card') {
+            app.stage.removeChild(s);
+          }
         }
       }
     }
