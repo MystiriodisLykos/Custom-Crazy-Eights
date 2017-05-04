@@ -243,9 +243,8 @@
       ref = app.stage.children;
       for (k = 0, len = ref.length; k < len; k++) {
         s = ref[k];
-        console.log(typeof s.color);
         if (s.color) {
-          app.color.remove(s);
+          app.stage.removeChild(s);
         }
       }
     }
