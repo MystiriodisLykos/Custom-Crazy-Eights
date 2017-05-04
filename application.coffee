@@ -225,6 +225,8 @@ getName2 = (Pname) ->
     listName = new PIXI.Text(Pname, nameStyle)
     listName.x = (window.innerWidth / 2) - 550
     listName.y = (window.innerHeight/2) - 120 + (50 * count)
+    listName.x = (window.innerWidth / 2) - 530
+    listName.y = (window.innerHeight/2) - 120 + (40 * count)
     app.stage.addChild(listName)
     return
 
@@ -233,10 +235,22 @@ getNumber = (Pname, norwhatever) ->
     listNum = new PIXI.Text(norwhatever, nameStyle)
     listNum.x = (window.innerWidth / 2) - 380
     listNum.y = (window.innerHeight/2) - 120 + (50 * count)
+    listNum.y = (window.innerHeight/2) - 120 + (40 * count)
     app.stage.addChild(listNum)
     return
 
 # TODO: make function to put an arrow on a name given
+setTurn = (Pname) ->
+    for p in app.stage.children
+        if p.turn
+            app.stage.remove(p)
+    count = listDict[Pname]
+    arrow = new PIXI.Sprite.fromImage('buttons/grainCheck.png')
+    arrow.scale.x = arrow.scale.y = scale
+    arrow.x = (window.innerWidth / 2) - 560
+    arrow.y = (window.innerHeight/2) - 120 + (40 * count)
+    app.stage.addChild(arrow)
+    return
 
 draw = ->
     clearStage()
@@ -244,6 +258,7 @@ draw = ->
     getName2('Bubba')
     getNumber('Test', 3)
     getNumber('Bubba', 8)
+
 
     #  offset = 0
     #  if ca.length % 2 == 0
