@@ -522,7 +522,7 @@
           getName2(p.player);
           getNumber(p.player, p.cards);
         }
-        getCheck(current.player);
+        getTurn(current.player);
         playing = current.player === playerName;
         currentCard = message.data.card;
         updateCard();
@@ -592,7 +592,9 @@
     }
     count = listDict[Pname];
     arrow = new PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png');
+    arrow.scale.x = arrow.scale.y = scale;
     arrow.turn = true;
+    arrow.x = window.innerWidth / 2;
     arrow.y = (window.innerHeight / 2) - 120 + (40 * count);
     app.stage.addChild(arrow);
   };

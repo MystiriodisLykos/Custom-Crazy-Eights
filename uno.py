@@ -22,7 +22,7 @@ class Card:
 
 class UnoGame(object):
     colors = ['red', 'blue', 'green', 'blue']
-    values = [str(x) for x in range(1, 10)] + ['skip'] + ['reverse'] + ['+2']
+    values = [str(x) for x in range(1, 12)] + ['skip'] + ['reverse']
 
     def __init__(self):
         self.players = {}
@@ -33,7 +33,7 @@ class UnoGame(object):
         for c in UnoGame.colors:
             self.deck += [Card(c, v) for v in UnoGame.values]
         self.deck += [Card(c, '0') for c in UnoGame.colors]
-        self.deck += [Card('', v) for v in ['wild_', 'wild_+4']]
+        self.deck += [Card('wild', '10')]*4 + [Card('wild', '11')]*4
         shuffle(self.deck)
 
     def add(self, ws, name):
@@ -107,10 +107,10 @@ class UnoGame(object):
         elif self.discard[-1].value == 'reverse':
             self.turn_order = self.turn_order[::-1]
             self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
-        elif self.discard[-1].value == '+2':
+        elif self.discard[-1].value == '10':
             [self.draw(self.turn_order[0]) for i in range(2)]
             self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
-        elif self.discard[-1].value == '+4':
+        elif self.discard[-1].value == '11':
             [self.draw(self.turn_order[0]) for i in range(4)]
             self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
         data = {'players': [{'player': name,
