@@ -505,7 +505,7 @@ getName2 = (Pname) ->
 
 getNumber = (Pname, norwhatever) ->
     for p in app.stage.children
-        if p.number
+        if p and p.number
             app.stage.removeChild(p)
     count = listDict[Pname]
     listNum = new PIXI.Text(norwhatever, nameStyle)
@@ -517,7 +517,7 @@ getNumber = (Pname, norwhatever) ->
 
 setTurn = (Pname) ->
     for p in app.stage.children
-        if p.turn
+        if p and p.turn
             app.stage.removeChild(p)
     count = listDict[Pname]
     arrow = new PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png')

@@ -543,7 +543,7 @@
     ref = app.stage.children;
     for (i = 0, len = ref.length; i < len; i++) {
       p = ref[i];
-      if (p.number) {
+      if (p && p.number) {
         app.stage.removeChild(p);
       }
     }
@@ -560,7 +560,7 @@
     ref = app.stage.children;
     for (i = 0, len = ref.length; i < len; i++) {
       p = ref[i];
-      if (p.turn) {
+      if (p && p.turn) {
         app.stage.removeChild(p);
       }
     }
