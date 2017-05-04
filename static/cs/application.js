@@ -217,12 +217,11 @@
     leftArr.interactive = true;
     leftArr.buttonMode = true;
     leftArr.on('pointerdown', function() {
-      clearStage();
       if (start !== 0) {
         start--;
         end--;
       }
-      draw();
+      drawHand();
     });
     app.stage.addChild(leftArr);
     rightArr = PIXI.Sprite.fromImage('../static/assets/buttons/rightArrow.png');
@@ -233,12 +232,11 @@
     rightArr.interactive = true;
     rightArr.buttonMode = true;
     rightArr.on('pointerdown', function() {
-      clearStage();
       if (end !== ca.length - 1) {
         start++;
         end++;
       }
-      draw();
+      drawHand();
     });
     app.stage.addChild(rightArr);
     ubutt = PIXI.Sprite.fromImage('../static/assets/buttons/ubutton.png');
@@ -301,9 +299,9 @@
   };
 
   drawHand = function() {
-    var card, cardO, cardStr, clickCard, i, index, j, len, len1, offset, ref, s, starter;
+    var card, cardO, cardStr, clickCard, i, index, j, k, l, len, len1, offset, ref, s, starter;
     clickCard = function() {
-      var c, data, i, index, j, len, len1, message, play, ref, rem, s;
+      var c, data, index, j, k, len, len1, message, play, ref, rem, s;
       if (playing) {
         play = false;
         if (this.color.indexOf('wild') !== -1) {
@@ -328,8 +326,8 @@
           console.log(message);
           server.send(message);
           ref = app.stage.children;
-          for (i = 0, len = ref.length; i < len; i++) {
-            s = ref[i];
+          for (j = 0, len = ref.length; j < len; j++) {
+            s = ref[j];
             if (s.color && s.value) {
               if (s.color === this.color && (s.value = this.value)) {
                 app.stage.removeChild(s);
@@ -338,7 +336,7 @@
             }
           }
           rem = 0;
-          for (index = j = 0, len1 = ca.length; j < len1; index = ++j) {
+          for (index = k = 0, len1 = ca.length; k < len1; index = ++k) {
             c = ca[index];
             if (c.color === this.color && c.color === this.value) {
               rem = index;
@@ -349,14 +347,16 @@
         }
       }
     };
-    ref = app.stage.children;
-    for (i = 0, len = ref.length; i < len; i++) {
-      s = ref[i];
-      if (s && s.color) {
-        app.stage.removeChild(s);
+    for (i = j = 1; j <= 4; i = ++j) {
+      ref = app.stage.children;
+      for (k = 0, len = ref.length; k < len; k++) {
+        s = ref[k];
+        if (s && s.color) {
+          app.stage.removeChild(s);
+        }
       }
     }
-    for (index = j = 0, len1 = ca.length; j < len1; index = ++j) {
+    for (index = l = 0, len1 = ca.length; l < len1; index = ++l) {
       cardO = ca[index];
       if (index <= end && index >= start) {
         index -= start;
@@ -448,10 +448,10 @@
   };
 
   clearStage = function() {
-    var child, i, len, ref;
+    var child, j, len, ref;
     ref = app.stage.children;
-    for (i = 0, len = ref.length; i < len; i++) {
-      child = ref[i];
+    for (j = 0, len = ref.length; j < len; j++) {
+      child = ref[j];
       app.stage.removeChild(child);
     }
   };
@@ -477,7 +477,7 @@
   };
 
   server.onmessage = function(message) {
-    var current, i, len, p, ref;
+    var current, j, len, p, ref;
     message = JSON.parse(message.data);
     console.log(message);
     switch (message.type) {
@@ -509,8 +509,8 @@
       case 'turn':
         current = '';
         ref = message.data.players;
-        for (i = 0, len = ref.length; i < len; i++) {
-          p = ref[i];
+        for (j = 0, len = ref.length; j < len; j++) {
+          p = ref[j];
           if (p.playing) {
             current = p;
           }
@@ -532,8 +532,8 @@
   };
 
   wildFour = function() {
-    var card, i, index, len;
-    for (index = i = 0, len = ca.length; i < len; index = ++i) {
+    var card, index, j, len;
+    for (index = j = 0, len = ca.length; j < len; index = ++j) {
       card = ca[index];
       if (card.color === currentCard.color || card.value === currentCard.value) {
         return true;
@@ -552,11 +552,11 @@
   };
 
   getNumber = function(Pname, norwhatever) {
-    var count, i, len, listNum, num, o, ref;
+    var count, j, len, listNum, num, o, ref;
     num = null;
     ref = app.stage.children;
-    for (i = 0, len = ref.length; i < len; i++) {
-      o = ref[i];
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
       if (o && o.number && o.player) {
         num = o;
       }
@@ -568,17 +568,17 @@
       listNum = new PIXI.Text(norwhatever, nameStyle);
       listNum.x = (window.innerWidth / 2) - 380;
       listNum.y = (window.innerHeight / 2) - 120 + (40 * count);
-      o.player;
+      listNum.player = Pname;
       listNum.number = norwhatever;
       app.stage.addChild(listNum);
     }
   };
 
   setTurn = function(Pname) {
-    var arrow, count, i, len, p, ref;
+    var arrow, count, j, len, p, ref;
     ref = app.stage.children;
-    for (i = 0, len = ref.length; i < len; i++) {
-      p = ref[i];
+    for (j = 0, len = ref.length; j < len; j++) {
+      p = ref[j];
       if (p && p.turn) {
         app.stage.removeChild(p);
       }

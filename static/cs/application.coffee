@@ -216,11 +216,10 @@ game = ->
     leftArr.interactive = true
     leftArr.buttonMode = true
     leftArr.on('pointerdown', () ->
-        clearStage()
         if start != 0
             start--
             end--
-        draw()
+        drawHand()
         return
     )
     app.stage.addChild(leftArr)
@@ -234,11 +233,10 @@ game = ->
     rightArr.interactive = true
     rightArr.buttonMode = true
     rightArr.on('pointerdown', () ->
-        clearStage()
         if end != ca.length - 1
             start++
             end++
-        draw()
+        drawHand()
         return
     )
     app.stage.addChild(rightArr)
@@ -337,9 +335,10 @@ drawHand = ->
         return
 
     # display cards in hand (up to max)
-    for s in app.stage.children
-        if s and s.color
-            app.stage.removeChild(s)
+    for i in [1..4]
+        for s in app.stage.children
+            if s and s.color
+                app.stage.removeChild(s)
     for cardO, index in ca
         if index <= end and index >= start
             index -= start
@@ -525,7 +524,7 @@ getNumber = (Pname, norwhatever) ->
         listNum = new PIXI.Text(norwhatever, nameStyle)
         listNum.x = (window.innerWidth / 2) - 380
         listNum.y = (window.innerHeight/2) - 120 + (40 * count)
-        o.player
+        listNum.player = Pname
         listNum.number = norwhatever
         app.stage.addChild(listNum)
     return
