@@ -101,19 +101,18 @@ class UnoGame(object):
         self.turn()
         self.turn_order.append(last)
 
-    def turn(self, played):
-        if played:
-            if self.discard[-1].value == 'skip':
-                self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
-            elif self.discard[-1].value == 'reverse':
-                self.turn_order = self.turn_order[::-1]
-                self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
-            elif self.discard[-1].value == '+2':
-                [self.draw(self.turn_order[0]) for i in range(2)]
-                self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
-            elif self.discard[-1].value == '11':
-                [self.draw(self.turn_order[0]) for i in range(4)]
-                self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
+    def turn(self):
+        if self.discard[-1].value == 'skip':
+            self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
+        elif self.discard[-1].value == 'reverse':
+            self.turn_order = self.turn_order[::-1]
+            self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
+        elif self.discard[-1].value == '+2':
+            [self.draw(self.turn_order[0]) for i in range(2)]
+            self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
+        elif self.discard[-1].value == '11':
+            [self.draw(self.turn_order[0]) for i in range(4)]
+            self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
         data = {'players': [{'player': name,
                              'cards': value['cards'],
                              'playing': name == self.turn_order[0]}
@@ -129,9 +128,7 @@ class UnoGame(object):
                 self.gg(name)
             card = Card(data['color'], data['value'])
             self.discard.append(card)
-            self.turn(True)
-        else:
-            self.turn(False)
+        self.turn()
 
     def uno(self, name):
         if self.players[name]['cards'] == 1:
