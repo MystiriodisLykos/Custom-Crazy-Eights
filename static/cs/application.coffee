@@ -319,11 +319,12 @@ drawHand = ->
             if wild
                 data = {color: @color, value: @value}
                 message = JSON.stringify(name: playerName, type: 'play', data: data)
+                console.log message
                 server.send(message)
                 for s in app.stage.children
                     if s.color and s.value
                         if s.color == @color and s.value = @value
-                            app.stage.removeChile(s)
+                            app.stage.removeChild(s)
                             break
         return
 
@@ -441,7 +442,7 @@ getName = (Pname) ->
 # And/or takes the name and a boolean that they are ready and puts a check mark in the list next to the name
 getCheck = (Pname) ->
     number = listDict[Pname]
-    ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png')
+    ready = PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png')
     ready.scale.x = ready.scale.y = scale * .25
     ready.x = window.innerWidth / 2 + 300 + 100
     ready.y = window.innerHeight / 2 + ((75 * number) - 200)

@@ -323,13 +323,14 @@
             type: 'play',
             data: data
           });
+          console.log(message);
           server.send(message);
           ref = app.stage.children;
           for (i = 0, len = ref.length; i < len; i++) {
             s = ref[i];
             if (s.color && s.value) {
               if (s.color === this.color && (s.value = this.value)) {
-                app.stage.removeChile(s);
+                app.stage.removeChild(s);
                 break;
               }
             }
@@ -457,7 +458,7 @@
   getCheck = function(Pname) {
     var number, ready;
     number = listDict[Pname];
-    ready = PIXI.Sprite.fromImage('../static/assets/buttons/ready.png');
+    ready = PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png');
     ready.scale.x = ready.scale.y = scale * .25;
     ready.x = window.innerWidth / 2 + 300 + 100;
     ready.y = window.innerHeight / 2 + ((75 * number) - 200);
