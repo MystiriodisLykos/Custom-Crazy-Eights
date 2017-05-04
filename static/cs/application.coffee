@@ -81,7 +81,6 @@ readyToPlay = ->
     app.stage.addChild(ready)
     ready.on('pointerdown', () ->
         message = JSON.stringify({name: playerName, type: 'ready', data: ''})
-        console.log(message)
         server.send(message)
         return
     )
@@ -252,8 +251,8 @@ game = ->
     ubutt.interactive = true
     ubutt.buttonMode = true
     ubutt.on('pointerdown', () ->
-        # TODO: send UNO message to the server
-        console.log 'uno'
+        message = JSON.stringify({type: 'uno', name: playerName, data:''})
+        server.send(message)
         return
     )
     app.stage.addChild(ubutt)
@@ -268,6 +267,7 @@ game = ->
     noplay.buttonMode = true
     noplay.on('pointerdown', () ->
         message = JSON.stringify({type: 'play', name: playerName, data: ''})
+        console.log(message)
         server.send(message)
         return
     )
@@ -321,7 +321,6 @@ drawHand = ->
             if play
                 data = {color: @color, value: @value}
                 message = JSON.stringify(name: playerName, type: 'play', data: data)
-                console.log message
                 server.send(message)
                 for s in app.stage.children
                     if s.color and s.value
@@ -538,9 +537,7 @@ setTurn = (Pname) ->
             app.stage.removeChild(p)
     count = listDict[Pname]
     arrow = new PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png')
-    arrow.scale.x = arrow.scale.y = scale
     arrow.turn = true
-    arrow.x = (window.innerWidth / 2)
     arrow.y = (window.innerHeight/2) - 120 + (40 * count)
     app.stage.addChild(arrow)
     return

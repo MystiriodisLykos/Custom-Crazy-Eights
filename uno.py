@@ -106,6 +106,7 @@ class UnoGame(object):
             self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
         elif self.discard[-1].value == 'reverse':
             self.turn_order = self.turn_order[::-1]
+            self.turn_order = self.turn_order[1:] + [self.turn_order[0]]
         elif self.discard[-1].value == '+2':
             [self.draw(self.turn_order[0]) for i in range(2)]
             self.turn_order = self.turn_order[1:] + [self.turn_order[0]]

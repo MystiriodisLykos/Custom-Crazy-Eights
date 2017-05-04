@@ -98,7 +98,6 @@
         type: 'ready',
         data: ''
       });
-      console.log(message);
       server.send(message);
     });
     check = new PIXI.Text("Click check mark when ready", nameStyle);
@@ -247,7 +246,13 @@
     ubutt.interactive = true;
     ubutt.buttonMode = true;
     ubutt.on('pointerdown', function() {
-      console.log('uno');
+      var message;
+      message = JSON.stringify({
+        type: 'uno',
+        name: playerName,
+        data: ''
+      });
+      server.send(message);
     });
     app.stage.addChild(ubutt);
     noplay = PIXI.Sprite.fromImage('../static/assets/buttons/no.png');
@@ -264,6 +269,7 @@
         name: playerName,
         data: ''
       });
+      console.log(message);
       server.send(message);
     });
     app.stage.addChild(noplay);
@@ -323,7 +329,6 @@
             type: 'play',
             data: data
           });
-          console.log(message);
           server.send(message);
           ref = app.stage.children;
           for (j = 0, len = ref.length; j < len; j++) {
@@ -587,9 +592,7 @@
     }
     count = listDict[Pname];
     arrow = new PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png');
-    arrow.scale.x = arrow.scale.y = scale;
     arrow.turn = true;
-    arrow.x = window.innerWidth / 2;
     arrow.y = (window.innerHeight / 2) - 120 + (40 * count);
     app.stage.addChild(arrow);
   };
