@@ -307,15 +307,20 @@
   drawHand = function() {
     var card, cardO, cardStr, clickCard, i, index, j, k, l, len, len1, offset, ref, s, starter;
     clickCard = function() {
-      var c, data, index, j, k, len, len1, message, ref, rem, s;
+      var c, data, index, j, k, len, len1, message, play, ref, rem, s;
       if (playing) {
+        play = false;
         if (this.color.indexOf('wild') !== -1) {
+          console.log('test');
           if (this.value === '11' && wildFour()) {
             alert("You can not play a Wild +4 at this time.");
           } else {
+            play = true;
             wild(this);
           }
-        } else {
+        }
+        play = play || this.color === currentCard.color || this.value === currentCard.value;
+        if (play) {
           data = {
             color: this.color,
             value: this.value
@@ -384,43 +389,12 @@
 
   wild = function(card) {
     var click;
-    click = function(card) {
-      var c, data, index, j, k, len, len1, message, ref, rem, s;
+    click = function() {
       app.stage.removeChild(red);
       app.stage.removeChild(blue);
       app.stage.removeChild(green);
       app.stage.removeChild(yellow);
       app.stage.removeChild(pickColor);
-      data = {
-        color: card.color,
-        value: card.value
-      };
-      message = JSON.stringify({
-        name: playerName,
-        type: 'play',
-        data: data
-      });
-      server.send(message);
-      ref = app.stage.children;
-      for (j = 0, len = ref.length; j < len; j++) {
-        s = ref[j];
-        if (s.color && s.value) {
-          if (s.color === card.color && (s.value = card.value)) {
-            app.stage.removeChild(s);
-            break;
-          }
-        }
-      }
-      rem = 0;
-      for (index = k = 0, len1 = ca.length; k < len1; index = ++k) {
-        c = ca[index];
-        if (c.color === card.color && c.value === card.value) {
-          rem = index;
-          break;
-        }
-      }
-      ca.splice(rem, 1);
-      drawHand();
     };
     red = PIXI.Sprite.fromImage('../static/assets/colors/radam.png');
     red.scale.x = red.scale.y = scale;
@@ -432,9 +406,9 @@
     red.buttonMode = true;
     red.on('pointerdown', function() {
       this.card.color = 'red';
-      return click(this.card);
+      return click();
     });
-    app.stage.apendChild(red);
+    app.stage.addChild(red);
     blue = PIXI.Sprite.fromImage('../static/assets/colors/blue.png');
     blue.scale.x = blue.scale.y = scale;
     blue.anchor.set(.5);
@@ -447,7 +421,7 @@
       this.card.color = 'blue';
       return click();
     });
-    app.stage.apendChild(blue);
+    app.stage.addChild(blue);
     yellow = PIXI.Sprite.fromImage('../static/assets/colors/yellow.png');
     yellow.scale.x = yellow.scale.y = scale;
     yellow.anchor.set(.5);
@@ -460,7 +434,7 @@
       this.card.color = 'yellow';
       return click();
     });
-    app.stage.apendChild(yellow);
+    app.stage.addChild(yellow);
     green = PIXI.Sprite.fromImage('../static/assets/colors/grain.png');
     green.scale.x = green.scale.y = scale;
     green.anchor.set(.5);
@@ -473,12 +447,12 @@
       this.card.color = 'green';
       return click();
     });
-    app.stage.apendChild(green);
+    app.stage.addChild(green);
     pickColor = new PIXI.Text("Choose a color:", nameStyle);
     pickColor = new PIXI.Text("Choose a color:", nameStyle);
     pickColor.x = (window.innerWidth / 2) - 490;
     pickColor.y = (window.innerHeight / 2) - 180;
-    app.stage.apendChild(pickColor);
+    app.stage.addChild(pickColor);
   };
 
   clearStage = function() {

@@ -310,12 +310,16 @@ updateCard = ->
 drawHand = ->
     clickCard = ->
         if playing
+            play = false
             if @color.indexOf('wild') != -1
+                console.log('test')
                 if @value == '11' and wildFour()
                     alert("You can not play a Wild +4 at this time.")
                 else
+                    play = true
                     wild(this)
-            else
+            play = play or @color == currentCard.color or @value == currentCard.value
+            if play
                 data = {color: @color, value: @value}
                 message = JSON.stringify(name: playerName, type: 'play', data: data)
                 server.send(message)
@@ -360,27 +364,12 @@ drawHand = ->
     return
 
 wild = (card) ->
-    click = (card) ->
+    click = ->
         app.stage.removeChild(red)
         app.stage.removeChild(blue)
         app.stage.removeChild(green)
         app.stage.removeChild(yellow)
         app.stage.removeChild(pickColor)
-        data = {color: card.color, value: card.value}
-        message = JSON.stringify(name: playerName, type: 'play', data: data)
-        server.send(message)
-        for s in app.stage.children
-            if s.color and s.value
-                if s.color == card.color and s.value = card.value
-                    app.stage.removeChild(s)
-                    break
-        rem = 0
-        for c, index in ca
-            if c.color == card.color and c.value == card.value
-                rem = index
-                break
-        ca.splice(rem, 1)
-        drawHand()
         return
 
     red = PIXI.Sprite.fromImage('../static/assets/colors/radam.png')
@@ -393,9 +382,9 @@ wild = (card) ->
     red.buttonMode = true
     red.on('pointerdown', () ->
         @card.color = 'red'
-        click (@card)
+        click()
     )
-    app.stage.apendChild(red)
+    app.stage.addChild(red)
 
     blue = PIXI.Sprite.fromImage('../static/assets/colors/blue.png')
     blue.scale.x = blue.scale.y = scale
@@ -409,7 +398,7 @@ wild = (card) ->
         @card.color = 'blue'
         click()
     )
-    app.stage.apendChild(blue)
+    app.stage.addChild(blue)
 
     yellow = PIXI.Sprite.fromImage('../static/assets/colors/yellow.png')
     yellow.scale.x = yellow.scale.y = scale
@@ -423,7 +412,7 @@ wild = (card) ->
         @card.color = 'yellow'
         click()
     )
-    app.stage.apendChild(yellow)
+    app.stage.addChild(yellow)
 
     green = PIXI.Sprite.fromImage('../static/assets/colors/grain.png')
     green.scale.x = green.scale.y = scale
@@ -437,13 +426,13 @@ wild = (card) ->
         @card.color = 'green'
         click()
     )
-    app.stage.apendChild(green)
+    app.stage.addChild(green)
 
     pickColor = new PIXI.Text("Choose a color:", nameStyle)
     pickColor = new PIXI.Text("Choose a color:", nameStyle)
     pickColor.x = (window.innerWidth / 2) - 490
     pickColor.y = (window.innerHeight / 2) - 180
-    app.stage.apendChild(pickColor)
+    app.stage.addChild(pickColor)
     return
 
 clearStage = ->
