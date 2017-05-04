@@ -287,9 +287,10 @@
   };
 
   updateCard = function() {
-    var starter, upCard;
+    var starter, upCard, upCardStr;
     starter = '../static/assets/cards/';
-    upCard = starter + currentCard.color + "_" + currentCard.value + ".png";
+    upCardStr = starter + currentCard.color + "_" + currentCard.value + ".png";
+    upCard = PIXI.Sprite.fromImage(upCardStr);
     upCard.anchor.set(.5);
     upCard.scale.x = upCard.scale.y = scale;
     upCard.x = (window.innerWidth / 2) + 75;
