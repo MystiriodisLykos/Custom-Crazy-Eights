@@ -544,7 +544,7 @@
     for (i = 0, len = ref.length; i < len; i++) {
       p = ref[i];
       if (p.number) {
-        app.stage.remove(p);
+        app.stage.removeChild(p);
       }
     }
     count = listDict[Pname];
@@ -561,7 +561,7 @@
     for (i = 0, len = ref.length; i < len; i++) {
       p = ref[i];
       if (p.turn) {
-        app.stage.remove(p);
+        app.stage.removeChild(p);
       }
     }
     count = listDict[Pname];
