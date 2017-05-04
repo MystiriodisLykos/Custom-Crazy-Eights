@@ -325,30 +325,19 @@
   };
 
   wildFour = function() {
-    var card, cardStr, i, imageBuild, index, len, offset, results;
-    results = [];
+    var cardStr, i, imageBuild, index, len, offset;
     for (index = i = 0, len = ca2.length; i < len; index = ++i) {
       cardStr = ca2[index];
       if (index <= end && index >= start) {
         index -= start;
         offset = 5 - index;
         imageBuild = "uno cards/" + cardStr.hue + "_" + cardStr.value + ".png";
-        card = PIXI.Sprite.fromImage(imageBuild);
-        card.anchor.set(.5);
-        card.y = 500;
-        card.x = app.renderer.width / 2;
-        card.x += (cardWidth * scale / 2) * offset;
-        card.scale.x = card.scale.y = scale;
-        card.interactive = true;
-        card.buttonMode = true;
-        card.name = imageBuild.split('/')[1];
-        card.on('pointerdown', clickCard);
-        results.push(app.stage.addChild(card));
-      } else {
-        results.push(void 0);
+        if (imageBuild.split('_')[0] === currentCard.hue || (imageBuild.split('_')[1]).split('.')[0] === currentCard.value) {
+          return true;
+        }
+        console.log("check this: " + imageBuild.split('_'));
       }
     }
-    return results;
   };
 
   wild = function() {
@@ -418,9 +407,15 @@
   onClickNo = function() {};
 
   clickCard = function() {
-    console.log("Card hue: " + (this.name.split('_')[1]).split('.')[0] + "  Current Card hue: " + currentCard.value);
+    console.log("hey oh" + this.name.indexOf('wild'));
     if (this.name.indexOf('wild') !== -1) {
-      wild();
+      console.log("Wild 4: " + (this.name.split('_')[1]).split('.')[0] + "what the hell" + wildFour());
+      if ((this.name.split('_')[1]).split('.')[0] === '11' && wildFour() === true) {
+        console.log("Wild 4: " + (this.name.split('_')[1]).split('.')[0] + "what the hell" + wildFour());
+        alert("You can not play a Wild +4 at this time.");
+      } else {
+        wild();
+      }
     }
     if (this.name.split('_')[0] === currentCard.hue || (this.name.split('_')[1]).split('.')[0] === currentCard.value) {
       this.scale.x *= 1.2;

@@ -330,17 +330,11 @@ wildFour = ->
             index -= start
             offset = 5 - index
             imageBuild = "uno cards/" + cardStr.hue + "_" + cardStr.value + ".png"
-            card = PIXI.Sprite.fromImage(imageBuild)
-            card.anchor.set(.5)
-            card.y = 500
-            card.x = app.renderer.width / 2
-            card.x += (cardWidth * scale / 2) * offset
-            card.scale.x = card.scale.y = scale
-            card.interactive = true
-            card.buttonMode = true
-            card.name = imageBuild.split('/')[1]
-            card.on('pointerdown', clickCard)
-            app.stage.addChild(card)
+            if imageBuild.split('_')[0] == currentCard.hue or (imageBuild.split('_')[1]).split('.')[0] == currentCard.value
+                return true
+            console.log("check this: " + imageBuild.split('_'))
+
+
 wild = ->
     red.scale.x = red.scale.y = scale
     red.anchor.set(.5)
@@ -413,12 +407,14 @@ onClickNo = ->
     return
 
 clickCard = ->
-#  TODO Need to implement rule for Wild +4
-    console.log("Card hue: " + (@name.split('_')[1]).split('.')[0] + "  Current Card hue: " + currentCard.value)
+    console.log("hey oh" + @name.indexOf('wild'))
     if @name.indexOf('wild') != -1
-        wild()
-#        if (@name.split('_')[1]).split('.')[0] == 11
-
+        console.log("Wild 4: " + (@name.split('_')[1]).split('.')[0] + "what the hell" + wildFour())
+        if (@name.split('_')[1]).split('.')[0] == '11' and wildFour() == true
+            console.log("Wild 4: " + (@name.split('_')[1]).split('.')[0] + "what the hell" + wildFour())
+            alert("You can not play a Wild +4 at this time.")
+        else
+            wild()
     if @name.split('_')[0] == currentCard.hue or (@name.split('_')[1]).split('.')[0] == currentCard.value
         @scale.x *= 1.2
         @scale.y *= 1.2
