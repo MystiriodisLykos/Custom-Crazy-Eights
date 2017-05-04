@@ -505,8 +505,8 @@
           getName2(p.player);
           getNumber(p.player, p.cards);
         }
-        getCheck(current.name);
-        playing = current.name === playerName;
+        getCheck(current.player);
+        playing = current.player === playerName;
         currentCard = message.data.card;
         updateCard();
         console.log('turn');
