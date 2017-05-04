@@ -34,6 +34,7 @@ yellow = PIXI.Sprite.fromImage('colors/yellow.png')
 pickColor = new PIXI.Text("Choose a color:", nameStyle)
 gb = PIXI.Sprite.fromImage('buttons/grainCheck.png')
 
+
 cardSprites = []
 #card = PIXI.Sprite.fromImage('uno cards/face_down.png')
 
@@ -43,6 +44,16 @@ nameStyle = new PIXI.TextStyle(
     fontFamily: 'Arial',
     fontSize: 24,
     wordwrap: true
+)
+
+boxStyle = new PIXI.TextStyle(
+    fontFamily: 'Comic Sans MS',
+    fontSize: 30
+)
+
+homeBox = new PIXI.TextStyle(
+    fontFamily: 'Comic Sans MS'
+    fontSize: 20
 )
 
 welcStyle = new PIXI.TextStyle(
@@ -151,6 +162,15 @@ welcome = ->
     border.y = (window.innerHeight / 2) + 40
     app.stage.addChild(border)
 
+    putIt = ->
+        #playerName = input.text
+        getName(playerName)
+        clearStage()
+        clearStage()
+        clearStage()
+        draw()
+    return
+
     # text for no play button
     welcomePageHead = new PIXI.Text("Welcome to UNO!", welcStyle)
     welcomePageHead.scale.x = welcomePageHead.scale.y *= 1.01
@@ -158,10 +178,7 @@ welcome = ->
     welcomePageHead.y = (window.innerHeight / 2) - 300
     app.stage.addChild(welcomePageHead)
 
-    boxStyle = new PIXI.TextStyle(
-        fontFamily: 'Comic Sans MS',
-        fontSize: 30
-    )
+
     # text for enter name here
     nameHere = new PIXI.Text("Enter your username:", nameStyle)
     nameHere.scale.x = nameHere.scale.y *= 1.1
@@ -218,6 +235,21 @@ draw = ->
     #  if ca.length % 2 == 0
     #    offset = cardWidth*scale/4
     # draw the left triangle for carousel
+
+    stefan = PIXI.Sprite.fromImage('buttons/border.png')
+    stefan.anchor.set(.5)
+    stefan.scale.x *= .4
+    stefan.scale.y *= .25
+    stefan.x = (window.innerWidth / 2) - 430
+    stefan.y = (window.innerHeight / 2) - 30
+    app.stage.addChild(stefan)
+
+    dusty = new PIXI.Text("PLAYERS       # of cards", homeBox)
+    dusty.scale.x = dusty.scale.y *= 1.1
+    dusty.x = (window.innerWidth / 2) - 550
+    dusty.y = (window.innerHeight / 2) - 160
+    app.stage.addChild(dusty)
+
     leftArr.anchor.set(.5)
     leftArr.scale.x = leftArr.scale.y = scale
     leftArr.x = (window.innerWidth / 2) - 290
@@ -338,7 +370,7 @@ wildFour = ->
 wild = ->
     red.scale.x = red.scale.y = scale
     red.anchor.set(.5)
-    red.x = (window.innerWidth / 2) - 450
+    red.x = (window.innerWidth / 2) + 450
     red.y = (window.innerHeight / 2) - 100
     red.interactive = true
     red.buttonMode = true
@@ -347,7 +379,7 @@ wild = ->
 
     blue.scale.x = blue.scale.y = scale
     blue.anchor.set(.5)
-    blue.x = (window.innerWidth / 2) - 350
+    blue.x = (window.innerWidth / 2) + 350
     blue.y = (window.innerHeight / 2) - 100
     blue.interactive = true
     blue.buttonMode = true
@@ -356,7 +388,7 @@ wild = ->
 
     yellow.scale.x = yellow.scale.y = scale
     yellow.anchor.set(.5)
-    yellow.x = (window.innerWidth / 2) - 450
+    yellow.x = (window.innerWidth / 2) + 450
     yellow.y = (window.innerHeight / 2)
     yellow.interactive = true
     yellow.buttonMode = true
@@ -365,7 +397,7 @@ wild = ->
 
     green.scale.x = green.scale.y = scale
     green.anchor.set(.5)
-    green.x = (window.innerWidth / 2) - 350
+    green.x = (window.innerWidth / 2) + 350
     green.y = (window.innerHeight / 2)
     green.interactive = true
     green.buttonMode = true
@@ -373,7 +405,7 @@ wild = ->
     app.stage.addChild(green)
 
     pickColor = new PIXI.Text("Choose a color:", nameStyle)
-    pickColor.x = (window.innerWidth / 2) - 490
+    pickColor.x = (window.innerWidth / 2) + 310
     pickColor.y = (window.innerHeight / 2) - 180
     app.stage.addChild(pickColor)
 
