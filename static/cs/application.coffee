@@ -475,8 +475,8 @@ server.onmessage = (message) ->
             for p in message.data.players
                 if p.playing
                     current = p
-                getName2(p.name)
-                getNumber(p.name, p.cards)
+                getName2(p.player)
+                getNumber(p.player, p.cards)
             getCheck(current.name)
             playing = current.name == playerName
             currentCard = message.data.card

@@ -502,8 +502,8 @@
           if (p.playing) {
             current = p;
           }
-          getName2(p.name);
-          getNumber(p.name, p.cards);
+          getName2(p.player);
+          getNumber(p.player, p.cards);
         }
         getCheck(current.name);
         playing = current.name === playerName;
