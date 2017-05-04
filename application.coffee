@@ -34,6 +34,31 @@ window.onload = (e) ->
     welcome()
     return
 
+boxStyle = new PIXI.TextStyle(
+    fontFamily: 'Comic Sans MS',
+    fontSize: 30
+)
+
+homeBox = new PIXI.TextStyle(
+    fontFamily: 'Comic Sans MS'
+    fontSize: 20
+)
+
+welcStyle = new PIXI.TextStyle(
+    fontFamily: 'Arial',
+    fontSize: 100
+    fontWeight: 'bold',
+    fill: ['#ffe702', '#ff130a'],
+    stroke: '#121000',
+    strokeThickness: 5,
+    dropShadow: true,
+    dropShadowColor: '#000000',
+    dropShadowBlur: 4,
+    dropShadowAngle: Math.PI / 6,
+    dropShadowDistance: 6,
+)
+
+
 window.onresize = (e) ->
     w = window.innerWidth - 25
     h = window.innerHeight - 25
@@ -59,6 +84,7 @@ readyToPlay = ->
         server.send(message)
         return
     )
+
     # text for ready click
     check = new PIXI.Text("Click check mark when ready", nameStyle)
     check.x = (window.innerWidth / 2) - 555
@@ -115,23 +141,25 @@ welcome = ->
 
     # Text for no play button
     welcomePageHead = new PIXI.Text("Welcome to UNO!", welcStyle)
+    welcomePageHead.scale.x = welcomePageHead.scale.y *= 1.01
     welcomePageHead.x = (window.innerWidth / 2) - 610
     welcomePageHead.y = (window.innerHeight / 2) - 300
     app.stage.addChild(welcomePageHead)
 
-    # Text for enter name here
+    # text for enter name here
     nameHere = new PIXI.Text("Enter your username:", nameStyle)
+    nameHere.scale.x = nameHere.scale.y *= 1.1
     nameHere.x = (window.innerWidth / 2) - 575
     nameHere.y = (window.innerHeight / 2) - 45
     app.stage.addChild(nameHere)
 
-    # Players Heading
+    #Players Heading
     playas = new PIXI.Text("PLAYERS", boxStyle)
+    playas.scale.x = playas.scale.y *= 1.1
     playas.x = (window.innerWidth / 2) + 340
     playas.y = (window.innerHeight / 2) - 190
     app.stage.addChild(playas)
 
-    # Text box to enter player's name
     input = new PixiTextInput()
     input.width = 150
     input.height = 40
@@ -164,6 +192,20 @@ game = ->
         dropShadowAngle: Math.PI / 6,
         dropShadowDistance: 6,
     )
+
+    stefan = PIXI.Sprite.fromImage('buttons/border.png')
+    stefan.anchor.set(.5)
+    stefan.scale.x *= .4
+    stefan.scale.y *= .25
+    stefan.x = (window.innerWidth / 2) - 430
+    stefan.y = (window.innerHeight / 2) - 30
+    app.stage.addChild(stefan)
+
+    dusty = new PIXI.Text("PLAYERS       # of cards", homeBox)
+    dusty.scale.x = dusty.scale.y *= 1.1
+    dusty.x = (window.innerWidth / 2) - 550
+    dusty.y = (window.innerHeight / 2) - 160
+    app.stage.addChild(dusty)
 
     leftArr = PIXI.Sprite.fromImage('../static/assets/buttons/leftArrow.png')
     leftArr.anchor.set(.5)
@@ -232,12 +274,23 @@ game = ->
     unableToPlay = new PIXI.Text("Click red button if you do not have a card to play", style)
     unableToPlay.x = (window.innerWidth / 2) - 610
     unableToPlay.y = (window.innerHeight / 2) + 175
+    noplay.scale.x = noplay.scale.y *= 1.01
     app.stage.addChild(unableToPlay)
 
     welcomeToUno = new PIXI.Text("Let's Play UNO!!!", style1)
+    welcomeToUno.scale.x = welcomeToUno.scale.y *= 1.01
     welcomeToUno.x = (window.innerWidth / 2) - 500
     welcomeToUno.y = (window.innerHeight) - 650
     app.stage.addChild(welcomeToUno)
+
+    # TODO: Put in seperate function
+    #Draw current card
+    upCard = PIXI.Sprite.fromImage("uno cards/" + currentCard.hue + "_" + currentCard.value + ".png")
+    upCard.anchor.set(.5)
+    upCard.scale.x = upCard.scale.y = scale
+    upCard.x = (window.innerWidth / 2) + 75
+    upCard.y = (window.innerHeight / 2) - 75
+    app.stage.addChild(upCard)
 
     #Draw face down card
     faceDown = PIXI.Sprite.fromImage('../static/assets/cards/face_down.png')
@@ -246,11 +299,20 @@ game = ->
     faceDown.x = (window.innerWidth / 2) - 75
     faceDown.y = (window.innerHeight / 2) - 75
     app.stage.addChild(faceDown)
-
     drawHand()
     return
 
 drawHand = ->
+    clickCard = ->
+        if @name.indexOf('wild') != -1
+            if (@name.split('_')[1]).split('.')[0] == '11' and wildFour() == true
+                alert("You can not play a Wild +4 at this time.")
+            else
+                wild()
+        if @name.split('_')[0] == currentCard.hue or (@name.split('_')[1]).split('.')[0] == currentCard.value
+            @scale.x *= 1.2
+            @scale.y *= 1.2
+
     # display cards in hand (up to max)
     for s in app.stage.children
         if s and s.color
@@ -264,7 +326,6 @@ drawHand = ->
             card = PIXI.Sprite.fromImage(cardStr)
             card.anchor.set(.5)
             card.y = 500
-            card.colo
             card.x = app.renderer.width / 2
             card.x += (cardWidth * scale / 2) * offset
             card.scale.x = card.scale.y = scale
@@ -272,12 +333,7 @@ drawHand = ->
             card.buttonMode = true
             card.color = cardO.color
             card.value = cardO.value
-            card.on('pointerdown', () ->
-                if @name.indexOf('wild') != -1
-                    wild()
-                @scale.x *= 1.2
-                return
-            )
+            card.on('pointerdown', clickCard)
             app.stage.addChild(card)
     return
 
@@ -400,4 +456,42 @@ server.onmessage = (message) ->
         else
             # TODO display that an unknown type was recived
             console.log 'unknown response'
+    return
+
+wildFour = ->
+    for cardStr, index in ca2
+        if index <= end and index >= start
+            index -= start
+            offset = 5 - index
+            imageBuild = "uno cards/" + cardStr.hue + "_" + cardStr.value + ".png"
+            if imageBuild.split('_')[0] == currentCard.hue or (imageBuild.split('_')[1]).split('.')[0] == currentCard.value
+                return true
+            console.log("check this: " + imageBuild.split('_'))
+
+getName2 = (Pname) ->
+    count = listDict[Pname]
+    listName = new PIXI.Text(Pname, nameStyle)
+    listName.x = (window.innerWidth / 2) - 530
+    listName.y = (window.innerHeight/2) - 120 + (40 * count)
+    app.stage.addChild(listName)
+    return
+
+getNumber = (Pname, norwhatever) ->
+    count = listDict[Pname]
+    listNum = new PIXI.Text(norwhatever, nameStyle)
+    listNum.x = (window.innerWidth / 2) - 380
+    listNum.y = (window.innerHeight/2) - 120 + (40 * count)
+    app.stage.addChild(listNum)
+    return
+
+setTurn = (Pname) ->
+    for p in app.stage.children
+        if p.turn
+            app.stage.remove(p)
+    count = listDict[Pname]
+    arrow = new PIXI.Sprite.fromImage('buttons/grainCheck.png')
+    arrow.scale.x = arrow.scale.y = scale
+    arrow.x = (window.innerWidth / 2) - 560
+    arrow.y = (window.innerHeight/2) - 120 + (40 * count)
+    app.stage.addChild(arrow)
     return
