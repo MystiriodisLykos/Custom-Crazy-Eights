@@ -252,9 +252,10 @@ game = ->
 
 drawHand = ->
     # display cards in hand (up to max)
-    for s in app.stage.children
-        if s.name?
-            app.color.remove(s)
+    for i in [1..3]
+        for s in app.stage.children
+            if s.name?
+                app.color.remove(s)
     for cardO, index in ca
         if index <= end and index >= start
             index -= start

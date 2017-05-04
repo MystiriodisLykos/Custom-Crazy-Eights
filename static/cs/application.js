@@ -238,15 +238,17 @@
   };
 
   drawHand = function() {
-    var card, cardO, cardStr, i, index, j, len, len1, offset, ref, s, starter;
-    ref = app.stage.children;
-    for (i = 0, len = ref.length; i < len; i++) {
-      s = ref[i];
-      if (s.name != null) {
-        app.color.remove(s);
+    var card, cardO, cardStr, i, index, j, k, l, len, len1, offset, ref, s, starter;
+    for (i = j = 1; j <= 3; i = ++j) {
+      ref = app.stage.children;
+      for (k = 0, len = ref.length; k < len; k++) {
+        s = ref[k];
+        if (s.name != null) {
+          app.color.remove(s);
+        }
       }
     }
-    for (index = j = 0, len1 = ca.length; j < len1; index = ++j) {
+    for (index = l = 0, len1 = ca.length; l < len1; index = ++l) {
       cardO = ca[index];
       if (index <= end && index >= start) {
         index -= start;
@@ -328,10 +330,10 @@
   };
 
   clearStage = function() {
-    var child, i, len, ref;
+    var child, j, len, ref;
     ref = app.stage.children;
-    for (i = 0, len = ref.length; i < len; i++) {
-      child = ref[i];
+    for (j = 0, len = ref.length; j < len; j++) {
+      child = ref[j];
       app.stage.removeChild(child);
     }
   };
