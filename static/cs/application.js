@@ -244,7 +244,7 @@
       for (k = 0, len = ref.length; k < len; k++) {
         s = ref[k];
         console.log('test');
-        if (typeof s.color !== "undefined" && (s.color != null)) {
+        if (typeof s.color !== void 0 && (s.color != null)) {
           app.color.remove(s);
         }
       }
