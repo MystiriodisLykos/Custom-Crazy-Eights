@@ -301,7 +301,7 @@
   drawHand = function() {
     var card, cardO, cardStr, clickCard, i, index, j, len, len1, offset, ref, s, starter;
     clickCard = function() {
-      var data, i, len, message, play, ref, s;
+      var c, data, i, index, j, len, len1, message, play, ref, rem, s;
       if (playing) {
         play = false;
         if (this.color.indexOf('wild') !== -1) {
@@ -335,6 +335,15 @@
               }
             }
           }
+          rem = 0;
+          for (index = j = 0, len1 = ca.length; j < len1; index = ++j) {
+            c = ca[index];
+            if (c.color === this.color && c.color === this.value) {
+              rem = index;
+              break;
+            }
+          }
+          ca.splice(rem, 1);
         }
       }
     };

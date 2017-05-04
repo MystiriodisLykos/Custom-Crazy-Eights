@@ -326,6 +326,12 @@ drawHand = ->
                         if s.color == @color and s.value = @value
                             app.stage.removeChild(s)
                             break
+                rem = 0
+                for c, index in ca
+                    if c.color == @color and c.color == @value
+                        rem = index
+                        break
+                ca.splice(rem, 1)
         return
 
     # display cards in hand (up to max)

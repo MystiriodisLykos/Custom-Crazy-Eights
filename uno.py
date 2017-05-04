@@ -127,6 +127,7 @@ class UnoGame(object):
                 self.gg(name)
             card = Card(data['color'], data['value'])
             self.discard.append(card)
+        self.cast(json.dump({'type': 'test'}))
         self.turn()
 
     def uno(self, name):
