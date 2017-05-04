@@ -222,7 +222,7 @@
         start--;
         end--;
       }
-      drawHand();
+      draw();
     });
     app.stage.addChild(leftArr);
     rightArr = PIXI.Sprite.fromImage('../static/assets/buttons/rightArrow.png');
@@ -238,7 +238,7 @@
         start++;
         end++;
       }
-      drawHand();
+      draw();
     });
     app.stage.addChild(rightArr);
     ubutt = PIXI.Sprite.fromImage('../static/assets/buttons/ubutton.png');
@@ -454,7 +454,6 @@
       child = ref[i];
       app.stage.removeChild(child);
     }
-    game();
   };
 
   getName = function(Pname) {

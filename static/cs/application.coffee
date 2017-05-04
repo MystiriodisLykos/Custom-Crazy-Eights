@@ -220,7 +220,7 @@ game = ->
         if start != 0
             start--
             end--
-        drawHand()
+        draw()
         return
     )
     app.stage.addChild(leftArr)
@@ -238,7 +238,7 @@ game = ->
         if end != ca.length - 1
             start++
             end++
-        drawHand()
+        draw()
         return
     )
     app.stage.addChild(rightArr)
@@ -435,7 +435,6 @@ wild = (card) ->
 clearStage = ->
     for child in app.stage.children
         app.stage.removeChild(child)
-    game()
     return
 
 # Function that takes a name and displays in the border/ player list
