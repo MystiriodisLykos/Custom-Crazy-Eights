@@ -238,9 +238,15 @@
   };
 
   drawHand = function() {
-    var card, cardO, cardStr, i, index, len, offset, starter;
-    clearStage();
-    for (index = i = 0, len = ca.length; i < len; index = ++i) {
+    var card, cardO, cardStr, i, index, j, len, len1, offset, ref, s, starter;
+    ref = app.stage.children;
+    for (i = 0, len = ref.length; i < len; i++) {
+      s = ref[i];
+      if (s.name != null) {
+        app.color.remove(s);
+      }
+    }
+    for (index = j = 0, len1 = ca.length; j < len1; index = ++j) {
       cardO = ca[index];
       if (index <= end && index >= start) {
         index -= start;
