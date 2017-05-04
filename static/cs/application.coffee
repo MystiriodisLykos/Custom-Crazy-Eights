@@ -173,10 +173,10 @@ game = ->
     leftArr.interactive = true
     leftArr.buttonMode = true
     leftArr.on('pointerdown', () ->
-        console.log 'right'
         if end != ca.length - 1
             start++
             end++
+        drawHand()
         return
     )
     app.stage.addChild(leftArr)
@@ -190,10 +190,10 @@ game = ->
     rightArr.interactive = true
     rightArr.buttonMode = true
     rightArr.on('pointerdown', () ->
-        console.log 'left'
         if start != 0
             start--
             end--
+        drawHand()
         return
     )
     app.stage.addChild(rightArr)
@@ -252,6 +252,7 @@ game = ->
 
 drawHand = ->
     # display cards in hand (up to max)
+    clearStage()
     for cardO, index in ca
         if index <= end and index >= start
             index -= start

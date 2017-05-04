@@ -176,11 +176,11 @@
     leftArr.interactive = true;
     leftArr.buttonMode = true;
     leftArr.on('pointerdown', function() {
-      console.log('right');
       if (end !== ca.length - 1) {
         start++;
         end++;
       }
+      drawHand();
     });
     app.stage.addChild(leftArr);
     rightArr = PIXI.Sprite.fromImage('../static/assets/buttons/rightArrow.png');
@@ -191,11 +191,11 @@
     rightArr.interactive = true;
     rightArr.buttonMode = true;
     rightArr.on('pointerdown', function() {
-      console.log('left');
       if (start !== 0) {
         start--;
         end--;
       }
+      drawHand();
     });
     app.stage.addChild(rightArr);
     ubutt = PIXI.Sprite.fromImage('../static/assets/buttons/ubutton.png');
@@ -239,6 +239,7 @@
 
   drawHand = function() {
     var card, cardO, cardStr, i, index, len, offset, starter;
+    clearStage();
     for (index = i = 0, len = ca.length; i < len; index = ++i) {
       cardO = ca[index];
       if (index <= end && index >= start) {
