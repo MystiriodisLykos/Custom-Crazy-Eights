@@ -193,7 +193,7 @@ game = ->
         dropShadowDistance: 6,
     )
 
-    stefan = PIXI.Sprite.fromImage('buttons/border.png')
+    stefan = PIXI.Sprite.fromImage('../static/assets/buttons/border.png')
     stefan.anchor.set(.5)
     stefan.scale.x *= .4
     stefan.scale.y *= .25
@@ -466,7 +466,7 @@ wildFour = ->
             imageBuild = "uno cards/" + cardStr.hue + "_" + cardStr.value + ".png"
             if imageBuild.split('_')[0] == currentCard.hue or (imageBuild.split('_')[1]).split('.')[0] == currentCard.value
                 return true
-            console.log("check this: " + imageBuild.split('_'))
+#            console.log("check this: " + imageBuild.split('_'))
 
 getName2 = (Pname) ->
     count = listDict[Pname]
@@ -489,7 +489,7 @@ setTurn = (Pname) ->
         if p.turn
             app.stage.remove(p)
     count = listDict[Pname]
-    arrow = new PIXI.Sprite.fromImage('buttons/grainCheck.png')
+    arrow = new PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png')
     arrow.scale.x = arrow.scale.y = scale
     arrow.x = (window.innerWidth / 2) - 560
     arrow.y = (window.innerHeight/2) - 120 + (40 * count)
