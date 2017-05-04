@@ -217,12 +217,11 @@
     leftArr.interactive = true;
     leftArr.buttonMode = true;
     leftArr.on('pointerdown', function() {
-      clearStage();
       if (start !== 0) {
         start--;
         end--;
       }
-      game();
+      drawHand();
     });
     app.stage.addChild(leftArr);
     rightArr = PIXI.Sprite.fromImage('../static/assets/buttons/rightArrow.png');
@@ -233,12 +232,11 @@
     rightArr.interactive = true;
     rightArr.buttonMode = true;
     rightArr.on('pointerdown', function() {
-      clearStage();
       if (end !== ca.length - 1) {
         start++;
         end++;
       }
-      game();
+      drawHand();
     });
     app.stage.addChild(rightArr);
     ubutt = PIXI.Sprite.fromImage('../static/assets/buttons/ubutton.png');
@@ -352,7 +350,7 @@
     ref = app.stage.children;
     for (i = 0, len = ref.length; i < len; i++) {
       s = ref[i];
-      if (s && s.color) {
+      if (s && s.color && s.value) {
         app.stage.removeChild(s);
       }
     }
