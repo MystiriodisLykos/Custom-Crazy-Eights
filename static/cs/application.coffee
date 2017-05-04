@@ -539,7 +539,7 @@ setTurn = (Pname) ->
     arrow = new PIXI.Sprite.fromImage('../static/assets/buttons/grainCheck.png')
     arrow.scale.x = arrow.scale.y = scale
     arrow.turn = true
-    arrow.x = (window.innerWidth / 2)
+    arrow.x = (window.innerWidth / 2) - 560
     arrow.y = (window.innerHeight/2) - 120 + (40 * count)
     app.stage.addChild(arrow)
     return
