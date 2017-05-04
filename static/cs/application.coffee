@@ -447,6 +447,13 @@ server.onmessage = (message) ->
             # TODO show message saying you forgot to call UNO
             console.log 'uno'
         when 'turn'
+            current = ''
+            for p in message.data.players
+                if p.playing
+                    current = p
+                getName2(p.name)
+                getName2(p.name, p.cards)
+            getCheck(current.name)
             # TODO figure out what cards can be played if it's my turn
             # TODO update the player board with the current person's turn and remain cards
             console.log 'turn'

@@ -411,6 +411,7 @@
   };
 
   server.onmessage = function(message) {
+    var current, i, len, p, ref;
     message = JSON.parse(message.data);
     console.log(message);
     switch (message.type) {
@@ -440,6 +441,17 @@
         console.log('uno');
         break;
       case 'turn':
+        current = '';
+        ref = message.data.players;
+        for (i = 0, len = ref.length; i < len; i++) {
+          p = ref[i];
+          if (p.playing) {
+            current = p;
+          }
+          getName2(p.name);
+          getName2(p.name, p.cards);
+        }
+        getCheck(current.name);
         console.log('turn');
         break;
       case 'gg':
