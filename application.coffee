@@ -162,15 +162,6 @@ welcome = ->
     border.y = (window.innerHeight / 2) + 40
     app.stage.addChild(border)
 
-    putIt = ->
-        #playerName = input.text
-        getName(playerName)
-        clearStage()
-        clearStage()
-        clearStage()
-        draw()
-    return
-
     # text for no play button
     welcomePageHead = new PIXI.Text("Welcome to UNO!", welcStyle)
     welcomePageHead.scale.x = welcomePageHead.scale.y *= 1.01
@@ -208,13 +199,13 @@ welcome = ->
 
 # Function that takes a name and displays in the border/ player list
 getName = (Pname) ->
+    console.log(["What's up motherfucker" + Pname])
     listDict[Pname] = nameCount
     nameCount++
-    for key, value of listDict
-        listName = new PIXI.Text(Pname, nameStyle)
-        listName.x = window.innerWidth / 2 + 300
-        listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200)
-        app.stage.addChild(listName)
+    listName = new PIXI.Text(Pname, nameStyle)
+    listName.x = window.innerWidth / 2 + 300
+    listName.y = window.innerHeight / 2 + ((75 * nameCount) - 200)
+    app.stage.addChild(listName)
     getCheck(Pname)
     return
 
@@ -229,8 +220,34 @@ getCheck = (Pname) ->
     app.stage.addChild(ready)
     return
 
+getName2 = (Pname) ->
+    count = listDict[Pname]
+    listName = new PIXI.Text(Pname, nameStyle)
+    listName.x = (window.innerWidth / 2) - 550
+    listName.y = (window.innerHeight/2) - 120 + (50 * count)
+    app.stage.addChild(listName)
+    return
+
+getNumber = (Pname, norwhatever) ->
+    count = listDict[Pname]
+    listNum = new PIXI.Text(norwhatever, nameStyle)
+    listNum.x = (window.innerWidth / 2) - 380
+    listNum.y = (window.innerHeight/2) - 120 + (50 * count)
+    app.stage.addChild(listNum)
+    return
+
+# TODO: make function to put an arrow on a name given
+
 draw = ->
     clearStage()
+    getName2('Test')
+    getName2('Bubba')
+    getNumber('Test', 3)
+    getNumber('Bubba', 8)
+#    getName2('Asshole')
+#    getName2('Smaug')
+#    getName2('Bootstrap')
+
     #  offset = 0
     #  if ca.length % 2 == 0
     #    offset = cardWidth*scale/4
