@@ -238,7 +238,6 @@
   };
 
   drawHand = function() {
-    var card, cardO, cardStr, i, index, j, k, len, offset, s, starter;
     for (i = j = 1; j <= 3; i = ++j) {
       for (s in app.stage.children) {
         if (s.color) {
@@ -246,7 +245,6 @@
         }
       }
     }
-    for (index = k = 0, len = ca.length; k < len; index = ++k) {
       cardO = ca[index];
       if (index <= end && index >= start) {
         index -= start;
