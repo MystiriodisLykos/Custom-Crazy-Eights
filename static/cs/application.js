@@ -540,19 +540,11 @@
   };
 
   getNumber = function(Pname, norwhatever) {
-    var count, i, len, listNum, p, ref;
-    ref = app.stage.children;
-    for (i = 0, len = ref.length; i < len; i++) {
-      p = ref[i];
-      if (p && p.number) {
-        app.stage.removeChild(p);
-      }
-    }
+    var count, listNum;
     count = listDict[Pname];
     listNum = new PIXI.Text(norwhatever, nameStyle);
     listNum.x = (window.innerWidth / 2) - 380;
     listNum.y = (window.innerHeight / 2) - 120 + (40 * count);
-    listNum.number = norwhatever;
     app.stage.addChild(listNum);
   };
 

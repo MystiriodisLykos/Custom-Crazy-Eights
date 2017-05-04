@@ -505,14 +505,10 @@ getName2 = (Pname) ->
     return
 
 getNumber = (Pname, norwhatever) ->
-    for p in app.stage.children
-        if p and p.number
-            app.stage.removeChild(p)
     count = listDict[Pname]
     listNum = new PIXI.Text(norwhatever, nameStyle)
     listNum.x = (window.innerWidth / 2) - 380
     listNum.y = (window.innerHeight/2) - 120 + (40 * count)
-    listNum.number = norwhatever
     app.stage.addChild(listNum)
     return
 
