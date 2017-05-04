@@ -12,7 +12,7 @@ ca = ["uno cards/green_6.png", "uno cards/blue_6.png", "uno cards/wild.png", "un
 
 #ca = ['uno cards/wild.png', 'uno cards/red_1.png', 'uno cards/green_3.png']
 
-start = 0
+start = 1
 scale = 0.2
 cardWidth = 586
 cardHeight = 878
@@ -32,6 +32,7 @@ blue = PIXI.Sprite.fromImage('colors/blue.png')
 green = PIXI.Sprite.fromImage('colors/grain.png')
 yellow = PIXI.Sprite.fromImage('colors/yellow.png')
 pickColor = new PIXI.Text("Choose a color:", nameStyle)
+gb = PIXI.Sprite.fromImage('buttons/grainCheck.png')
 
 cardSprites = []
 #card = PIXI.Sprite.fromImage('uno cards/face_down.png')
@@ -74,12 +75,14 @@ card2 = new Card('blue', '5')
 card3 = new Card('yellow', '7')
 card4 = new Card('wild','10')
 card5 = new Card('wild', '11')
-card3 = new Card('yellow', '7')
-card3 = new Card('yellow', '7')
-card3 = new Card('yellow', '7')
+card6 = new Card('yellow', '9')
+card7 = new Card('blue', '7')
+card8 = new Card('red', '4')
+card9 = new Card('red', '5')
+card10 = new Card('blue', '8')
 currentCard = new Card('green', '5')
 
-ca2 = [card1,card2,card3,card4,card5]
+ca2 = [card1,card2,card3,card4,card5,card6,card7,card8,card9,card10]
 
 window.onload = (e) ->
     welcome()
@@ -119,6 +122,7 @@ readyToPlay = ->
 
     # text for ready click
     check = new PIXI.Text("Click check mark when ready", nameStyle)
+    check.scale.x = check.scale.y = scale
     check.x = (window.innerWidth / 2) - 555
     check.y = (window.innerHeight / 2) + 25
     app.stage.addChild(check)
@@ -143,12 +147,13 @@ welcome = ->
     border = PIXI.Sprite.fromImage('buttons/border.png')
     border.anchor.set(.5)
     border.scale.x = border.scale.y *= .45
-    border.x = (window.innerWidth / 2) + 400
+    border.x = (window.innerWidth / 2) + 415
     border.y = (window.innerHeight / 2) + 40
     app.stage.addChild(border)
 
     # text for no play button
     welcomePageHead = new PIXI.Text("Welcome to UNO!", welcStyle)
+    welcomePageHead.scale.x = welcomePageHead.scale.y *= 1.01
     welcomePageHead.x = (window.innerWidth / 2) - 610
     welcomePageHead.y = (window.innerHeight / 2) - 300
     app.stage.addChild(welcomePageHead)
@@ -159,12 +164,14 @@ welcome = ->
     )
     # text for enter name here
     nameHere = new PIXI.Text("Enter your username:", nameStyle)
+    nameHere.scale.x = nameHere.scale.y *= 1.1
     nameHere.x = (window.innerWidth / 2) - 575
     nameHere.y = (window.innerHeight / 2) - 45
     app.stage.addChild(nameHere)
 
     #Players Heading
     playas = new PIXI.Text("PLAYERS", boxStyle)
+    playas.scale.x = playas.scale.y *= 1.1
     playas.x = (window.innerWidth / 2) + 340
     playas.y = (window.innerHeight / 2) - 190
     app.stage.addChild(playas)
@@ -197,11 +204,11 @@ getName = (Pname) ->
 # And/or takes the name and a boolean that they are ready and puts a check mark in the list next to the name
 getCheck = (Pname) ->
     number = listDict[Pname]
-    ready = PIXI.Sprite.fromImage('buttons/ready.png')
+    ready = PIXI.Sprite.fromImage('buttons/grainCheck.png')
 #    ready.anchor.set(.5)
-    ready.scale.x = ready.scale.y = scale * .25
+    ready.scale.x = ready.scale.y = scale
     ready.x = window.innerWidth / 2 + 300 + 100
-    ready.y = window.innerHeight / 2 + ((75 * number) - 200)
+    ready.y = window.innerHeight / 2 + ((75 * number) - 125)
     app.stage.addChild(ready)
     return
 
@@ -258,6 +265,7 @@ draw = ->
     unableToPlay = new PIXI.Text("Click red button if you do not have a card to play", style)
     unableToPlay.x = (window.innerWidth / 2) - 610
     unableToPlay.y = (window.innerHeight / 2) + 175
+    noplay.scale.x = noplay.scale.y *= 1.01
     app.stage.addChild(unableToPlay)
 
     style1 = new PIXI.TextStyle(
@@ -275,6 +283,7 @@ draw = ->
     )
 
     welcomeToUno = new PIXI.Text("Let's Play UNO!!!", style1)
+    welcomeToUno.scale.x = welcomeToUno.scale.y *= 1.01
     welcomeToUno.x = (window.innerWidth / 2) - 500
     welcomeToUno.y = (window.innerHeight) - 650
     app.stage.addChild(welcomeToUno)
@@ -314,6 +323,24 @@ draw = ->
     #    for child in app.stage.schildren
     #        child.on('pointerdown', () -> child.scale.x *= 2)
     return
+
+wildFour = ->
+    for cardStr, index in ca2
+        if index <= end and index >= start
+            index -= start
+            offset = 5 - index
+            imageBuild = "uno cards/" + cardStr.hue + "_" + cardStr.value + ".png"
+            card = PIXI.Sprite.fromImage(imageBuild)
+            card.anchor.set(.5)
+            card.y = 500
+            card.x = app.renderer.width / 2
+            card.x += (cardWidth * scale / 2) * offset
+            card.scale.x = card.scale.y = scale
+            card.interactive = true
+            card.buttonMode = true
+            card.name = imageBuild.split('/')[1]
+            card.on('pointerdown', clickCard)
+            app.stage.addChild(card)
 wild = ->
     red.scale.x = red.scale.y = scale
     red.anchor.set(.5)
@@ -359,7 +386,7 @@ wild = ->
 
     return
 
-onClickRight = ->
+onClickLeft = ->
     clearStage()
     if start != 0
         start -= 1
@@ -367,7 +394,10 @@ onClickRight = ->
     draw()
     return
 
-onClickLeft = ->
+onClickRight = ->
+    clearStage()
+    clearStage()
+    clearStage()
     if end != ca.length - 1
         start += 1
         end += 1
@@ -383,9 +413,12 @@ onClickNo = ->
     return
 
 clickCard = ->
+#  TODO Need to implement rule for Wild +4
     console.log("Card hue: " + (@name.split('_')[1]).split('.')[0] + "  Current Card hue: " + currentCard.value)
     if @name.indexOf('wild') != -1
         wild()
+#        if (@name.split('_')[1]).split('.')[0] == 11
+
     if @name.split('_')[0] == currentCard.hue or (@name.split('_')[1]).split('.')[0] == currentCard.value
         @scale.x *= 1.2
         @scale.y *= 1.2
