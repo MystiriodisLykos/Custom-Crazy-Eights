@@ -305,12 +305,13 @@ updateCard = ->
     upCard.scale.x = upCard.scale.y = scale
     upCard.x = (window.innerWidth / 2) + 75
     upCard.y = (window.innerHeight / 2) - 75
-    app.stage.addChild(upCard)
+    app.stage.addChild( upCard)
 
 drawHand = ->
     clickCard = ->
         if playing
             play = false
+            console.log(this)
             if @color.indexOf('wild') != -1
                 if @value == '11' and wildFour() == true
                     alert("You can not play a Wild +4 at this time.")
