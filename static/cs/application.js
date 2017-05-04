@@ -315,7 +315,7 @@
             alert("You can not play a Wild +4 at this time.");
           } else {
             play = true;
-            play(this);
+            wild(this);
           }
         }
         play = play || this.color === currentCard.color || this.value === currentCard.value;

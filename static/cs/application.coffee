@@ -316,7 +316,7 @@ drawHand = ->
                     alert("You can not play a Wild +4 at this time.")
                 else
                     play = true
-                    play(this)
+                    wild(this)
             play = play or @color == currentCard.color or @value == currentCard.value
             if play
                 data = {color: @color, value: @value}
