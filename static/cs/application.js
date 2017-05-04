@@ -343,7 +343,7 @@
           rem = 0;
           for (index = k = 0, len1 = ca.length; k < len1; index = ++k) {
             c = ca[index];
-            if (c.color === this.color && c.color === this.value) {
+            if (c.color === this.color && c.value === this.value) {
               rem = index;
               break;
             }

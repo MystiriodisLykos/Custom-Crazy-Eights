@@ -329,7 +329,7 @@ drawHand = ->
                             break
                 rem = 0
                 for c, index in ca
-                    if c.color == @color and c.color == @value
+                    if c.color == @color and c.value == @value
                         rem = index
                         break
                 ca.splice(rem, 1)
