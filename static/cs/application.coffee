@@ -311,9 +311,9 @@ drawHand = ->
     clickCard = ->
         if playing
             play = false
-            console.log(this)
             if @color.indexOf('wild') != -1
-                if @value == '11' and wildFour() == true
+                console.log('test')
+                if @value == '11' and wildFour()
                     alert("You can not play a Wild +4 at this time.")
                 else
                     play = true

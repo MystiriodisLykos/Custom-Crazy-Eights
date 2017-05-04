@@ -310,9 +310,9 @@
       var c, data, index, j, k, len, len1, message, play, ref, rem, s;
       if (playing) {
         play = false;
-        console.log(this);
         if (this.color.indexOf('wild') !== -1) {
-          if (this.value === '11' && wildFour() === true) {
+          console.log('test');
+          if (this.value === '11' && wildFour()) {
             alert("You can not play a Wild +4 at this time.");
           } else {
             play = true;
