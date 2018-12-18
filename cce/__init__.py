@@ -7,7 +7,7 @@ sockets = flask_sockets.Sockets()
 
 def create_app(name):
 
-    app = flask.Flask(name)
+    app = flask.Flask(__name__)
 
     import home
     app.register_blueprint(home.mod)
