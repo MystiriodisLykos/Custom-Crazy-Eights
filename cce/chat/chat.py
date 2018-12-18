@@ -68,7 +68,7 @@ def index(id):
                 print(u'Inserting message: {}'.format(message))
                 redis.publish(REDIS_CHAN + id, message)
 
-    @cce.sockets.route('/chat/{}}/receive'.format(id))
+    @cce.sockets.route('/chat/{}/receive'.format(id))
     def outbox(ws):
         """Sends outgoing chat messages, via `ChatBackend`."""
         chats[id].register(ws)
