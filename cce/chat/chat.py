@@ -71,6 +71,7 @@ def inbox(ws):
 @cce.sockets.route('/chat/receive')
 def outbox(ws):
     """Sends outgoing chat messages, via `ChatBackend`."""
+    print('Register')
     chats.register(ws)
 
     while not ws.closed:
