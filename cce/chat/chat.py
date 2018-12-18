@@ -55,26 +55,26 @@ chats = {}
 def index(id):
     if id not in chats:
         chats[id] = ChatBackend(id)
+
+    @cce.sockets.route('/chat/{}/submit'.format(id))
+    def inbox(ws):
+        """Receives incoming chat messages, inserts them into Redis."""
+        while not ws.closed:
+            # Sleep to prevent *constant* context-switches.
+            gevent.sleep(0.1)
+            message = ws.receive()
+
+            if message:
+                print(u'Inserting message: {}'.format(message))
+                redis.publish(REDIS_CHAN + id, message)
+
+    @cce.sockets.route('/chat/{}}/receive'.format(id))
+    def outbox(ws):
+        """Sends outgoing chat messages, via `ChatBackend`."""
+        chats[id].register(ws)
+
+        while not ws.closed:
+            # Context switch while `ChatBackend.start` is running in the background.
+            gevent.sleep(0.1)
+
     return flask.render_template('index.html')
-
-@cce.sockets.route('/chat/<id>/submit')
-def inbox(ws, id):
-    print(id)
-    """Receives incoming chat messages, inserts them into Redis."""
-    while not ws.closed:
-        # Sleep to prevent *constant* context-switches.
-        gevent.sleep(0.1)
-        message = ws.receive()
-
-        if message:
-            print(u'Inserting message: {}'.format(message))
-            redis.publish(REDIS_CHAN + id, message)
-
-@cce.sockets.route('/chat/<id>/receive')
-def outbox(ws, id):
-    """Sends outgoing chat messages, via `ChatBackend`."""
-    chats[id].register(ws)
-
-    while not ws.closed:
-        # Context switch while `ChatBackend.start` is running in the background.
-        gevent.sleep(0.1)
