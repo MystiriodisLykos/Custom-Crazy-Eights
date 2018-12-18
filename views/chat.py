@@ -16,7 +16,7 @@ from flask_sockets import Sockets
 REDIS_URL = os.environ['REDIS_URL']
 REDIS_CHAN = 'chat'
 
-mod = Flask('chat', __name__, url_prefix='/chat')
+mod = Flask(__name__)
 mod.debug = 'DEBUG' in os.environ
 
 sockets = Sockets(mod)
