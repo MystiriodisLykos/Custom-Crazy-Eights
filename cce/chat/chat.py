@@ -14,10 +14,11 @@ redis = redis.from_url(REDIS_URL)
 class ChatBackend(object):
     """Interface for registering and updating WebSocket clients."""
 
-    def __init__(self):
+    def __init__(self, chan):
+        self.chan = chan
         self.clients = list()
         self.pubsub = redis.pubsub()
-        self.pubsub.subscribe(REDIS_CHAN)
+        self.pubsub.subscribe(REDIS_CHAN + chan)
 
     def __iter_data(self):
         for message in self.pubsub.listen():
@@ -48,15 +49,16 @@ class ChatBackend(object):
         """Maintains Redis subscription in the background."""
         gevent.spawn(self.run)
 
-chats = ChatBackend()
-chats.start()
+chats = {}
 
-@mod.route('/chat/')
-def index():
+@mod.route('/chat/<id>/')
+def index(id):
+    if id not in chats:
+        chats[id] = ChatBackground(id)
     return flask.render_template('index.html')
 
-@cce.sockets.route('/chat/submit')
-def inbox(ws):
+@cce.sockets.route('/chat/<id>/submit')
+def inbox(ws, id):
     """Receives incoming chat messages, inserts them into Redis."""
     while not ws.closed:
         # Sleep to prevent *constant* context-switches.
@@ -65,13 +67,13 @@ def inbox(ws):
 
         if message:
             print(u'Inserting message: {}'.format(message))
-            redis.publish(REDIS_CHAN, message)
+            redis.publish(REDIS_CHAN + id, message)
 
-@cce.sockets.route('/chat/receive')
-def outbox(ws):
+@cce.sockets.route('/chat/<id>/receive')
+def outbox(ws, id):
     """Sends outgoing chat messages, via `ChatBackend`."""
     print('Register')
-    chats.register(ws)
+    chats[id].register(ws)
 
     while not ws.closed:
         # Context switch while `ChatBackend.start` is running in the background.
