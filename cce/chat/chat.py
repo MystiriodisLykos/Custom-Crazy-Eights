@@ -52,7 +52,7 @@ class ChatBackend(object):
 chats = ChatBackend()
 chats.start()
 
-@mod('/')
+@mod.route('/')
 def index():
     return render_template('index.html')
 
