@@ -6,6 +6,7 @@ Chat Server
 This simple application uses WebSockets to run a primitive chat server.
 """
 
+import os
 from flask import Flask, render_template
 
 app = Flask(__name__)
