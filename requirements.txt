@@ -1,3 +1,4 @@
+-e git+https://github.com/MystiriodisLykos/Custom-Crazy-Eights.git@971cfd83db06a5f46f7688fae25d3f0eed552641#egg=cce
 cffi==1.11.5
 Click==7.0
 Flask==1.0.2
