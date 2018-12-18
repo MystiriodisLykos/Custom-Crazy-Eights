@@ -1,4 +1,4 @@
--e git+https://github.com/MystiriodisLykos/Custom-Crazy-Eights.git@971cfd83db06a5f46f7688fae25d3f0eed552641#egg=cce
+cce===.1
 cffi==1.11.5
 Click==7.0
 Flask==1.0.2
@@ -11,5 +11,6 @@ itsdangerous==1.1.0
 Jinja2==2.10
 MarkupSafe==1.1.0
 pycparser==2.19
+python-dotenv==0.10.1
 redis==3.0.1
 Werkzeug==0.14.1
