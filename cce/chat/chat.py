@@ -59,6 +59,7 @@ def index(id):
 
 @cce.sockets.route('/chat/<id>/submit')
 def inbox(ws, id):
+    print(id)
     """Receives incoming chat messages, inserts them into Redis."""
     while not ws.closed:
         # Sleep to prevent *constant* context-switches.
@@ -72,7 +73,6 @@ def inbox(ws, id):
 @cce.sockets.route('/chat/<id>/receive')
 def outbox(ws, id):
     """Sends outgoing chat messages, via `ChatBackend`."""
-    print('Register')
     chats[id].register(ws)
 
     while not ws.closed:
