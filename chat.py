@@ -1,3 +1,3 @@
 import cce
 
-app = cce.create_app(__name__)
+app = cce.create_app()

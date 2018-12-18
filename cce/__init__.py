@@ -5,7 +5,7 @@ import flask_sockets
 sockets = flask_sockets.Sockets()
 
 
-def create_app(name):
+def create_app():
 
     app = flask.Flask(__name__)
 
