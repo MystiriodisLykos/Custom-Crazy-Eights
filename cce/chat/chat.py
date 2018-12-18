@@ -55,7 +55,7 @@ chats.start()
 def index():
     return flask.render_template('index.html')
 
-@cce.sockets.route('/submit')
+@cce.sockets.route('/chat/submit')
 def inbox(ws):
     """Receives incoming chat messages, inserts them into Redis."""
     while not ws.closed:
@@ -67,7 +67,7 @@ def inbox(ws):
             print(u'Inserting message: {}'.format(message))
             redis.publish(REDIS_CHAN, message)
 
-@cce.sockets.route('/receive')
+@cce.sockets.route('/chat/receive')
 def outbox(ws):
     """Sends outgoing chat messages, via `ChatBackend`."""
     print('Register')
