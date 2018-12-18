@@ -19,3 +19,6 @@ def hello():
 @app.route('/test/')
 def test():
     return 'TEST'
+
+from views import chat
+app.register_blueprint(chat.mod)
