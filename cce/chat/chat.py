@@ -54,7 +54,7 @@ chats.start()
 
 @mod.route('/')
 def index():
-    return render_template('index.html')
+    return flask.render_template('index.html')
 
 @cce.sockets.route('/submit')
 def inbox(ws):
