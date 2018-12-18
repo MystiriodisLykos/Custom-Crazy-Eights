@@ -29,7 +29,7 @@ class ChatBackend(object):
 
     def register(self, client):
         """Register a WebSocket connection for Redis updates."""
-        self.clients.modend(client)
+        self.clients.append(client)
 
     def send(self, client, data):
         """Send given data to the registered client.
