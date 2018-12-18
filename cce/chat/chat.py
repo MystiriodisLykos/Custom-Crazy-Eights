@@ -1,7 +1,6 @@
 import cce
 import flask
 import gevent
-import logging
 import os
 import redis
 
@@ -24,7 +23,7 @@ class ChatBackend(object):
         for message in self.pubsub.listen():
             data = message.get('data')
             if message['type'] == 'message':
-                mod.logger.info(u'Sending message: {}'.format(data))
+                print(u'Sending message: {}'.format(data))
                 yield data
 
     def register(self, client):
@@ -65,7 +64,7 @@ def inbox(ws):
         message = ws.receive()
 
         if message:
-            mod.logger.info(u'Inserting message: {}'.format(message))
+            print(u'Inserting message: {}'.format(message))
             redis.publish(REDIS_CHAN, message)
 
 @cce.sockets.route('/chat/receive')
