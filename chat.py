@@ -13,7 +13,7 @@ app.debug = 'DEBUG' in os.environ
 
 @app.route('/')
 def hello():
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app.route('/test/')
 def test():
