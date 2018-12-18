@@ -21,4 +21,5 @@ def test():
     return 'TEST'
 
 from views import chat
+print('test')
 app.register_blueprint(chat.mod)
