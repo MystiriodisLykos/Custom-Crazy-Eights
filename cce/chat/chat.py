@@ -54,7 +54,7 @@ chats = {}
 @mod.route('/chat/<id>/')
 def index(id):
     if id not in chats:
-        chats[id] = ChatBackground(id)
+        chats[id] = ChatBackend(id)
     return flask.render_template('index.html')
 
 @cce.sockets.route('/chat/<id>/submit')
