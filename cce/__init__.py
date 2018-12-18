@@ -13,7 +13,7 @@ def create_app():
     app.register_blueprint(home.mod)
 
     import chat
-    app.register_blueprint(chat.mod)
+    app.register_blueprint(chat.mod, url_prefix='/chat')
 
     sockets.init_app(app)
     return app
