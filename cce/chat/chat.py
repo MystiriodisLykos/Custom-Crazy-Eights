@@ -51,7 +51,7 @@ class ChatBackend(object):
 chats = ChatBackend()
 chats.start()
 
-@mod.route('/')
+@mod.route('/chat/')
 def index():
     return flask.render_template('index.html')
 
