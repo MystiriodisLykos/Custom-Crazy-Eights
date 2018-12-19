@@ -23,8 +23,6 @@ class ChatBackend(object):
     def __iter_data(self):
         for message in self.pubsub.listen():
             data = message.get('data')
-            print(data)
-            print(self.chan)
             if message['type'] == 'message':
                 print(u'Sending message: {}'.format(data))
                 yield data
