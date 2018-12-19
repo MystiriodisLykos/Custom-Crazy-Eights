@@ -57,6 +57,7 @@ chats = {}
 def index(id):
     if id not in chats:
         chats[id] = ChatBackend(id)
+        chats[id].start()
 
     @cce.sockets.route('/chat/{}/submit'.format(id))
     def inbox(ws):
