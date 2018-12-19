@@ -18,7 +18,7 @@ class ChatBackend(object):
         self.chan = chan
         self.clients = list()
         self.pubsub = redis.pubsub()
-        self.pubsub.subscribe(REDIS_CHAN + chan)
+        self.pubsub.subscribe(REDIS_CHAN + str(chan))
 
     def __iter_data(self):
         for message in self.pubsub.listen():
@@ -66,7 +66,7 @@ def index(id):
 
             if message:
                 print(u'Inserting message: {}'.format(message))
-                redis.publish(REDIS_CHAN + id, message)
+                redis.publish(REDIS_CHAN + str(id), message)
 
     @cce.sockets.route('/chat/{}/receive'.format(id))
     def outbox(ws):
